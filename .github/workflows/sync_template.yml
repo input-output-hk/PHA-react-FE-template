@@ -1,0 +1,31 @@
+name: Sync with Base PHA Template Repository
+
+on:
+  schedule:
+    # Runs at 00:00 UTC on the first day of every fourth month.
+    - cron: '0 0 1 */4 *'
+
+jobs:
+  sync_base_template:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the current repository
+      uses: actions/checkout@v3
+
+    - name: Add remote base template repository
+      run: git remote add base https://github.com/input-output-hk/plutus-high-assurance-template.git
+
+    - name: Fetch latest changes from the base template repository
+      run: git fetch base
+
+    - name: Merge changes from the base template main branch
+      run: |
+        git checkout main
+        git merge --no-ff base/main -m "Sync FE template to base template changes"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
