@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 import { lightModePalette, darkModePalette} from "./palette";
 
-export const getTheme = (mode: 'light' | 'dark') => createTheme({
+export const getTheme = (mode: 'light' | 'dark',) => createTheme({
     palette: {
         mode, 
         ...(mode === "light" ? lightModePalette : darkModePalette),
@@ -40,101 +40,95 @@ export const getTheme = (mode: 'light' | 'dark') => createTheme({
         fontSize: '14px',
       }
     },
-    // components: {
-    //   MuiAccordion: {
-    //     styleOverrides: {
-    //       root: {
-    //         borderRadius: `12px !important`,
-    //       }
-    //     }
-    //   },
-    //   MuiInputBase: {
-    //     styleOverrides: {
-    //       root: {
-    //         bgcolor: "white",
-    //         borderColor: "#6F99FF",
-    //         border: 1,
-    //         borderRadius: 50,
-    //         padding: "8px 16px",
-    //         width: "100%",
-    //       },
-    //     },
-    //   },
-    //   MuiButton: {
-    //     styleOverrides: {
-    //       root: {
-    //         borderRadius: 50,
-    //         textTransform: "none",
-    //       },
-    //       outlined: (props) => ({
-    //         borderColor: props.theme.palette.lightBlue,
-    //       }),
-    //     },
-    //   },
-    //   MuiChip: {
-    //     variants: [
-    //       {
-    //         props: { color: "default", variant: "filled" },
-    //         style: {
-    //           backgroundColor: primaryBlue.c50
-    //         },
-    //       },
-    //       {
-    //         props: { color: "success", variant: "filled" },
-    //         style: {
-    //           backgroundColor: successGreen.c200,
-    //           color: successGreen.c700,
-    //         },
-    //       },
-    //       {
-    //         props: { color: "error", variant: "filled" },
-    //         style: {
-    //           backgroundColor: errorRed.c100,
-    //           color: errorRed.c500,
-    //         },
-    //       },
-    //       {
-    //         props: { color: "warning", variant: "filled" },
-    //         style: {
-    //           backgroundColor: progressYellow.c200,
-    //           color: orange.c700,
-    //         },
-    //       },
-    //       {
-    //         props: { color: "info", variant: "filled" },
-    //         style: {
-    //           backgroundColor: cyan.c100,
-    //           color: cyan.c500,
-    //         },
-    //       },
-    //     ],
-    //     styleOverrides: {
-    //       root: {
-    //         fontSize: "0.875rem",
-    //         fontWeight: 500,
-    //         height: 28,
-    //       },
-    //       filledPrimary: {
-    //         backgroundColor: primaryBlue.c100,
-    //         color: primaryBlue.c500,
-    //       },
-    //       filledSecondary: {
-    //         backgroundColor: orange.c100,
-    //         color: orange.c600,
-    //       },
-    //     },
-    //   },
-    //   MuiPaper: {
-    //     styleOverrides: {
-    //       root: {
-    //         borderRadius: 12,
-    //       },
-    //     },
-    //   },
-    //   MuiPopover: {
-    //     defaultProps: {
-    //       elevation: 2,
-    //     }
-    //   },
-    // },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 100,
+            textTransform: "none",
+            boxShadow: "none",
+            padding: "6px 10px",
+          },
+          contained: ({ theme }) => ({
+            backgroundColor: theme.palette.primary.main,
+            '&:hover': {
+              background: `linear-gradient(
+                0deg, 
+                ${theme.palette.primary.conOpacity1}, 
+                ${theme.palette.primary.conOpacity1}
+                ), ${theme.palette.primary.main}`,
+                boxShadow: `
+                0px 1px 2px rgb(0, 0, 0, .3),
+                0px 1px 3px 1px rgb(0, 0, 0, .15)}
+              `,
+              '&:active': {
+                background: `linear-gradient( 
+                  0deg,
+                  ${theme.palette.primary.conOpacity2}, 
+                  ${theme.palette.primary.conOpacity2}
+                  ), ${theme.palette.primary.main}`,
+                  boxShadow: "none !important", 
+              },
+            },
+            '&:focus': {
+              background: `linear-gradient( 
+                0deg,
+                ${theme.palette.primary.conOpacity2}, 
+                ${theme.palette.primary.conOpacity2}
+                ), ${theme.palette.primary.main}`,
+                boxShadow: "none !important", 
+            },
+          }),
+          outlined: ({ theme }) => ({
+            border: `1px solid ${theme.palette.primary.main}`,
+              color: `${theme.palette.primary.main}`,
+              '&:hover': {
+                background: `linear-gradient(
+              0deg, 
+              ${theme.palette.primary.mainOpacity1}, 
+              ${theme.palette.primary.mainOpacity1}
+              )`,
+                '&:active': {
+                  background: `linear-gradient(
+                    0deg, 
+                    ${theme.palette.primary.mainOpacity2}, 
+                    ${theme.palette.primary.mainOpacity2}
+                  )`,
+                },
+              },
+              '&:focus': {
+                background: `linear-gradient(
+                  0deg, 
+                  ${theme.palette.primary.mainOpacity2}, 
+                  ${theme.palette.primary.mainOpacity2}
+                )`,
+              }
+          }),
+          text: ({ theme }) => ({
+            color: `${theme.palette.primary.main}`,
+              '&:hover': {
+                background: `linear-gradient(
+              0deg, 
+              ${theme.palette.primary.mainOpacity1}, 
+              ${theme.palette.primary.mainOpacity1}
+              )`,
+                '&:active': {
+                  background: `linear-gradient(
+                    0deg, 
+                    ${theme.palette.primary.mainOpacity2}, 
+                    ${theme.palette.primary.mainOpacity2}
+                  )`,
+                },
+              },  
+              '&:focus': {
+                background: `linear-gradient(
+                  0deg, 
+                  ${theme.palette.primary.mainOpacity2}, 
+                  ${theme.palette.primary.mainOpacity2}
+                )`,
+              }
+          }),
+        },
+      },
+    },
   });

@@ -3,8 +3,12 @@ import { PaletteOptions } from "@mui/material";
 export const lightModePalette: PaletteOptions = {
   primary: {
     main: "#3952CD",
+    mainOpacity1: "rgba(57, 82, 205, 0.08)",
+    mainOpacity2: "rgba(57, 82, 205, 0.12)",
     container: "#DEE0FF",
     onContainer: "#00115A",
+    conOpacity1: "rgba(222, 224, 255, 0.08)",
+    conOpacity2: "rgba(222, 224, 255, 0.12)",
     fixed: "#DEE0FF",
     fixedDim: "#BAC3FF",
     onFixed: "#00115A",
@@ -74,8 +78,12 @@ export const lightModePalette: PaletteOptions = {
  export const darkModePalette: PaletteOptions = {
   primary: {
     main: "#BAC3FF",
+    mainOpacity1: "rgba(186, 195, 255, 0.10)",
+    mainOpacity2: "rgba(186, 195, 255, 0.20)",
     onMain: "#001F8F",
     container: "#1A37B5",
+    conOpacity1: "rgba(0, 16, 91, 0.10)",
+    conOpacity2: "rgba(0, 16, 91, 0.20)",
     onContainer: "#DEE0FF",
     fixed: "#DEE0FF",
     fixedDim: "#BAC3FF",
