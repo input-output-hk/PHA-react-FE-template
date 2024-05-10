@@ -1,78 +1,10 @@
 import { createTheme } from "@mui/material/styles";
-import { primary, secondary, tertiary, error, neutral, neutralVariant} from "./colors";
+import { lightModePalette, darkModePalette} from "./palette";
 
-export type Theme = typeof theme;
-
-export const theme = createTheme({
+export const getTheme = (mode: 'light' | 'dark') => createTheme({
     palette: {
-        primary: {
-          main: primary.c40,
-          container: primary.c90,
-          onContainer: primary.c10,
-          fixed: primary.c90,
-          fixedDim: primary.c80,
-          onFixed: primary.c10,
-          onFixedVariant: primary.c30,
-        }, 
-      secondary: {
-        main: secondary.c40, 
-        container: secondary.c90,
-        onContainer: secondary.c10,
-        fixed: secondary.c90,
-        fixedDim: secondary.c10,
-        onFixed: secondary.c10,
-        onFixedVariant: secondary.c30,
-        },
-      tertiary: {
-        main: tertiary.c40,
-        container: tertiary.c90,
-        onContainer: tertiary.c10,
-        fixed: tertiary.c90,
-        fixedDim: tertiary.c80,
-        onFixed: tertiary.c10,
-        onFixedVariant: tertiary.c30,
-      },
-      error: { 
-        main: error.c40, 
-        container: error.c90,
-        onContainer: error.c10,
-        },
-      surfaceDim: { 
-        main: "#DAD9E3", 
-        },
-      surface: { 
-        main: neutral.c98, 
-        },
-      surfaceBright: { 
-        main: neutral.c98, 
-        },
-      containerLowest: { 
-        main: neutral.c100, 
-        },
-      containerLow: { 
-        main: "#F4F2FD", 
-        },
-      container: { 
-        main: "#EEEDF7", 
-        },
-      containerHigh: { 
-        main: "#E8E7F2", 
-        },
-      containerHighest: { 
-        main: neutral.c90, 
-        },
-      onSurface: { 
-        main: neutral.c10, 
-        },
-        onVariant: { 
-        main: neutralVariant.c30, 
-        },
-      outline: { 
-        main: neutralVariant.c50, 
-        },
-      outlineVariant: { 
-      main: neutralVariant.c80,
-      },
+        mode, 
+        ...(mode === "light" ? lightModePalette : darkModePalette),
     },
     typography: {
       fontFamily: "Poppins, sans-serif",
@@ -108,4 +40,101 @@ export const theme = createTheme({
         fontSize: '14px',
       }
     },
+    // components: {
+    //   MuiAccordion: {
+    //     styleOverrides: {
+    //       root: {
+    //         borderRadius: `12px !important`,
+    //       }
+    //     }
+    //   },
+    //   MuiInputBase: {
+    //     styleOverrides: {
+    //       root: {
+    //         bgcolor: "white",
+    //         borderColor: "#6F99FF",
+    //         border: 1,
+    //         borderRadius: 50,
+    //         padding: "8px 16px",
+    //         width: "100%",
+    //       },
+    //     },
+    //   },
+    //   MuiButton: {
+    //     styleOverrides: {
+    //       root: {
+    //         borderRadius: 50,
+    //         textTransform: "none",
+    //       },
+    //       outlined: (props) => ({
+    //         borderColor: props.theme.palette.lightBlue,
+    //       }),
+    //     },
+    //   },
+    //   MuiChip: {
+    //     variants: [
+    //       {
+    //         props: { color: "default", variant: "filled" },
+    //         style: {
+    //           backgroundColor: primaryBlue.c50
+    //         },
+    //       },
+    //       {
+    //         props: { color: "success", variant: "filled" },
+    //         style: {
+    //           backgroundColor: successGreen.c200,
+    //           color: successGreen.c700,
+    //         },
+    //       },
+    //       {
+    //         props: { color: "error", variant: "filled" },
+    //         style: {
+    //           backgroundColor: errorRed.c100,
+    //           color: errorRed.c500,
+    //         },
+    //       },
+    //       {
+    //         props: { color: "warning", variant: "filled" },
+    //         style: {
+    //           backgroundColor: progressYellow.c200,
+    //           color: orange.c700,
+    //         },
+    //       },
+    //       {
+    //         props: { color: "info", variant: "filled" },
+    //         style: {
+    //           backgroundColor: cyan.c100,
+    //           color: cyan.c500,
+    //         },
+    //       },
+    //     ],
+    //     styleOverrides: {
+    //       root: {
+    //         fontSize: "0.875rem",
+    //         fontWeight: 500,
+    //         height: 28,
+    //       },
+    //       filledPrimary: {
+    //         backgroundColor: primaryBlue.c100,
+    //         color: primaryBlue.c500,
+    //       },
+    //       filledSecondary: {
+    //         backgroundColor: orange.c100,
+    //         color: orange.c600,
+    //       },
+    //     },
+    //   },
+    //   MuiPaper: {
+    //     styleOverrides: {
+    //       root: {
+    //         borderRadius: 12,
+    //       },
+    //     },
+    //   },
+    //   MuiPopover: {
+    //     defaultProps: {
+    //       elevation: 2,
+    //     }
+    //   },
+    // },
   });

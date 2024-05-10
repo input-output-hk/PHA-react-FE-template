@@ -35,6 +35,7 @@ declare module "@mui/material/styles" {
   }
 
   interface PaletteColor {
+    onMain?: string;
     container?: string;
     onContainer?: string;
     fixed?: string;
@@ -44,6 +45,7 @@ declare module "@mui/material/styles" {
   }
 
   interface SimplePaletteColorOptions {
+    onMain?: string;
     container?: string;
     onContainer?: string;
     fixed?: string;
