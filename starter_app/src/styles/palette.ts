@@ -63,6 +63,8 @@ export const lightModePalette: PaletteOptions = {
     },
   onSurface: { 
     main: "#1C1B1B", 
+    mainOpacity1: "rgba(28, 27, 27, 0.08)",
+    mainOpacity2: "rgba(28, 27, 27, 0.12)",
     },
   onVariant: { 
     main: "#474647", 
@@ -78,11 +80,11 @@ export const lightModePalette: PaletteOptions = {
  export const darkModePalette: PaletteOptions = {
   primary: {
     main: "#BAC3FF",
-    mainOpacity1: "rgba(186, 195, 255, 0.10)",
+    mainOpacity1: "rgba(186, 195, 255, 0.12)",
     mainOpacity2: "rgba(186, 195, 255, 0.20)",
     onMain: "#001F8F",
     container: "#1A37B5",
-    conOpacity1: "rgba(0, 16, 91, 0.10)",
+    conOpacity1: "rgba(0, 16, 91, 0.12)",
     conOpacity2: "rgba(0, 16, 91, 0.20)",
     onContainer: "#DEE0FF",
     fixed: "#DEE0FF",
@@ -142,6 +144,8 @@ export const lightModePalette: PaletteOptions = {
     },
   onSurface: { 
     main: "#E3E1EC", 
+    mainOpacity1: "rgba(227, 225, 236, 0.12)",
+    mainOpacity2: "rgba(227, 225, 236, 0.20)",
     },
   onVariant: { 
     main: "#C5C5D6", 

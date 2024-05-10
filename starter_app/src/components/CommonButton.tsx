@@ -11,7 +11,7 @@ interface CommonButtonProps {
     onClick?: React.MouseEventHandler<HTMLButtonElement>; 
   }
 
-  export default function CommonButton({ disabled, size= 'medium', fullWidth, startIcon, variant='contained', text, onClick }: CommonButtonProps) {
+  export default function PHACommonButton({ disabled, size='medium', fullWidth, startIcon, variant='contained', text, onClick }: CommonButtonProps) {
     return (
       <Button disabled={disabled} size={size} fullWidth={fullWidth} startIcon={startIcon} variant={variant} disableFocusRipple disableRipple onClick={onClick}>{text}</Button>
     );

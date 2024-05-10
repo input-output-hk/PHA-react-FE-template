@@ -130,5 +130,53 @@ export const getTheme = (mode: 'light' | 'dark',) => createTheme({
           }),
         },
       },
+      MuiIconButton: {
+        styleOverrides: {
+          root: ({ theme }) => ({
+            color: `${theme.palette.onVariant.main}`,
+          }),
+          colorPrimary: ({ theme }) => ({
+            '&:hover': {
+              backgroundColor: `${theme.palette.primary.mainOpacity1}`,
+            },
+            '&:focus': {
+              backgroundColor: `${theme.palette.primary.mainOpacity2}`,
+            },
+            '&:active': {
+              backgroundColor: `${theme.palette.primary.mainOpacity2}`,
+            },
+          }),
+          colorSecondary: ({ theme }) => ({
+            color: `${theme.palette.onVariant.main}`,
+            '&:hover': {
+              backgroundColor: `${theme.palette.onSurface.mainOpacity1}`,
+            },
+            '&:focus': {
+              backgroundColor: `${theme.palette.onSurface.mainOpacity2}`,
+            },
+            '&:active': {
+              backgroundColor: `${theme.palette.onSurface.mainOpacity2}`,
+            },
+          }),
+        },
+      },
+      MuiButtonGroup: {
+        styleOverrides: {
+          root: {
+            boxShadow: 'none',
+          },
+          grouped: {
+            width: "auto",
+          },
+          groupedOutlined: ({ theme }) => ({
+            color: `${theme.palette.onVariant.main}`,
+            border: `solid 1px ${theme.palette.outline.main}`,
+            fontSize: '14px',
+            '&:hover': {
+              border: `solid 1px ${theme.palette.outline.main}`,
+            },
+          }),
+        }
+      },
     },
   });
