@@ -11,6 +11,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import SearchBar from './components/SearchBar';
 import PerDrawer from './components/PerDrawer';
+import ThemeToggleButton from './components/ThemeToggleButton';
 
 function App() {
   const buttons = [
@@ -27,6 +28,7 @@ function App() {
       <AppBar position="fixed" sx={{marginBottom: '20px', width: `calc(100% - 200px)`, ml: `200px`}}>
         <Toolbar>
           <NavTabs />
+          <ThemeToggleButton />
         </Toolbar>
       </AppBar>
        <PerDrawer />

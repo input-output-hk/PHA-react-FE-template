@@ -288,6 +288,7 @@ export const getTheme = (mode: 'light' | 'dark',) => createTheme({
             paddingLeft: '16px !important',
             height: '48px !important',
             minHeight: '48px !important',
+            justifyContent: 'space-between',
           }),
         },
       },
