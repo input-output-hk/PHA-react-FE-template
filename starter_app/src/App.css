@@ -1,11 +1,4 @@
-.App {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);   
-  height: 50%; 
-  width: 75%;
-}
-
+/* body, main {
+  background-color: #0D0E15 !important;
+} */
 

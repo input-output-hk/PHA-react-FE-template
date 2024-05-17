@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button, { ButtonProps } from '@mui/material/Button';
 
-interface CommonButtonProps {
+interface PHAButtonProps {
     disabled?: boolean;
     size?: ButtonProps['size'];
     fullWidth?: boolean;
@@ -11,7 +11,7 @@ interface CommonButtonProps {
     onClick?: React.MouseEventHandler<HTMLButtonElement>; 
   }
 
-  export default function PHACommonButton({ disabled, size='medium', fullWidth, startIcon, variant='contained', text, onClick }: CommonButtonProps) {
+  export default function PHACommonButton({ disabled, size='medium', fullWidth, startIcon, variant='contained', text, onClick }: PHAButtonProps) {
     return (
       <Button disabled={disabled} size={size} fullWidth={fullWidth} startIcon={startIcon} variant={variant} disableFocusRipple disableRipple onClick={onClick}>{text}</Button>
     );

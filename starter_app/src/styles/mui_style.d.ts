@@ -42,10 +42,6 @@ declare module "@mui/material/styles" {
     conOpacity1?: string;
     conOpacity2?: string;
     onContainer?: string;
-    fixed?: string;
-    fixedDim?: string;
-    onFixed?: string;
-    onFixedVariant?: string;
   }
 
   interface SimplePaletteColorOptions {
@@ -56,10 +52,6 @@ declare module "@mui/material/styles" {
     conOpacity1?: string;
     conOpacity2?: string;
     onContainer?: string;
-    fixed?: string;
-    fixedDim?: string;
-    onFixed?: string;
-    onFixedVariant?: string;
   }
 
   interface TypographyVariants {
@@ -83,11 +75,5 @@ declare module '@mui/material/Typography' {
     paragraphSmall: true;
     paragraphMedium: true;
     paragraphLarge: true;
-  }
-}
-
-declare module '@mui/material/Button' {
-  interface ButtonPropsVariantOverrides {
-    filled: true;
   }
 }

@@ -4,6 +4,13 @@ import CommonButton from './components/CommonButton';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import IconButton from './components/IconButton';
 import ButtonGroup  from './components/ButtonGroup';
+import TextField from './components/TextField'
+import NavTabs from './components/NavTabs';
+import { Box } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import SearchBar from './components/SearchBar';
+import PerDrawer from './components/PerDrawer';
 
 function App() {
   const buttons = [
@@ -13,12 +20,32 @@ function App() {
     { label: 'Cardano State', onClick: () => console.log('Cardano State clicked') },
   ];
 
+  const error = true;
+
   return (
-    <div className="App">
-        <CommonButton text="Upload local JSON file" startIcon={<UploadFileIcon />} />
-        <IconButton color='primary' icon={<UploadFileIcon />}/>
-        <ButtonGroup buttons={buttons} />
-    </div>
+    <Box sx={{display: 'flex', height: '100vh'}}>
+      <AppBar position="fixed" sx={{marginBottom: '20px', width: `calc(100% - 200px)`, ml: `200px`}}>
+        <Toolbar>
+          <NavTabs />
+        </Toolbar>
+      </AppBar>
+       <PerDrawer />
+       <Box
+        component="main"
+        sx={{ flexGrow: 1, bgcolor: 'background.default', padding: '100px 30px' }}>
+          <CommonButton text="Upload local JSON file" startIcon={<UploadFileIcon />} />
+          <IconButton icon={<UploadFileIcon />}/>
+          <Box sx={{marginTop: '20px'}}>
+            <ButtonGroup buttons={buttons} />
+          </Box>
+          <Box sx={{marginTop: '20px'}}>
+            <TextField defaultValue="Input" label="Label" helperText="Supporting Text" error={error}  />
+          </Box>
+          <Box sx={{marginTop: '15px'}}>
+            <SearchBar />
+          </Box>
+        </Box>
+    </Box>
   );
 }
 

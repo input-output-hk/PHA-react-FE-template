@@ -7,11 +7,11 @@ interface ButtonInfo {
     onClick: () => void;  
   }
   
-  interface BasicButtonGroupProps {
+  interface PHAButtonGroupProps {
     buttons: ButtonInfo[];  
   }
 
-  export default function BasicButtonGroup({ buttons }: BasicButtonGroupProps) {
+  export default function PHAButtonGroup({ buttons }: PHAButtonGroupProps) {
     return (
       <ButtonGroup variant="outlined" fullWidth disableRipple>
         {buttons.map((button, index) => (
