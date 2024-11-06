@@ -1,3 +1,4 @@
+//Mui imports
 import { PaletteOptions } from "@mui/material";
 
 export const lightModePalette: PaletteOptions = {

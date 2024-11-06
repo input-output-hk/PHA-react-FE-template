@@ -1,5 +1,19 @@
-import { createTheme } from "@mui/material/styles";
+'use client';
+//Mui imports
+import { createTheme, alpha, Theme } from "@mui/material/styles";
+
+//Google Fonts
+import { Roboto } from 'next/font/google';
+
+//Local file
 import { lightModePalette, darkModePalette} from "./palette";
+
+const roboto = Roboto({
+    weight: ['400', '500', '700'],
+    style: ['normal', 'italic'],
+    subsets: ['latin'],
+    display: 'swap',
+})
 
 export const getTheme = (mode: 'light' | 'dark',) => createTheme({
     palette: {
@@ -7,7 +21,7 @@ export const getTheme = (mode: 'light' | 'dark',) => createTheme({
         ...(mode === "light" ? lightModePalette : darkModePalette),
     },
     typography: {
-      fontFamily: "Poppins, sans-serif",
+      fontFamily: roboto.style.fontFamily,
       fontSize: 16,
       h1: {
         fontSize: "2.986rem",
@@ -333,6 +347,45 @@ export const getTheme = (mode: 'light' | 'dark',) => createTheme({
             },
           }),
         },
-      }, 
+      },
+      MuiSearch: {
+        styleOverrides: {
+          root: ({ theme }: {theme: Theme }) => ({
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: alpha(theme.palette.containerLowest.main, 0.15),
+            maxWidth: '350px',
+            borderRadius: '20px',
+            border: `1px solid ${theme.palette.outline.main}`,
+            [theme.breakpoints.up('sm')]: {
+              width: 'auto',
+            },
+          })
+        }
+      },
+      MuiSearchIcon: {
+        styleOverrides: {
+          root: ({ theme }: {theme: Theme }) => ({
+            padding: theme.spacing(0, 2),
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          })
+        }
+      },
+      MuiSearchInput: {
+        styleOverrides: {
+          root: ({ theme }: {theme: Theme }) => ({
+            width: '100%',
+            '& .MuiInputBase-input': {
+              padding: theme.spacing(1, 1, 1, 1),
+              // vertical padding + font size from searchIcon
+              paddingLeft: '1em',
+              transition: theme.transitions.create('width'),
+            },
+          })
+        }
+      },
     },
   });

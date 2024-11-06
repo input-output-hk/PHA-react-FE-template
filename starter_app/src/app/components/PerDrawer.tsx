@@ -1,4 +1,8 @@
+'use client';
+//React Imports
 import * as React from 'react';
+
+//Mui imports
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
@@ -31,10 +35,12 @@ export default function PermanentDrawerLeft() {
         anchor="left"
       >
         <Toolbar>
+            <Box sx={{display: 'flex'}}>
             <AdbIcon color='primary' sx={{marginRight: '12px'}}/>
             <Typography variant={'h5'}>
                 Title
             </Typography>
+            </Box>
         </Toolbar>
         
         <List>

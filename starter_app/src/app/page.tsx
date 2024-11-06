@@ -1,19 +1,21 @@
-import React from 'react';
-import './App.css';
-import CommonButton from './components/CommonButton';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import IconButton from './components/IconButton';
-import ButtonGroup  from './components/ButtonGroup';
-import TextField from './components/TextField'
-import NavTabs from './components/NavTabs';
+'use client';
+//Mui imports
 import { Box } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import SearchBar from './components/SearchBar';
-import PerDrawer from './components/PerDrawer';
-import ThemeToggleButton from './components/ThemeToggleButton';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
-function App() {
+//Local components
+import ThemeToggleButton from './components/ThemeToggleButton';
+import NavTabs from './components/NavTabs';
+import PerDrawer from './components/PerDrawer';
+import CommonButton from './components/CommonButton';
+import IconButton from './components/IconButton';
+import ButtonGroup  from './components/ButtonGroup';
+import TextField from './components/TextField';
+import SearchBar from './components/SearchBar';
+
+export default function Home() {
   const buttons = [
     { label: 'Local File', onClick: () => console.log('Local File clicked') },
     { label: 'URL', onClick: () => console.log('URL clicked') },
@@ -31,7 +33,7 @@ function App() {
           <ThemeToggleButton />
         </Toolbar>
       </AppBar>
-       <PerDrawer />
+      <PerDrawer />
        <Box
         component="main"
         sx={{ flexGrow: 1, bgcolor: 'background.default', padding: '100px 30px' }}>
@@ -50,5 +52,3 @@ function App() {
     </Box>
   );
 }
-
-export default App;

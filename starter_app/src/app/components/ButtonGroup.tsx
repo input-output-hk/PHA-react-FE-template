@@ -1,4 +1,4 @@
-import * as React from 'react';
+//Mui imports
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 

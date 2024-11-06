@@ -1,6 +1,12 @@
-// ThemeContext.tsx
+'use client';
+//React Imports
 import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+
+//Mui imports
 import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+//Local file
 import { getTheme } from './theme';
 
 type ThemeModeContextType = {
@@ -26,6 +32,8 @@ export const ThemeModeProvider = ({ children }: { children: ReactNode }) => {
     return (
       <ThemeModeContext.Provider value={{ toggleTheme, mode }}>
         <MUIThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
           {children}
         </MUIThemeProvider>
       </ThemeModeContext.Provider>
