@@ -1,21 +1,8 @@
 # Front-End Starter Template
 
-This repository is a front-end starter template using MUI, React, and TypeScript. It is designed to help you quickly set up a new project with the best practices and configurations already in place.
+This repository is a front-end starter template using [Next.js](https://nextjs.org/), MUI, and TypeScript. It is designed to help you quickly set up a new project with the best practices and configurations already in place.
 
 ## Getting Started
-
-### Usage 
-This repository is already set up to connect to the Plutus High Assurance Project Board. To make sure you have this fully set up properly complete the following steps every time you use this template. 
-
-1. Click on the `Use this template` button on the GitHub repository page.
-2. Fill in the repository details to create your new project repository.
-3. Once instantiated, ensure that you have the following labels in your repository:
-    - `epic`
-    - `story`
-    - `task`
-    - `bug`
-    - `idea`
-    - `to be triaged`
 
 ### Running the Application
 
@@ -36,10 +23,11 @@ To get the application running, follow these steps:
     npm install
     ```
 
-4. Start the application:
+4. First, run the development server:
     ```bash
-    npm run start
+    npm run dev
     ```
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ### Project Structure
 
@@ -48,7 +36,7 @@ The template is organized as follows:
 - **`github`**: Contains a workflow to sync this repo with updates made on parent repo Plutus-High-Assurance-Template.
 - **`starter_app`**: The main application directory.
     - **`public`**: Contains public assets like HTML and images.
-    - **`src`**: Contains the main source code for the application.
+    - **`src/app`**: Contains the main source code for the application.
         - **`components`**: Reusable React components.
         - **`styles`**: Global styles and theme configuration.
     
@@ -56,6 +44,12 @@ The template is organized as follows:
 ### Customization
 
 This template is designed to be easily customizable. Feel free to modify the files and structures to suit your project's needs. The template uses MUI for UI components and theming, and it is set up to use TypeScript for type safety and development efficiency.
+
+### Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 ### Contributing
 
