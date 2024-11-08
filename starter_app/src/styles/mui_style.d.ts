@@ -2,6 +2,21 @@
 import "@mui/material"
 
 declare module "@mui/material/styles" {
+
+  interface Components {
+    MuiSearch?: {
+      root?: React.CSSProperties;
+      styleOverrides?: ComponentsOverrides<Theme>['MuiSearch'];
+    };
+    MuiSearchIcon?: {
+      root?: React.CSSProperties;
+      styleOverrides?: ComponentsOverrides<Theme>['MuiSearchIcon'];
+    }
+    MuiSearchInput?: {
+      root?: React.CSSProperties;
+      styleOverrides?: ComponentsOverrides<Theme>['MuiSearchInput'];
+    }
+  }
   interface Palette {
     tertiary: Palette["primary"];
     surfaceDim: Palette["primary"];

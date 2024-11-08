@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 import CommonButton from './components/CommonButton';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -11,7 +10,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import SearchBar from './components/SearchBar';
 import PerDrawer from './components/PerDrawer';
-import ThemeToggleButton from './components/ThemeToggleButton';
+import ThemeToggleButton from './components/themeToggleButton';
 
 function App() {
   const buttons = [
@@ -51,4 +50,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

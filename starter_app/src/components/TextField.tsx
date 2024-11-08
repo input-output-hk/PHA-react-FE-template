@@ -1,10 +1,16 @@
+'use client';
+//React Imports
 import * as React from 'react';
+
+//Mui imports
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { InputAdornment } from '@mui/material';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import IconButton from './IconButton';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import Tooltip from '@mui/material/Tooltip';
+
+//local components
+import IconButton from './IconButton';
 
 interface PHATextFieldProps {
     defaultValue: TextFieldProps['defaultValue'];

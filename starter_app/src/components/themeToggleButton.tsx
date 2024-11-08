@@ -1,8 +1,14 @@
+'use client';
+//React Imports
 import React, { useRef } from 'react';
+
+//Mui imports
 import IconButton from '@mui/material/IconButton';
-import { useThemeMode } from '../styles/themeContext';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+
+//Style files
+import { useThemeMode } from '../styles/themeContext';
 
 const ThemeToggleButton = () => {
   const { toggleTheme, mode } = useThemeMode();

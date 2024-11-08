@@ -1,4 +1,9 @@
+'use client';
+
+//React imports
 import * as React from 'react';
+
+//Mui imports
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 

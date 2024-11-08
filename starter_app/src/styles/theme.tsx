@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, alpha, Theme  } from "@mui/material/styles";
 import { lightModePalette, darkModePalette} from "./palette";
 
 export const getTheme = (mode: 'light' | 'dark',) => createTheme({
@@ -334,5 +334,44 @@ export const getTheme = (mode: 'light' | 'dark',) => createTheme({
           }),
         },
       }, 
+      MuiSearch: {
+        styleOverrides: {
+          root: ({ theme }: {theme: Theme }) => ({
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: alpha(theme.palette.containerLowest.main, 0.15),
+            maxWidth: '350px',
+            borderRadius: '20px',
+            border: `1px solid ${theme.palette.outline.main}`,
+            [theme.breakpoints.up('sm')]: {
+              width: 'auto',
+            },
+          })
+        }
+      },
+      MuiSearchIcon: {
+        styleOverrides: {
+          root: ({ theme }: {theme: Theme }) => ({
+            padding: theme.spacing(0, 2),
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          })
+        }
+      },
+      MuiSearchInput: {
+        styleOverrides: {
+          root: ({ theme }: {theme: Theme }) => ({
+            width: '100%',
+            '& .MuiInputBase-input': {
+              padding: theme.spacing(1, 1, 1, 1),
+              // vertical padding + font size from searchIcon
+              paddingLeft: '1em',
+              transition: theme.transitions.create('width'),
+            },
+          })
+        }
+      },
     },
   });
