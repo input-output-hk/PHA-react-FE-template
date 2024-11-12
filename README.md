@@ -1,6 +1,6 @@
 # Front-End Starter Template
 
-This repository is a front-end starter template using MUI, React, and TypeScript. It is designed to help you quickly set up a new project with the best practices and configurations already in place.
+This repository is a front-end starter template using MUI, React, Vite, and TypeScript. It is designed to help you quickly set up a new project with the best practices and configurations already in place.
 
 ## Getting Started
 
@@ -38,7 +38,7 @@ To get the application running, follow these steps:
 
 4. Start the application:
     ```bash
-    npm run start
+    npm run dev
     ```
 
 ### Project Structure
