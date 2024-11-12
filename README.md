@@ -41,6 +41,10 @@ To get the application running, follow these steps:
     npm run dev
     ```
 
+### Building for Production
+When it is time to deploy your app for production, simply run the `vite build` command. By default, it uses <root>/index.html as the build entry point, and produces an application bundle that is suitable to be served over a static hosting service. Visit the [Vite Documentation](https://vite.dev/guide/build.html) to learn more.
+
+
 ### Project Structure
 
 The template is organized as follows:
