@@ -52,17 +52,17 @@ export default function PHATextField({defaultValue, error, fullWidth, helperText
           helperText={helperText}
           label={label}
           size="small"
-          InputLabelProps={{color: "primary"}}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          InputProps={{
-            endAdornment: (
+          slotProps={{
+            inputLabel: {color: "primary"},
+            input: {endAdornment: (
               <InputAdornment position="end">
-                {error && !isFocused ? (
-                  <Tooltip title="Error Message"><ErrorOutlineOutlinedIcon /></Tooltip>
-                ) : <IconButton icon={<CancelOutlinedIcon />} onMouseDown={handleClear} size="small" color='success' />}
-              </InputAdornment>
-            ),
+              {error && !isFocused ? (
+                <Tooltip title="Error Message"><ErrorOutlineOutlinedIcon /></Tooltip>
+              ) : <IconButton icon={<CancelOutlinedIcon />} onMouseDown={handleClear} size="small" color='success' />}
+            </InputAdornment>
+            )}
           }}
         />
   );
