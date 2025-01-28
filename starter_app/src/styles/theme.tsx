@@ -373,5 +373,54 @@ export const getTheme = (mode: 'light' | 'dark',) => createTheme({
           })
         }
       },
+      MuiAlert: {
+        styleOverrides: {   
+          filledSuccess: () => ({
+            backgroundColor: '#BAC3FF',
+            color: '#00105B',
+          }),
+          filledError: () => ({
+            backgroundColor: '#FFDBD2',
+            color: '#3C0800',
+          }),
+          filledInfo: () => ({
+            backgroundColor: '#FFF2AC',
+            color: '#201C00',
+          }),
+        },
+      },
+      MuiTableContainer: {
+        styleOverrides: {
+          root: ({theme}) => ({
+            backgroundColor: theme.palette.containerLowest.main,
+            boxShadow: 'none',
+            border: '1px solid #C9C6C6',
+            height: '100%',
+          }),
+        },
+      },
+      MuiTableRow: {
+        styleOverrides: {
+          hover: () => ({
+              backgroundColor: 'rgba(27, 27, 31, 0.1)',
+          }),
+        },
+      }, 
+      MuiTableCell: {
+        styleOverrides: {
+          stickyHeader: () => ({
+              background: `linear-gradient(
+                0deg, 
+                rgba(57,82,205,0.12), 
+                rgba(57,82,205,0.12)
+                ), white`,
+              fontSize: '14px',
+          }),
+          body: () => ({
+              fontSize: '14px',
+              color: '#46464F',
+          }),
+        },
+      },
     },
   });
