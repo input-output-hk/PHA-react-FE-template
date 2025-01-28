@@ -4,18 +4,23 @@ import { Box } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 
 //Local components
+import useStore from './store/store';
 import ThemeToggleButton from './components/ThemeToggleButton';
 import NavTabs from './components/NavTabs';
 import PerDrawer from './components/PerDrawer';
+import ProfileSwitcher from './components/ProfileSwitcher';
 import CommonButton from './components/CommonButton';
 import IconButton from './components/IconButton';
 import ButtonGroup  from './components/ButtonGroup';
 import TextField from './components/TextField';
 import SearchBar from './components/SearchBar';
+import AlertBar from './components/AlertBar';
 
 export default function Home() {
+  const { changeAlertInfo } = useStore();
   const buttons = [
     { label: 'Local File', onClick: () => console.log('Local File clicked') },
     { label: 'URL', onClick: () => console.log('URL clicked') },
@@ -24,6 +29,10 @@ export default function Home() {
   ];
 
   const error = true;
+
+  const openAlertDemo = () => {
+    changeAlertInfo({ open: true, message: 'Success Alert', severity: 'success' });
+  };
 
   return (
     <Box sx={{display: 'flex', height: '100vh'}}>
@@ -37,7 +46,10 @@ export default function Home() {
        <Box
         component="main"
         sx={{ flexGrow: 1, bgcolor: 'background.default', padding: '100px 30px' }}>
-          <CommonButton text="Upload local JSON file" startIcon={<UploadFileIcon />} />
+          <Box sx={{marginBottom: '20px'}}>
+            <ProfileSwitcher />
+          </Box>
+          <CommonButton onClick={openAlertDemo} text="Toggler success alert" startIcon={<AccessAlarmIcon />} />
           <IconButton icon={<UploadFileIcon />}/>
           <Box sx={{marginTop: '20px'}}>
             <ButtonGroup buttons={buttons} />
@@ -49,6 +61,7 @@ export default function Home() {
             <SearchBar />
           </Box>
         </Box>
+        <AlertBar/>
     </Box>
   );
 }

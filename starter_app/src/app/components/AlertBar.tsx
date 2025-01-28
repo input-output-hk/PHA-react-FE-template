@@ -1,31 +1,29 @@
 //React imports
-import React, {useState} from 'react';
+import * as React from 'react';
 
 //Mui imports
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
-interface AlertProps {
-    severity: 'success' | 'error' | 'info' | 'warning';
-    message: string;
-}
+//Local components
+import useStore from '../store/store'; 
 
-export default function AlertBar({severity, message}: AlertProps) {
-const [open, setOpen] = useState(false);
+export default function AlertBar() {
+  const { alertInfo, changeAlertInfo } = useStore();
 
-const handleClose = () => { 
-  setOpen(false);
-};
+  const handleClose = () => { 
+    changeAlertInfo({ ...alertInfo, open: false });
+  };
 
   return (
-      <Snackbar open={open} anchorOrigin={{vertical: 'top', horizontal: 'center'}} >
+      <Snackbar open={alertInfo.open} anchorOrigin={{vertical: 'top', horizontal: 'center'}} >
         <Alert
-          severity={severity}
+          severity={alertInfo.severity}
           variant="filled"
           sx={{ width: '100%' }}
           onClose={handleClose}
         >
-         {message}
+         {alertInfo.message}
         </Alert>
       </Snackbar>
   );

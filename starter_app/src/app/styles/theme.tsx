@@ -238,7 +238,7 @@ export const getTheme = (mode: 'light' | 'dark',) => createTheme({
             '&.Mui-focused': {
               background: "inherit",
             },
-        }),
+          }),
         },
       },
       MuiOutlinedInput: {
@@ -389,6 +389,18 @@ export const getTheme = (mode: 'light' | 'dark',) => createTheme({
             },
           })
         }
+      },
+      MuiMenuItem: {
+        styleOverrides: {
+         selected: ({ theme }) => ({ 
+            backgroundColor: `${theme.palette.primary.mainOpacity1}`,
+          }),
+          root: ({ theme }) => ({
+            '&:hover': {
+              backgroundColor: `${theme.palette.primary.mainOpacity2}`,
+            }
+          }),
+        },
       },
       MuiAlert: {
         styleOverrides: {   
