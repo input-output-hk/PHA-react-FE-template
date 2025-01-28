@@ -1,18 +1,26 @@
-import './App.css';
-import CommonButton from './components/CommonButton';
+//Mui imports
+import { Box } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+
+//Local components
+import useStore from './store/store';
+import './App.css';
+import ProfileSwitcher from './components/ProfileSwitcher';
+import CommonButton from './components/CommonButton';
 import IconButton from './components/IconButton';
 import ButtonGroup  from './components/ButtonGroup';
 import TextField from './components/TextField'
 import NavTabs from './components/NavTabs';
-import { Box } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import SearchBar from './components/SearchBar';
 import PerDrawer from './components/PerDrawer';
+import AlertBar from './components/AlertBar';
 import ThemeToggleButton from './components/themeToggleButton';
 
 function App() {
+  const { changeAlertInfo } = useStore();
   const buttons = [
     { label: 'Local File', onClick: () => console.log('Local File clicked') },
     { label: 'URL', onClick: () => console.log('URL clicked') },
@@ -21,6 +29,10 @@ function App() {
   ];
 
   const error = true;
+
+  const openAlertDemo = () => {
+    changeAlertInfo({ open: true, message: 'Success Alert', severity: 'success' });
+  };
 
   return (
     <Box sx={{display: 'flex', height: '100vh'}}>
@@ -34,7 +46,10 @@ function App() {
        <Box
         component="main"
         sx={{ flexGrow: 1, bgcolor: 'background.default', padding: '100px 30px' }}>
-          <CommonButton text="Upload local JSON file" startIcon={<UploadFileIcon />} />
+           <Box sx={{marginBottom: '20px'}}>
+            <ProfileSwitcher />
+          </Box>
+          <CommonButton onClick={openAlertDemo} text="Toggler success alert" startIcon={<AccessAlarmIcon />} />
           <IconButton icon={<UploadFileIcon />}/>
           <Box sx={{marginTop: '20px'}}>
             <ButtonGroup buttons={buttons} />
@@ -46,6 +61,7 @@ function App() {
             <SearchBar />
           </Box>
         </Box>
+        <AlertBar/>
     </Box>
   );
 }

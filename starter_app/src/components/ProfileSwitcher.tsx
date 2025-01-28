@@ -7,10 +7,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
+//Local components
+import useStore from '../store/store'; 
 
 export default function ProfileSwitcher() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-  const [currentUser, changeUserAccount] = React.useState('Astrid');
+  const { currentUser, changeActiveUser } = useStore();
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget as HTMLElement);
@@ -21,7 +23,7 @@ export default function ProfileSwitcher() {
   };
 
   const handleSelect = (user: string) => {
-    changeUserAccount(user);
+    changeActiveUser(user);
     handleClose();
   };
 
@@ -39,9 +41,9 @@ export default function ProfileSwitcher() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={() => handleSelect('Astrid')}>Astrid</MenuItem>
-        <MenuItem onClick={() => handleSelect('Bartholomew')}>Bartholomew</MenuItem>
-        <MenuItem onClick={() => handleSelect('Clementine')}>Clementine</MenuItem>
+        <MenuItem onClick={() => handleSelect('Astrid')} selected={currentUser === 'Astrid'}>Astrid</MenuItem>
+        <MenuItem onClick={() => handleSelect('Bartholomew')}  selected={currentUser === 'Bartholomew'}>Bartholomew</MenuItem>
+        <MenuItem onClick={() => handleSelect('Clementine')} selected={currentUser === 'Clementine'}>Clementine</MenuItem>
       </Menu>
     </>
   );
