@@ -11,7 +11,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import SearchBar from './components/SearchBar';
 import PerDrawer from './components/PerDrawer';
-import ThemeToggleButton from './components/ThemeToggleButton';
+import ThemeToggleButton from './components/themeToggleButton';
 
 function App() {
   const buttons = [

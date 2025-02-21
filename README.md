@@ -1,6 +1,6 @@
 # Front-End Starter Template
 
-This repository is a front-end starter template using MUI, React, and TypeScript. It is designed to help you quickly set up a new project with the best practices and configurations already in place.
+This repository is a front-end starter template using [Create-React-App](https://create-react-app.dev/docs/getting-started/), [MUI](https://mui.com/material-ui/?srsltid=AfmBOor8atqstNDKO2OzksylVmtqlECvFemwfAsohhkekSWlAHXt_56b), and [TypeScript](https://www.typescriptlang.org/). It is designed to help you quickly set up a new project with the best practices and configurations already in place.
 
 ## Getting Started
 
