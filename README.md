@@ -1,6 +1,6 @@
 # Front-End Starter Template
 
-This repository is a front-end starter template using MUI, React, Vite, and TypeScript. It is designed to help you quickly set up a new project with the best practices and configurations already in place.
+This repository is a front-end starter template using [React](https://react.dev/), [Vite](https://vite.dev/), [MUI](https://mui.com/material-ui/?srsltid=AfmBOor8atqstNDKO2OzksylVmtqlECvFemwfAsohhkekSWlAHXt_56b), [Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction), and [TypeScript](https://www.typescriptlang.org/). It is designed to help you quickly set up a new project with the best practices and configurations already in place.
 
 ## Getting Started
 
@@ -44,7 +44,6 @@ To get the application running, follow these steps:
 ### Building for Production
 When it is time to deploy your app for production, simply run the `vite build` command. By default, it uses <root>/index.html as the build entry point, and produces an application bundle that is suitable to be served over a static hosting service. Visit the [Vite Documentation](https://vite.dev/guide/build.html) to learn more.
 
-
 ### Project Structure
 
 The template is organized as follows:
@@ -54,12 +53,13 @@ The template is organized as follows:
     - **`public`**: Contains public assets like HTML and images.
     - **`src`**: Contains the main source code for the application.
         - **`components`**: Reusable React components.
+        - **`store`**: Minimal Zustand store configuration with Typescript type definitions for store variables.
         - **`styles`**: Global styles and theme configuration.
     
 
 ### Customization
 
-This template is designed to be easily customizable. Feel free to modify the files and structures to suit your project's needs. The template uses MUI for UI components and theming, and it is set up to use TypeScript for type safety and development efficiency.
+This template is designed to be easily customizable. Feel free to modify the files and structures to suit your project's needs. The template uses MUI for UI components and theming, it is set up to use TypeScript for type safety and development efficiency, and it is configured to use Zustand for a lightweight global store management solution.
 
 ### Contributing
 
