@@ -1,6 +1,6 @@
 # Front-End Starter Template
 
-This repository is a front-end starter template using [Next.js](https://nextjs.org/), MUI, and TypeScript. It is designed to help you quickly set up a new project with the best practices and configurations already in place.
+This repository is a front-end starter template using [Next.js](https://nextjs.org/), [MUI](https://mui.com/material-ui/?srsltid=AfmBOor8atqstNDKO2OzksylVmtqlECvFemwfAsohhkekSWlAHXt_56b), [TypeScript](https://www.typescriptlang.org/), and [Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction). It is designed to help you quickly set up a new project with the best practices and configurations already in place.
 
 ## Getting Started
 
@@ -38,12 +38,13 @@ The template is organized as follows:
     - **`public`**: Contains public assets like HTML and images.
     - **`src/app`**: Contains the main source code for the application.
         - **`components`**: Reusable React components.
+        - **`store`**: Minimal Zustand store configuration with Typescript type definitions for store variables.
         - **`styles`**: Global styles and theme configuration.
     
 
 ### Customization
 
-This template is designed to be easily customizable. Feel free to modify the files and structures to suit your project's needs. The template uses MUI for UI components and theming, and it is set up to use TypeScript for type safety and development efficiency.
+This template is designed to be easily customizable. Feel free to modify the files and structures to suit your project's needs. The template uses MUI for UI components and theming, it is set up to use TypeScript for type safety and development efficiency, and it is configured to use Zustand for a lightweight global store management solution.
 
 ### Deploy on Vercel
 
