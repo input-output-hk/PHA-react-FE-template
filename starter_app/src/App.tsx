@@ -92,7 +92,7 @@ function App() {
             </Box>
             <Box sx={{marginTop: '20px'}}>
               <UncontrolledTextField defaultValue="example@email.com" label="Uncontrolled" type="text" placeholder='example@email.com'
-              helperText="Enter Email" inputRef={emailRef} onParentBlur={(value) => validateField("email", value, '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', true)} parentErrorMessage={errors.email} required />
+              helperText="Enter Email" inputRef={emailRef} onParentBlur={(value) => validateField("email", value, '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$', true)} parentErrorMessage={errors.email} required />
             </Box>
             <Box sx={{marginTop: '20px'}}>
               <UncontrolledTextField defaultValue="****" label="Uncontrolled" placeholder="****" type="password"
