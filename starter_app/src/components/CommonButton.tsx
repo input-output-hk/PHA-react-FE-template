@@ -9,10 +9,11 @@ interface PHAButtonProps {
     variant?: ButtonProps['variant']; 
     text?: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>; 
+    type?: "button" | "submit" | "reset";
   }
 
-  export default function PHACommonButton({ disabled, size='medium', fullWidth, startIcon, variant='contained', text, onClick }: PHAButtonProps) {
+  export default function PHACommonButton({ disabled, size='medium', fullWidth, startIcon, variant='contained', text, type="button", onClick }: PHAButtonProps) {
     return (
-      <Button disabled={disabled} size={size} fullWidth={fullWidth} startIcon={startIcon} variant={variant} disableFocusRipple disableRipple onClick={onClick}>{text}</Button>
+      <Button disabled={disabled} size={size} fullWidth={fullWidth} startIcon={startIcon} variant={variant} disableFocusRipple disableRipple onClick={onClick} type={type}>{text}</Button>
     );
   }

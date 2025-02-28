@@ -4,19 +4,6 @@ This repository is a front-end starter template using [Create-React-App](https:/
 
 ## Getting Started
 
-### Usage 
-This repository is already set up to connect to the Plutus High Assurance Project Board. To make sure you have this fully set up properly complete the following steps every time you use this template. 
-
-1. Click on the `Use this template` button on the GitHub repository page.
-2. Fill in the repository details to create your new project repository.
-3. Once instantiated, ensure that you have the following labels in your repository:
-    - `epic`
-    - `story`
-    - `task`
-    - `bug`
-    - `idea`
-    - `to be triaged`
-
 ### Running the Application
 
 To get the application running, follow these steps:
@@ -45,19 +32,27 @@ To get the application running, follow these steps:
 
 The template is organized as follows:
 
-- **`github`**: Contains a workflow to sync this repo with updates made on parent repo Plutus-High-Assurance-Template.
 - **`starter_app`**: The main application directory.
     - **`public`**: Contains public assets like HTML and images.
     - **`src`**: Contains the main source code for the application.
         - **`components`**: Reusable React components.
         - **`styles`**: Global styles and theme configuration.
-    
+
+### Form Validation 
+
+- HTML attributes (`required`, `pattern`) are used whenever possible to leverage native browser validation.
+- Custom validation (`onBlur`) is used for complex cases where **pattern matching (RegEx)** is required.
+- Component-Level Validation: Each input component handles its own validation.
+- Parent-Level Validation: When multiple fields exist within a form, validation logic is managed at the form level.
 
 ### Customization
 
-This template is designed to be easily customizable. Feel free to modify the files and structures to suit your project's needs. The template uses MUI for UI components and theming, and it is set up to use TypeScript for type safety and development efficiency.
+This template is **fully customizable**. You can:
+
+- Modify the component structure to suit your project’s needs.
+- Adjust the MUI theme and global styles to match your design preferences.
+- Extend validation logic based on specific project requirements.
 
 ### Contributing
 
 If you have any suggestions or improvements, feel free to open an issue or create a pull request. Contributions are always welcome!
-
