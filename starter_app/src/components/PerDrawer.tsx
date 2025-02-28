@@ -35,10 +35,12 @@ export default function PermanentDrawerLeft() {
         anchor="left"
       >
         <Toolbar>
+          <Box sx={{display: 'flex'}}>
             <AdbIcon color='primary' sx={{marginRight: '12px'}}/>
             <Typography variant={'h5'}>
                 Title
             </Typography>
+          </Box>
         </Toolbar>
         
         <List>
