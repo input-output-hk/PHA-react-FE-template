@@ -44,7 +44,6 @@ To get the application running, follow these steps:
 ### Building for Production
 When it is time to deploy your app for production, simply run the `vite build` command. By default, it uses <root>/index.html as the build entry point, and produces an application bundle that is suitable to be served over a static hosting service. Visit the [Vite Documentation](https://vite.dev/guide/build.html) to learn more.
 
-
 ### Project Structure
 
 The template is organized as follows:
@@ -55,13 +54,22 @@ The template is organized as follows:
     - **`src`**: Contains the main source code for the application.
         - **`components`**: Reusable React components.
         - **`styles`**: Global styles and theme configuration.
-    
+
+### Form Validation 
+
+- HTML attributes (`required`, `pattern`) are used whenever possible to leverage native browser validation.
+- Custom validation (`onBlur`) is used for complex cases where **pattern matching (RegEx)** is required.
+- Component-Level Validation: Each input component handles its own validation.
+- Parent-Level Validation: When multiple fields exist within a form, validation logic is managed at the form level.
 
 ### Customization
 
-This template is designed to be easily customizable. Feel free to modify the files and structures to suit your project's needs. The template uses MUI for UI components and theming, and it is set up to use TypeScript for type safety and development efficiency.
+This template is **fully customizable**. You can:
+
+- Modify the component structure to suit your project’s needs.
+- Adjust the MUI theme and global styles to match your design preferences.
+- Extend validation logic based on specific project requirements.
 
 ### Contributing
 
 If you have any suggestions or improvements, feel free to open an issue or create a pull request. Contributions are always welcome!
-
