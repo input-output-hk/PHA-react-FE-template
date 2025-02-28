@@ -40,10 +40,20 @@ The template is organized as follows:
         - **`components`**: Reusable React components.
         - **`styles`**: Global styles and theme configuration.
     
+### Form Validation 
+
+- HTML attributes (`required`, `pattern`) are used whenever possible to leverage native browser validation.
+- Custom validation (`onBlur`) is used for complex cases where **pattern matching (RegEx)** is required.
+- Component-Level Validation: Each input component handles its own validation.
+- Parent-Level Validation: When multiple fields exist within a form, validation logic is managed at the form level.
 
 ### Customization
 
-This template is designed to be easily customizable. Feel free to modify the files and structures to suit your project's needs. The template uses MUI for UI components and theming, and it is set up to use TypeScript for type safety and development efficiency.
+This template is **fully customizable**. You can:
+
+- Modify the component structure to suit your project’s needs.
+- Adjust the MUI theme and global styles to match your design preferences.
+- Extend validation logic based on specific project requirements.
 
 ### Deploy on Vercel
 

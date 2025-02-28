@@ -123,13 +123,13 @@ export const getTheme = (mode: 'light' | 'dark',) => createTheme({
                   )`,
                 },
               },
-              '&:focus': {
-                background: `linear-gradient(
-                  0deg, 
-                  ${theme.palette.primary.mainOpacity2}, 
-                  ${theme.palette.primary.mainOpacity2}
-                )`,
-              }
+              // '&:focus': {
+              //   background: `linear-gradient(
+              //     0deg, 
+              //     ${theme.palette.primary.mainOpacity2}, 
+              //     ${theme.palette.primary.mainOpacity2}
+              //   )`,
+              // }
           }),
           text: ({ theme }) => ({
             color: `${theme.palette.primary.main}`,
