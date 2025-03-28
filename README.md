@@ -1,6 +1,6 @@
 # Front-End Starter Template
 
-This repository is a front-end starter template using [React](https://react.dev/), [Vite](https://vite.dev/), [MUI](https://mui.com/material-ui/?srsltid=AfmBOor8atqstNDKO2OzksylVmtqlECvFemwfAsohhkekSWlAHXt_56b), and [TypeScript](https://www.typescriptlang.org/). It is designed to help you quickly set up a new project with the best practices and configurations already in place.
+This repository is a front-end starter template using [React](https://react.dev/), [Vite](https://vite.dev/), [MUI](https://mui.com/material-ui/?srsltid=AfmBOor8atqstNDKO2OzksylVmtqlECvFemwfAsohhkekSWlAHXt_56b), [TypeScript](https://www.typescriptlang.org/), [Zod](https://zod.dev/), and [React-Hook-Form](https://www.react-hook-form.com/). It is designed to help you quickly set up a new project with the best practices and configurations already in place.
 
 ## Getting Started
 
@@ -54,13 +54,15 @@ The template is organized as follows:
     - **`src`**: Contains the main source code for the application.
         - **`components`**: Reusable React components.
         - **`styles`**: Global styles and theme configuration.
+        - **`types`**: Zod primitives and form schema builder files.
 
 ### Form Validation 
 
-- HTML attributes (`required`, `pattern`) are used whenever possible to leverage native browser validation.
-- Custom validation (`onBlur`) is used for complex cases where **pattern matching (RegEx)** is required.
-- Component-Level Validation: Each input component handles its own validation.
-- Parent-Level Validation: When multiple fields exist within a form, validation logic is managed at the form level.
+The form validation method used in the `RHFTextFieldForm` component is ideal for applications with **many form fields**, supporting maintainable validation logic and a great developer experience. Additional controlled and uncontrolled text field components are supplied for areas of the application that require form validation on one or two fields.
+
+- HTML attributes (`type`, `required`, and `pattern`) are used whenever possible in all text field components to leverage native browser validation.
+- React Hook Form and Zod are used in combination in the `RHFTextFieldForm` component to maintain state and enforce type validation of text field input values.
+- Custom validation (`onBlur`) exists in the simple text field components and is used for complex cases where **pattern matching (RegEx)** is required.
 
 ### Customization
 

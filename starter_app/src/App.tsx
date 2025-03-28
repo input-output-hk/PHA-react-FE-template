@@ -1,5 +1,6 @@
-//React imports
-import { useRef, useState } from 'react';
+//React Hook Form imports
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 //Mui imports
 import { Box } from '@mui/material';
@@ -8,16 +9,16 @@ import Toolbar from '@mui/material/Toolbar';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 //Local imports
+import {createZodSchemaFromFields} from './types/zodFormSchemaBuilder';
 import './App.css';
 import CommonButton from './components/CommonButton';
 import IconButton from './components/IconButton';
 import ButtonGroup  from './components/ButtonGroup';
-import ControlledTextField from './components/ControlledTextField';
-import UncontrolledTextField from './components/UncontrolledTextField';
+import RHFTextFieldForm from './components/RHFTextFieldForm';
 import NavTabs from './components/NavTabs';
 import SearchBar from './components/SearchBar';
 import PerDrawer from './components/PerDrawer';
-import ThemeToggleButton from './components/ThemeToggleButton';
+import ThemeToggleButton from './components/themeToggleButton';
 
 const buttons = [
   { label: 'Local File', onClick: () => console.log('Local File clicked') },
@@ -26,39 +27,77 @@ const buttons = [
   { label: 'Cardano State', onClick: () => console.log('Cardano State clicked') },
 ];
 
+const fields = [
+  { 
+    defaultValue: 100,
+    name: 'number', 
+    label: 'RHF',
+    type: 'number',
+    placeholder: '0',
+    helperText: 'Enter Number',
+  },
+  { 
+    defaultValue: 'name',
+    name: 'name', 
+    label: 'RHF',
+    type: 'string',
+    placeholder: 'name',
+    helperText: 'Enter Name',
+    required: true 
+  },
+  { 
+    defaultValue: 'example@email.com',
+    name: 'email',
+    label: 'RHF', 
+    type: 'email',
+    placeholder: 'example@email.com',
+    helperText: 'Enter Email',
+    required: true
+  },
+  { 
+    defaultValue: '******',
+    name: 'password', 
+    label: 'RHF',
+    type: 'password',
+    placeholder: '******',
+    helperText: 'Enter Password',
+  },
+  { 
+    defaultValue: '2025-03-15',
+    name: 'date', 
+    label: 'RHF',
+    type: 'date',
+    placeholder: 'mm/dd/yyyy',
+    helperText: 'Enter Date',
+    required: true 
+  },
+];
+
+const formSchema = createZodSchemaFromFields(fields);
+
+const defaultValues = fields.reduce((acc, field) => {
+  acc[field.name] = field.defaultValue ?? '';
+  return acc;
+}, {} as Record<string, any>);
+
 function App() {
-  const nameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const [errors, setErrors] = useState({ name: "", email: "" });
-  const isFormValid = !errors.name && !errors.email;
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    getValues,
+    setError,
+    setValue,
+    setFocus,
+    formState,
+  } = useForm({
+    resolver: zodResolver(formSchema), // Connect Zod schema to react-hook-form
+    defaultValues, //Set default values in RHF, not in the component props when using RHFTextFieldForm component, to ensure default values sync between RHF and the UI which enables better RHF form validation support.
+    mode: 'onTouched', 
+  });
 
-  const validateField = (name: "name" | "email", value: string, pattern?: string, required = false) => {
-    let errorMessage = "";
-
-    if (required && !value.trim()) {
-        errorMessage = "This field is required.";
-    } else if (pattern && value.trim()) {
-        const regex = new RegExp(pattern);
-        if (!regex.test(value)) {
-            errorMessage = name === "email" ? "Must be a valid email" : "Must only contain letters";
-        }
-    }
-
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    validateField("name", nameRef.current?.value || "", "^[a-zA-Z]+$", true);
-        validateField("email", emailRef.current?.value || "", "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", true);
-
-        if (!isFormValid) {
-            console.error("Form contains errors.");
-            return;
-        }
-
-        console.log("Form Submitted Successfully!");
+  const onSubmit = (data: any) => {
+    console.log("Form Submitted Successfully!", data);
   };
 
   return (
@@ -85,30 +124,19 @@ function App() {
           </Box>
           
           <Box>
-            <form onSubmit={handleSubmit}>
-              <Box sx={{marginTop: '20px'}}>
-                <ControlledTextField initialValue={100} label="Controlled" placeholder="number" type="number" helperText="Enter Number" />
-              </Box>
-              <Box sx={{marginTop: '20px'}}>
-                <ControlledTextField initialValue="name" label="Controlled" type="text" placeholder='name'
-                helperText="Enter Name" inputRef={nameRef} onParentBlur={(value) => validateField("name", value, "^[a-zA-Z]+$", true)} parentErrorMessage={errors.name} required />
-              </Box>
-              <Box sx={{marginTop: '20px'}}>
-                <UncontrolledTextField defaultValue="example@email.com" label="Uncontrolled" type="text" placeholder='example@email.com'
-                helperText="Enter Email" inputRef={emailRef} onParentBlur={(value) => validateField("email", value, '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$', true)} parentErrorMessage={errors.email} required />
-              </Box>
-              <Box sx={{marginTop: '20px'}}>
-                <UncontrolledTextField defaultValue="****" label="Uncontrolled" placeholder="****" type="password"
-                helperText="Enter Password" />
-              </Box>
-              <Box sx={{marginTop: '20px'}}>
-                <UncontrolledTextField defaultValue="2025-03-15" label="Uncontrolled" placeholder="mm/dd/yyyy" type="date"
-                helperText="Enter Date" />
-              </Box>
-              <Box sx={{marginTop: '20px'}}>
-                <CommonButton text="Submit form" type='submit' variant='outlined' disabled={!isFormValid} />
-              </Box>
-            </form>
+          <RHFTextFieldForm 
+              fields={fields} 
+              register={register} 
+              handleSubmit={handleSubmit} 
+              onSubmit={onSubmit} 
+              trigger={trigger}
+              getValues={getValues}
+              setValue={setValue}
+              setError={setError}
+              setFocus={setFocus}
+              errors={formState.errors}
+              formState={formState}
+              button={{text: 'Submit form'}}/>
           </Box>
         </Box>
     </Box>
