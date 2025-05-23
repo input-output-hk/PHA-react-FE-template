@@ -14,8 +14,8 @@ import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import Tooltip from '@mui/material/Tooltip';
 
 //local imports
-import IconButton from './IconButton';
-import CommonButton from './CommonButton';
+import IconButton from '../primitives/IconButton';
+import CommonButton from '../primitives/CommonButton';
 
 interface FormFields {
   name: string;
@@ -58,6 +58,12 @@ export default function RHFTextFieldForm({fields, register, handleSubmit, onSubm
     setTimeout(() => setFocus(name), 0); // set focus to the input field
   };
 
+  const handlePaste = async (name: string, event: React.ClipboardEvent<HTMLInputElement>) => {
+    const pastedValue = event.clipboardData.getData('text');
+    setValue(name, pastedValue); 
+    await trigger(name); 
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {fields.map((field, index) => {
@@ -94,22 +100,25 @@ export default function RHFTextFieldForm({fields, register, handleSubmit, onSubm
             label={field.label}
             type={field.type}
             size="small"
-            InputLabelProps={{color: "primary"}}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  {errorMessage ? (
-                    <Tooltip title={errorMessage}><ErrorOutlineOutlinedIcon /></Tooltip>
-                  ) : <IconButton icon={<CancelOutlinedIcon />} onMouseDown={() => handleClear(field.name)} size="small" color='success' />}
-                </InputAdornment>
-              ),
-            }}
+            slotProps={{
+            inputLabel: {color: "primary"},
+            input: {endAdornment: (
+              <InputAdornment position="end">
+              {(errorMessage) ? (
+                <Tooltip title={errorMessage}><ErrorOutlineOutlinedIcon /></Tooltip>
+              ) : <IconButton icon={<CancelOutlinedIcon />} onMouseDown={() => handleClear(field.name)} size="small" color='success' />}
+            </InputAdornment>
+            ),
+            onPaste: (event: any) => handlePaste(field.name, event),    
+            },
+          }}
+         
           />
           </Box>
         )
     })}
        <Box sx={{marginTop: '20px'}}>
-        <CommonButton text={button.text} type='submit' variant={button.variant} disabled={!formState.isValid || !formState.isDirty || isSubmitting}/>
+        <CommonButton text={button.text} type='submit' variant={button.variant} disabled={!formState.isValid || formState.isSubmitting}/>
       </Box>
     </form>
   );
