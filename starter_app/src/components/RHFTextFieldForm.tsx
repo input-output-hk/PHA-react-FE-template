@@ -108,7 +108,7 @@ export default function RHFTextFieldForm({fields, register, handleSubmit, onSubm
         )
     })}
        <Box sx={{marginTop: '20px'}}>
-        <CommonButton text={button.text} type='submit' variant={button.variant} disabled={!formState.isValid}/>
+        <CommonButton text={button.text} type='submit' variant={button.variant} disabled={!formState.isValid || !formState.isDirty || isSubmitting}/>
       </Box>
     </form>
   );
