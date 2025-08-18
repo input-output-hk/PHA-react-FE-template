@@ -1,20 +1,15 @@
-//NextJS Imports
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-//Mui imports
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-//Local file
-import { ThemeModeProvider } from "./styles/themeContext";
+import { Roboto, Roboto_Condensed } from "next/font/google";
+import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+
+const robotoCondensed = Roboto_Condensed({
+  variable: "--font-roboto-condensed",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -29,12 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-      <AppRouterCacheProvider>
-        <ThemeModeProvider>      
-          {children}
-        </ThemeModeProvider>
-      </AppRouterCacheProvider>
+      <body
+        className={`${roboto.variable} ${robotoCondensed.variable} antialiased`}
+      >
+        {children}
       </body>
     </html>
   );

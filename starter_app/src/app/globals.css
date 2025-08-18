@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+:root {
+  /* css variables for light theme color palette */
+  --primary: #3952CD;
+  --onPrimary: #FFFFFF;
+  --primary-opacity1: rgba(57, 82, 205, 0.08);
+  --primary-opacity2: rgba(57, 82, 205, 0.12);
+  --primary-container: #DEE0FF;
+  --primary-on-container: #00115A;
+  --primary-conOpacity1: rgba(222, 224, 255, 0.08);
+  --primary-conOpacity2: rgba(222, 224, 255, 0.12);
+  --secondary: #B32A00;
+  --secondary-container: #FFDBD2;
+  --secondary-onContainer: #3C0800;
+  --tertiary: #6B5F00;
+  --tertiary-container: #F5E47F;
+  --tertiary-onContainer: #201C00;
+  --error: #BA1A1A;
+  --error-container: #FFDAD5;
+  --error-onContainer: #410002;
+  --success: #39CD6B;
+  --surfaceDim: #DAD9E3;
+  --surface: #FDF8F8;
+  --surfaceBright: #FDF8F8;
+  --containerLowest: #FFFFFF;
+  --containerLow: #F4F2FD;
+  --container: #EEEDF7;
+  --containerHigh: #E8E7F2;
+  --containerHighest: #E5E2E1;
+  --onSurface: #1C1B1B;
+  --onSurface-mainOpacity1: rgba(28, 27, 27, 0.08);
+  --onSurface-mainOpacity2: rgba(28, 27, 27, 0.12);
+  --onVariant: #474647;
+  --outline: #787677;
+  --outlineVariant: #C9C6C6;
+  /* css variables for desktop type scale */
+  --h1-size: 40px;
+  --h2-size: 36px;
+  --h3-size: 32px;
+  --h4-size: 28px;
+  --h5-size: 24px;
+  --h6-size: 20px;
+  /* css variables for desktop line heights */
+  --h1-height: 48px;
+  --h2-height: 44px;
+  --h3-height: 40px;
+  --h4-height: 36px;
+  --h5-height: 32px;
+  --h6-height: 28px;
+}
+
+@theme inline {
+  /* tailwind theme utility classes for color palette tokens */
+  --color-primary: var(--primary);
+  --color-primary-opacity1: var(--primary-opacity1);
+  --color-primary-opacity2: var(--primary-opacity2);
+  --color-primary-container: var(--primary-container);
+  --color-primary-on-container: var(--primary-on-container);
+  --color-primary-conOpacity1: var(--primary-conOpacity1);
+  --color-primary-conOpacity2: var(--primary-conOpacity2);
+  --color-secondary: var(--secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-secondary-onContainer: var(--secondary-onContainer);
+  --color-tertiary: var(--tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-tertiary-onContainer: var(--tertiary-onContainer);
+  --color-error: var(--error);
+  --color-error-container: var(--error-container);
+  --color-error-onContainer: var(--error-onContainer);
+  --color-success: var(--success);
+  --color-surfaceDim: var(--surfaceDim);
+  --color-surface: var(--surface);
+  --color-surfaceBright: var(--surfaceBright);
+  --color-containerLowest: var(--containerLowest);
+  --color-containerLow: var(--containerLow);
+  --color-container: var(--container);
+  --color-containerHigh: var(--containerHigh-main);
+  --color-containerHighest: var(--containerHighest-main);
+  --color-onSurface: var(--onSurface);
+  --color-onSurface-mainOpacity1: var(--onSurface-mainOpacity1);
+  --color-onSurface-mainOpacity2: var(--onSurface-mainOpacity2);
+  --color-onVariant: var(--onVariant-main);
+  --color-outline: var(--outline-main);
+  --color-outlineVariant: var(--outlineVariant-main);
+  /* tailwind theme utility classes for typography size tokens */
+  --font-roboto: var(--font-roboto);
+  --font-roboto-condensed: var(--font-roboto-condensed);
+   /* tailwind theme utility classes for typography weight tokens */
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  /* tailwind theme utility classes for spacing tokens */
+  --spacing-xx-sm: 4px;
+  --spacing-x-sm: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-big: 20px;
+  --spacing-x-big: 24px;
+  --spacing-xx-big: 28px;
+  --spacing-xxx-big: 32px;
+  --spacing-lg: 40px;
+  --spacing-x-lg: 48px;
+  --spacing-xx-lg: 64px;
+  --spacing-xxx-lg: 80px;
+  --spacing-huge: 96px;
+  --spacing-x-huge: 128px;
+  --spacing-xx-huge: 160px;
+  --spacing-xxx-huge: 192px;
+  /* tailwind theme utility classes for box shadow tokens */
+  --shadow-contained-btn: 0px 1px 2px rgb(0, 0, 0, .3),
+  0px 1px 3px 1px rgb(0, 0, 0, .15);
+}
+
+@utility text-display-large { 
+  font-size: 52px;
+  line-height: 56px;
+}
+
+@utility text-display-small { 
+  font-size: 44px;
+  line-height: 48px;
+}
+
+@utility text-h1 { 
+  font-size: var(--h1-size);
+  line-height: var(--h1-height);
+}
+
+@utility text-h2 { 
+  font-size: var(--h2-size);
+  line-height: var(--h2-height);
+}
+
+@utility text-h3 { 
+  font-size: var(--h3-size);
+  line-height: var(--h3-height);
+}
+
+@utility text-h4 { 
+  font-size: var(--h4-size);
+  line-height: var(--h4-height);
+}
+
+@utility text-h5 { 
+  font-size: var(--h5-size);
+  line-height: var(--h5-height);
+}
+
+@utility text-h6 { 
+  font-size: var(--h6-size);
+  line-height: var(--h6-height);
+}
+
+@utility text-p-large { 
+  font-size: 18px;
+  line-height: 28px;
+}
+
+@utility text-p-medium { 
+  font-size: 16px;
+  line-height: 24px;
+}
+
+@utility text-p-small { 
+  font-size: 14px;
+  line-height: 20px;
+}
+
+@utility text-p-x-small { 
+  font-size: 12px;
+  line-height: 20px;
+}
+
+@layer components {
+  .displayLarge {
+    @apply text-display-large font-medium;
+  }
+  .displayLarge-semiBold {
+    @apply text-display-large font-semibold;
+  }
+  .displayLarge-bold {
+    @apply text-display-large font-bold;
+  }
+  .displayLarge-extraBold {
+    @apply text-display-large font-extrabold;
+  }
+
+  .displaySmall {
+    @apply text-display-small font-medium;
+  }
+  .displaySmall-semiBold {
+    @apply text-display-small font-semibold;
+  }
+  .displaySmall-bold {
+    @apply text-display-small font-bold;
+  }
+  .displaySmall-extraBold {
+    @apply text-display-small font-extrabold;
+  }
+
+  .h1 {
+    @apply text-h1 font-medium;
+  }
+  .h1-semiBold {
+    @apply text-h1 font-semibold;
+  }
+  .h1-bold {
+    @apply text-h1 font-bold;
+  }
+  .h1-extraBold {
+    @apply text-h1 font-extrabold;
+  }
+
+  .h2 {
+    @apply text-h2 font-medium;
+  }
+  .h2-semiBold {
+    @apply text-h2 font-semibold;
+  }
+  .h2-bold {
+    @apply text-h2 font-bold;
+  }
+  .h2-extraBold {
+    @apply text-h2 font-extrabold;
+  }
+
+  .h3 {
+    @apply text-h3 font-medium;
+  }
+  .h3-semiBold {
+    @apply text-h3 font-semibold;
+  }
+  .h3-bold {
+    @apply text-h3 font-bold;
+  }
+  .h3-extraBold {
+    @apply text-h3 font-extrabold;
+  }
+
+  .h4 {
+    @apply text-h4 font-medium;
+  }
+  .h4-semiBold {
+    @apply text-h4 font-semibold;
+  }
+  .h4-bold {
+    @apply text-h4 font-bold;
+  }
+  .h4-extraBold {
+    @apply text-h4 font-extrabold;
+  }
+
+  .h5 {
+    @apply text-h5 font-medium;
+  }
+  .h5-semiBold {
+    @apply text-h5 font-semibold;
+  }
+  .h5-bold {
+    @apply text-h5 font-bold;
+  }
+  .h5-extraBold {
+    @apply text-h5 font-extrabold;
+  }
+
+  .h6 {
+    @apply text-h6 font-medium;
+  }
+  .h6-semiBold {
+    @apply text-h6 font-semibold;
+  }
+  .h6-bold {
+    @apply text-h6 font-bold;
+  }
+  .h6-extraBold {
+    @apply text-h6 font-extrabold;
+  }
+
+  .largeP {
+    @apply text-p-large font-regular;
+  }
+  .largeP-medium {
+    @apply text-p-large font-medium;
+  }
+  .largeP-semiBold {
+    @apply text-p-large font-semibold;
+  }
+
+  .mediumP {
+    @apply text-p-medium font-regular;
+  }
+  .mediumP-medium {
+    @apply text-p-medium font-medium;
+  }
+  .mediumP-semiBold {
+    @apply text-p-medium font-semibold;
+  }
+
+  .smallP {
+    @apply text-p-small font-regular;
+  }
+  .smallP-medium {
+    @apply text-p-small font-medium;
+  }
+  .smallP-semiBold {
+    @apply text-p-small font-semibold;
+  }
+
+  .xSmallP {
+    @apply text-p-x-small font-regular;
+  }
+  .xSmallP-medium {
+    @apply text-p-x-small font-medium;
+  }
+  .xSmallP-semiBold {
+    @apply text-p-x-small font-semibold;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  /* css variables for dark theme color palette */
+  :root {
+    --primary: #BAC3FF;
+    --onPrimary: #00115A;
+    --primary-opacity1: rgba(186, 195, 255, 0.15);
+    --primary-opacity2: rgba(186, 195, 255, 0.30);
+    --primary-container: #001F8F;
+    --primary-on-container: #00115A;
+    --primary-conOpacity1: rgba(0, 16, 91, 0.15);
+    --primary-conOpacity2: rgba(0, 16, 91, 0.30);
+    --secondary: #FFB5A0;
+    --secondary-container: #862200;
+    --secondary-onContainer: #FFDBD1;
+    --tertiary: #DBC84E;
+    --tertiary-container: #504700;
+    --tertiary-onContainer: #F8E467;
+    --error: #FFB4AB;
+    --error-container: #93000A;
+    --error-onContainer: #FFDAD6;
+    --success: #39CD6B;
+    --surfaceDim: #12131A;
+    --surface: #12131A;
+    --surfaceBright: #383941;
+    --containerLowest: #0D0E15;
+    --containerLow: #1A1B23;
+    --container: #1E1F27;
+    --containerHigh: #292931;
+    --containerHighest: #33343C;
+    --onSurface: #E3E1EC;
+    --onSurface-mainOpacity1: rgba(227, 225, 236, 0.15);
+    --onSurface-mainOpacity2: rgba(227, 225, 236, 0.30);
+    --onVariant: #C5C5D6;
+    --outline: #8F909F;
+    --outlineVariant: #444654;
+  }
+}
+
+@media (min-width:480px) {
+  :root {
+    /* css variables for mobile type scale */
+    --h1-size: 36px;
+    --h2-size: 32px;
+    --h3-size: 28px;
+    --h4-size: 24px;
+    --h5-size: 20px;
+    --h6-size: 18px;
+    /* css variables for mobile line heights */
+    --h1-height: 44px;
+    --h2-height: 40px;
+    --h3-height: 36px;
+    --h4-height: 32px;
+    --h5-height: 28px;
+    --h6-height: 24px;
+  }
+}
+
+body {
+  /* background: var(--background);
+  color: var(--foreground); */
+  font-family: Arial, Helvetica, sans-serif;
+}

@@ -1,54 +1,22 @@
-'use client';
-//Mui imports
-import { Box } from '@mui/material';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-
-//Local components
-import ThemeToggleButton from './components/ThemeToggleButton';
-import NavTabs from './components/NavTabs';
-import PerDrawer from './components/PerDrawer';
-import CommonButton from './components/CommonButton';
-import IconButton from './components/IconButton';
-import ButtonGroup  from './components/ButtonGroup';
-import TextField from './components/TextField';
-import SearchBar from './components/SearchBar';
+import Icon from './components/Icon';
+import Button from './components/Button';
+import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
+import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
 
 export default function Home() {
-  const buttons = [
-    { label: 'Local File', onClick: () => console.log('Local File clicked') },
-    { label: 'URL', onClick: () => console.log('URL clicked') },
-    { label: 'Transaction ID', onClick: () => console.log('Transaction ID clicked') },
-    { label: 'Cardano State', onClick: () => console.log('Cardano State clicked') },
-  ];
-
-  const error = true;
-
   return (
-    <Box sx={{display: 'flex', height: '100vh'}}>
-      <AppBar position="fixed" sx={{marginBottom: '20px', width: `calc(100% - 200px)`, ml: `200px`}}>
-        <Toolbar>
-          <NavTabs />
-          <ThemeToggleButton />
-        </Toolbar>
-      </AppBar>
-      <PerDrawer />
-       <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: 'background.default', padding: '100px 30px' }}>
-          <CommonButton text="Upload local JSON file" startIcon={<UploadFileIcon />} />
-          <IconButton icon={<UploadFileIcon />}/>
-          <Box sx={{marginTop: '20px'}}>
-            <ButtonGroup buttons={buttons} />
-          </Box>
-          <Box sx={{marginTop: '20px'}}>
-            <TextField defaultValue="Input" label="Label" helperText="Supporting Text" error={error}  />
-          </Box>
-          <Box sx={{marginTop: '15px'}}>
-            <SearchBar />
-          </Box>
-        </Box>
-    </Box>
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-surface">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start w-[400px]">
+      <Icon svg={<Bolt />} size='small' mode="fill" color="tertiary" />
+      <Icon svg={<OutlineCheck />} size='medium' mode="stroke" color="tertiary" />
+      <Button variant="primary" content="Click Me" />
+      <Button variant="secondary" content="Click Me" shape="square" />
+      <Button variant="outlined" content="Click Me" startIcon={{ svg: <Bolt /> }} />
+      <Button variant="text" content="Click Me" />
+      <Button variant="outlined" content="Click Me" fullWidth/>
+      <Button variant="primary" shape="pill" content="Click Me" disabled endIcon={{ svg: <Bolt /> }} />
+      <Button variant="icon" content={{ svg: <Bolt /> }} />
+      </main>
+      </div>
   );
 }
