@@ -1,21 +1,29 @@
 import Icon from './components/Icon';
 import Button from './components/Button';
+import Checkbox from './components/Checkbox';
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
 import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-surface">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start w-[400px]">
-      <Icon svg={<Bolt />} size='small' mode="fill" color="tertiary" />
-      <Icon svg={<OutlineCheck />} size='medium' mode="stroke" color="tertiary" />
-      <Button variant="primary" content="Click Me" />
-      <Button variant="secondary" content="Click Me" shape="square" />
-      <Button variant="outlined" content="Click Me" startIcon={{ svg: <Bolt /> }} />
-      <Button variant="text" content="Click Me" />
-      <Button variant="outlined" content="Click Me" fullWidth/>
-      <Button variant="primary" shape="pill" content="Click Me" disabled endIcon={{ svg: <Bolt /> }} />
-      <Button variant="icon" content={{ svg: <Bolt /> }} />
+    <div className="font-[family-name:var(--font-geist-sans)] bg-surface flex h-dvh">
+      <main className="grow flex p-8">
+        <div className='flex flex-col gap-4 w-[300px] items-start'>
+          <Icon svg={<Bolt />} size='small' mode="fill" color="tertiary" />
+          <Icon svg={<OutlineCheck />} size='medium' mode="stroke" color="tertiary" />
+          <Button variant="primary" content="Click Me" />
+          <Button variant="secondary" content="Click Me" shape="square" />
+          <Button variant="outlined" content="Click Me" startIcon={{ svg: <Bolt /> }} />
+          <Button variant="text" content="Click Me" />
+          <Button variant="outlined" content="Click Me" fullWidth/>
+          <Button variant="primary" shape="pill" content="Click Me" disabled endIcon={{ svg: <Bolt /> }} />
+          <Button variant="icon" content={{ svg: <Bolt /> }} />
+          <Checkbox label='Checkbox Label' size='small'/>
+          <Checkbox label='Checkbox Label' size='medium'/>
+          <Checkbox label='Checkbox Label' disabled />
+        </div>
+        <div>
+        </div>
       </main>
       </div>
   );

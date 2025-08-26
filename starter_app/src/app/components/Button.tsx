@@ -24,9 +24,8 @@ export default function Button({
     type = 'button',
     onClick,
 }: ButtonProps) {
-    const classes = cn(buttonVariants({ variant, shape, size, fullWidth, disabled }));
 
-    return <button className={classes} type={type} onClick={onClick}>{startIcon && <Icon size='xsmall' color='text' {...startIcon} />}{typeof content === 'string' ? content : <Icon size='xsmall' color='primary' {...content} />}{endIcon && <Icon size='xsmall' color='text' {...endIcon} />}</button>;
+    return <button className={cn(buttonVariants({ variant, shape, size, fullWidth, disabled }))} type={type} onClick={onClick}>{startIcon && <Icon size='xsmall' color='text' {...startIcon} />}{typeof content === 'string' ? content : <Icon size='xsmall' color='primary' {...content} />}{endIcon && <Icon size='xsmall' color='text' {...endIcon} />}</button>;
 }
 
 const buttonVariants = cva('inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors delay-100 duration-200 ease-in-out', {

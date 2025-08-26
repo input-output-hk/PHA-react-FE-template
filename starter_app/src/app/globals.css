@@ -75,14 +75,14 @@
   --color-containerLowest: var(--containerLowest);
   --color-containerLow: var(--containerLow);
   --color-container: var(--container);
-  --color-containerHigh: var(--containerHigh-main);
-  --color-containerHighest: var(--containerHighest-main);
+  --color-containerHigh: var(--containerHigh);
+  --color-containerHighest: var(--containerHighest);
   --color-onSurface: var(--onSurface);
   --color-onSurface-mainOpacity1: var(--onSurface-mainOpacity1);
   --color-onSurface-mainOpacity2: var(--onSurface-mainOpacity2);
-  --color-onVariant: var(--onVariant-main);
-  --color-outline: var(--outline-main);
-  --color-outlineVariant: var(--outlineVariant-main);
+  --color-onVariant: var(--onVariant);
+  --color-outline: var(--outline);
+  --color-outlineVariant: var(--outlineVariant);
   /* tailwind theme utility classes for typography size tokens */
   --font-roboto: var(--font-roboto);
   --font-roboto-condensed: var(--font-roboto-condensed);

@@ -5,7 +5,8 @@ import { cva, type VariantProps } from 'class-variance-authority';
 
 export interface IconProps extends VariantProps<typeof iconVariants> {
   svg: React.ReactElement<React.SVGProps<SVGSVGElement>>;
-  mode?: 'fill' | 'stroke';
+  mode?: 'fill' | 'stroke' | 'both';
+  strokeWidth?: number;
 }
 
 export default function Icon({
@@ -13,16 +14,18 @@ export default function Icon({
   size = 'small',
   mode = 'fill',
   color = 'onSurface',
+  strokeWidth = 2,
 }: IconProps) {
   const classes = cn(iconVariants({ color, size }));
 
-  const fill = mode === 'fill' ? 'currentColor' : 'none';
-  const stroke = mode === 'stroke' ? 'currentColor' : 'none';
+  const fill = mode === 'fill' || mode === 'both' ? 'currentColor' : 'none';
+  const stroke = mode === 'stroke' || mode === 'both' ? 'currentColor' : 'none';
 
   return React.cloneElement(svg, {
     className: classes,
     fill: fill,
     stroke: stroke,
+    strokeWidth: strokeWidth,
   });
 }
 
