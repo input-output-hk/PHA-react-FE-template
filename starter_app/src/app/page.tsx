@@ -1,6 +1,7 @@
 import Icon from './components/Icon';
 import Button from './components/Button';
 import Checkbox from './components/Checkbox';
+import RadioGroup from './components/RadioGroup';
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
 import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
 
@@ -18,11 +19,27 @@ export default function Home() {
           <Button variant="outlined" content="Click Me" fullWidth/>
           <Button variant="primary" shape="pill" content="Click Me" disabled endIcon={{ svg: <Bolt /> }} />
           <Button variant="icon" content={{ svg: <Bolt /> }} />
-          <Checkbox label='Checkbox Label' size='small'/>
-          <Checkbox label='Checkbox Label' size='medium'/>
-          <Checkbox label='Checkbox Label' disabled />
+          <Checkbox label='Checkbox Label Small' size='small'/>
+          <Checkbox label='Checkbox Label Medium' size='medium'/>
+          <Checkbox label='Checkbox Label Disabled' disabled />
         </div>
-        <div>
+        <div className='flex flex-col gap-4 items-start ml-10'>
+          <RadioGroup
+            radioButtons={[
+              { name: "example", value: "1", label: "Option 1", defaultChecked: true },
+              { name: "example", value: "2", label: "Option 2" },
+              { name: "example", value: "3", label: "Option 3" },
+            ]}
+          />
+          <RadioGroup
+            direction="row"
+            size="medium"
+            radioButtons={[
+              { name: "example", value: "1", label: "Option 1", defaultChecked: true },
+              { name: "example", value: "2", label: "Option 2" },
+              { name: "example", value: "3", label: "Option 3" },
+            ]}
+          />
         </div>
       </main>
       </div>
