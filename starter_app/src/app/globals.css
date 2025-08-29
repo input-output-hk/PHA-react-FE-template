@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+input[type=number]::-webkit-inner-spin-button:hover {
+  opacity: 1;
+}
+
 :root {
   /* css variables for light theme color palette */
   --primary: #3952CD;

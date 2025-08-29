@@ -3,13 +3,13 @@ import React from 'react';
 import cn from '../utils/styleUtil';
 import {cva, type VariantProps} from 'class-variance-authority';
 import Icon, {IconProps} from './Icon';
-
 interface ButtonProps extends VariantProps<typeof buttonVariants> {
     content: string | IconProps;
     startIcon?: IconProps;
     endIcon?: IconProps;
     type?: 'button' | 'submit' | 'reset';
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    onMouseDown?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function Button({
@@ -23,9 +23,10 @@ export default function Button({
     disabled = false,
     type = 'button',
     onClick,
+    onMouseDown
 }: ButtonProps) {
 
-    return <button className={cn(buttonVariants({ variant, shape, size, fullWidth, disabled }))} type={type} onClick={onClick}>{startIcon && <Icon size='xsmall' color='text' {...startIcon} />}{typeof content === 'string' ? content : <Icon size='xsmall' color='primary' {...content} />}{endIcon && <Icon size='xsmall' color='text' {...endIcon} />}</button>;
+    return <button className={cn(buttonVariants({ variant, shape, size, fullWidth, disabled }))} type={type} onClick={onClick} onMouseDown={onMouseDown}>{startIcon && <Icon size='xsmall' color='text' {...startIcon} />}{typeof content === 'string' ? content : <Icon size='xsmall' color="primary" {...content} />}{endIcon && <Icon size='xsmall' color='text' {...endIcon} />}</button>;
 }
 
 const buttonVariants = cva('inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors delay-100 duration-200 ease-in-out', {
@@ -36,6 +37,7 @@ const buttonVariants = cva('inline-flex items-center justify-center gap-2 whites
             outlined: 'bg-transparent border border-primary text-primary',
             text: 'bg-transparent text-primary',
             icon: 'p-2 text-sm bg-primary/10',
+            textFieldIcon: 'p-1 px-2 text-sm',
         },
         shape: {
             pill: 'rounded-full',
@@ -49,11 +51,9 @@ const buttonVariants = cva('inline-flex items-center justify-center gap-2 whites
         },
         fullWidth: {
             true: 'w-full',
-            false: null,
         },
         disabled: {
-            true: ['opacity-50', 'cursor-not-allowed'],
-            false: null,
+            true: ['opacity-50', 'pointer-events-none'],
         },
     },
     compoundVariants: [

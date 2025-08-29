@@ -44,7 +44,7 @@ export default function Checkbox({
                 disabled={disabled} 
             />
             <span className={cn(
-                    'relative flex items-center justify-center border-[1.75px] border-outline rounded-xs peer-checked:bg-primary peer-checked:border-none peer-disabled:opacity-50 peer-disabled:cursor-not-allowed',
+                    'relative flex items-center justify-center border-[1.75px] border-outline rounded-xs peer-checked:bg-primary peer-checked:border-none peer-disabled:opacity-50 peer-disabled:pointer-events-none',
                     checkboxSize
                 )}>
                 {isChecked && (

@@ -2,6 +2,7 @@ import Icon from './components/Icon';
 import Button from './components/Button';
 import Checkbox from './components/Checkbox';
 import RadioGroup from './components/RadioGroup';
+import ControlledTextField from './components/ControlledTextfield';
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
 import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
 
@@ -39,6 +40,40 @@ export default function Home() {
               { name: "example", value: "2", label: "Option 2" },
               { name: "example", value: "3", label: "Option 3" },
             ]}
+          />
+          <ControlledTextField
+            initialValue={100}
+            label="Number Example"
+            placeholder="Number"
+            helperText="Enter a number"
+            type="number"
+          />
+          <ControlledTextField
+            label="String Example"
+            placeholder="Name"
+            helperText="Enter a name"
+            type="text"
+            required
+          />
+          <ControlledTextField
+            label="Email Example"
+            placeholder="example@example.com"
+            helperText="Enter an email"
+            type="email"
+            disabled
+          />
+          <ControlledTextField
+            label="Password Example"
+            placeholder="1234"
+            fullWidth
+            helperText="Enter a password"
+            type="password"
+          />
+          <ControlledTextField
+            label="Date Example"
+            placeholder="YYYY-MM-DD"
+            helperText="Enter a date"
+            type="date"
           />
         </div>
       </main>
