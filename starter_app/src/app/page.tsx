@@ -6,6 +6,7 @@ import ControlledTextField from './components/ControlledTextfield';
 import UncontrolledTextField from './components/UncontrolledTextfield';
 import Chip from './components/Chip';
 import SearchBar from './components/SearchBox';
+import Tabs from './components/Tabs';
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
 import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
 
@@ -83,6 +84,24 @@ export default function Home() {
           <Chip label="Outline Chip" variant="outlined" deleteIcon startIcon={{svg: <Bolt />}} />
           <Chip label="Filled Chip" variant="filled" deleteIcon startIcon={{svg: <Bolt />}} />
           <SearchBar />
+          <Tabs
+            tabs={[
+              { label: 'Tab 1' },
+              { label: 'Tab 2' },
+              { label: 'Tab 3' },
+              { label: 'Tab 4' },
+            ]}
+          />
+
+          <Tabs
+            variant="filled"
+            tabs={[
+              { label: 'Tab 1', icon: <Bolt /> },
+              { label: 'Tab 2', icon: <Bolt /> },
+              { label: 'Tab 3', icon: <Bolt /> },
+              { label: 'Tab 4', icon: <Bolt /> },
+            ]}
+          />
         </div>
       </main>
       </div>
