@@ -37,7 +37,7 @@ const buttonVariants = cva('inline-flex items-center justify-center gap-2 whites
             outlined: 'bg-transparent border border-primary text-primary',
             text: 'bg-transparent text-primary',
             icon: 'p-2 text-sm bg-primary/10',
-            textFieldIcon: 'p-1 px-2 text-sm',
+            embedded: 'text-sm',
         },
         shape: {
             pill: 'rounded-full',
@@ -45,6 +45,7 @@ const buttonVariants = cva('inline-flex items-center justify-center gap-2 whites
             square: 'rounded-none',
         },
         size: {
+            compact: 'px-0 py-0',
             small: 'px-2 py-1 text-sm',
             medium: 'px-4 py-2 text-md',
             large: 'px-6 py-3 text-lg',

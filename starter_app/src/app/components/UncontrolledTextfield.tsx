@@ -100,7 +100,7 @@ export default function UncontrolledTextField({
 
           <div className="flex align-middle">
             <Button
-              variant="textFieldIcon"
+              variant="embedded"
               onMouseDown={handleClear}
               content={hasError && !isFocused ? { svg: <ExclamationCircleIcon />, mode: 'stroke', size: 'small', strokeWidth: 1.5, color: 'error' } : {svg: <XCircleIcon />, mode: 'stroke', size: 'small', strokeWidth: 1.5, color: 'onSurface'}}/>
           </div>

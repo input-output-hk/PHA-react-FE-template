@@ -3,6 +3,8 @@ import Button from './components/Button';
 import Checkbox from './components/Checkbox';
 import RadioGroup from './components/RadioGroup';
 import ControlledTextField from './components/ControlledTextfield';
+import UncontrolledTextField from './components/UncontrolledTextfield';
+import Chip from './components/Chip';
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
 import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
 
@@ -55,14 +57,14 @@ export default function Home() {
             type="text"
             required
           />
-          <ControlledTextField
+          <UncontrolledTextField
             label="Email Example"
             placeholder="example@example.com"
             helperText="Enter an email"
             type="email"
             disabled
           />
-          <ControlledTextField
+          <UncontrolledTextField
             label="Password Example"
             placeholder="1234"
             fullWidth
@@ -75,6 +77,10 @@ export default function Home() {
             helperText="Enter a date"
             type="date"
           />
+        </div>
+        <div className='flex flex-col gap-4 items-start ml-10'>
+          <Chip label="Outline Chip" variant="outlined" deleteIcon startIcon={{svg: <Bolt />}} />
+          <Chip label="Filled Chip" variant="filled" deleteIcon startIcon={{svg: <Bolt />}} />
         </div>
       </main>
       </div>

@@ -36,6 +36,7 @@ const iconVariants = cva('inline-block', {
       secondary: 'text-secondary',
       surface: 'text-surface',
       onSurface: 'text-onSurface',
+      onVariant: 'text-onVariant',
       error: 'text-error',
       success: 'text-success',
       tertiary: 'text-tertiary',
