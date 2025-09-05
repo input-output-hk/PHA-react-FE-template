@@ -5,6 +5,7 @@ import RadioGroup from './components/RadioGroup';
 import ControlledTextField from './components/ControlledTextfield';
 import UncontrolledTextField from './components/UncontrolledTextfield';
 import Chip from './components/Chip';
+import SearchBar from './components/SearchBox';
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
 import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
 
@@ -81,6 +82,7 @@ export default function Home() {
         <div className='flex flex-col gap-4 items-start ml-10'>
           <Chip label="Outline Chip" variant="outlined" deleteIcon startIcon={{svg: <Bolt />}} />
           <Chip label="Filled Chip" variant="filled" deleteIcon startIcon={{svg: <Bolt />}} />
+          <SearchBar />
         </div>
       </main>
       </div>

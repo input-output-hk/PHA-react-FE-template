@@ -102,7 +102,7 @@ export default function UncontrolledTextField({
             <Button
               variant="embedded"
               onMouseDown={handleClear}
-              content={hasError && !isFocused ? { svg: <ExclamationCircleIcon />, mode: 'stroke', size: 'small', strokeWidth: 1.5, color: 'error' } : {svg: <XCircleIcon />, mode: 'stroke', size: 'small', strokeWidth: 1.5, color: 'onSurface'}}/>
+              content={hasError && !isFocused ? { svg: <ExclamationCircleIcon />, mode: 'stroke', size: 'small', strokeWidth: 1.5, color: 'error' } : {svg: <XCircleIcon />, mode: 'stroke', size: 'small', strokeWidth: 1.5, color: 'onVariant'}}/>
           </div>
         </div>
         <p className={cn('text-xs mt-1', hasError ? 'text-error' : 'text-onSurface/60')}>
