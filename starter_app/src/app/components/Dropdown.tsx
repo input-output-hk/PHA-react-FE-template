@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
+import { useFloating, offset, flip, shift, autoUpdate, useDismiss, useInteractions } from "@floating-ui/react";
 import { cva, type VariantProps } from 'class-variance-authority';
 import cn from '../utils/styleUtil';
 import Button from './Button';
@@ -33,22 +34,6 @@ export interface DropdownProps extends VariantProps<typeof dropdownVariants> {
   onChange?: (selected: string[] | string | null) => void;
 }
 
-const useClickOutside = (ref: React.RefObject<HTMLElement | null>, handler: () => void) => {
-  useEffect(() => {
-    const listener = (event: MouseEvent) => {
-      if (!ref.current || ref.current.contains(event.target as Node)) {
-        return;
-      }
-      handler();
-    };
-    document.addEventListener("click", listener, true);
-    return () => {
-      document.removeEventListener("click", listener, true);
-    };
-  }, [ref, handler]);
-}
-
-
 export default function Dropdown({
   options,
   multi = false,
@@ -61,7 +46,21 @@ export default function Dropdown({
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string[]>([]);
 
+  // Floating UI
+  const { refs, floatingStyles, context } = useFloating({
+    placement: "bottom-start",
+    middleware: [offset(6), flip(), shift()],
+    open,
+    onOpenChange: setOpen,   // Floating UI will control open state
+    whileElementsMounted: autoUpdate, // auto reposition on resize/scroll
+    strategy: "fixed"
+  });
+
   const toggleOpen = () => setOpen((prev) => !prev);
+
+  // Attach dismiss (outside click + escape)
+  const dismiss = useDismiss(context);
+  const { getFloatingProps } = useInteractions([dismiss]);
 
   const handleSelect = (value: string) => {
     if (multi) {
@@ -78,8 +77,6 @@ export default function Dropdown({
   };
 
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useClickOutside(dropdownRef, () => setOpen(false));
 
   useEffect(() => {
     const listener = (event: MouseEvent) => {
@@ -125,18 +122,24 @@ export default function Dropdown({
     
   return (
     <div className={cn(dropdownVariants({ size }))}>
-      <Button
-        variant="black"
-        size={size}
-        onClick={toggleOpen}
-        content={buttonLabel}
-        startIcon={startIcon}
-        endIcon={endIcon}
-      >
-      </Button>
+      <span ref={refs.setReference}>
+        <Button
+          variant="black"
+          size={size}
+          onClick={toggleOpen}
+          content={buttonLabel}
+          startIcon={startIcon}
+          endIcon={endIcon}
+        >
+        </Button>
+      </span>
 
       {open && (
-        <div ref={dropdownRef} className="absolute mt-1 w-fit border border-none rounded-md shadow-lg z-10 bg-jaguar-black text-white">
+        <div 
+          ref={refs.setFloating}
+          style={floatingStyles}
+          {...getFloatingProps()}
+          className="absolute mt-1 w-fit border border-none rounded-md shadow-lg z-10 bg-jaguar-black text-white">
           <div className="max-h-60 overflow-y-auto p-2 flex flex-col gap-2">
             <ul className="pl-[10px] pr-[30px]">
             {options.map((opt, idx) =>
