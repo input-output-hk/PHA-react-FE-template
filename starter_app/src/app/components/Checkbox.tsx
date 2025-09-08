@@ -11,6 +11,7 @@ interface CheckboxProps {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     disabled?: boolean;
     size?: 'small' | 'medium';
+    variant?: 'primary' | 'primaryOutline' | 'none';
 }
 
 export default function Checkbox({
@@ -19,7 +20,8 @@ export default function Checkbox({
     defaultChecked = false,
     onChange,
     disabled,
-    size
+    size,
+    variant = 'primary'
 }: CheckboxProps) {
     const isControlled = checked !== undefined;
     const [internalChecked, setInternalChecked] = React.useState(defaultChecked);
@@ -35,7 +37,7 @@ export default function Checkbox({
     const checkboxSize = size === 'small' ? 'w-[15px] h-[15px]' : 'w-[18px] h-[18px]';
 
     return (
-        <label className="flex items-center gap-2">
+        <label className="flex items-center gap-2 cursor-pointer">
             <input 
                 type="checkbox" 
                 className="peer absolute opacity-0 " 
@@ -44,8 +46,10 @@ export default function Checkbox({
                 disabled={disabled} 
             />
             <span className={cn(
-                    'relative flex items-center justify-center border-[1.75px] border-outline rounded-xs peer-checked:bg-primary peer-checked:border-none peer-disabled:opacity-50 peer-disabled:cursor-not-allowed',
-                    checkboxSize
+                    'relative flex items-center justify-center border-[1.75px] border-outline rounded-xs peer-disabled:opacity-50 peer-disabled:cursor-not-allowed',
+                    checkboxSize,
+                    variant === 'primary' && 'peer-checked:bg-primary peer-checked:border-none',
+                    variant === 'primaryOutline' && 'peer-checked:bg-none peer-checked:border-primary'
                 )}>
                 {isChecked && (
                     <Icon
