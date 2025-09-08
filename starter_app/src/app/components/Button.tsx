@@ -32,8 +32,8 @@ export default function Button({
 const buttonVariants = cva('inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors delay-100 duration-200 ease-in-out', {
     variants: {
         variant: {
-            primary: 'bg-primary text-primary-on-container inset-shadow-sm',
-            secondary: 'bg-secondary text-secondary-on-container',
+            primary: 'bg-primary text-surface inset-shadow-sm',
+            secondary: 'bg-secondary text-surface',
             outlined: 'bg-transparent border border-primary text-primary',
             text: 'bg-transparent text-primary',
             icon: 'p-2 text-sm bg-primary/10',
