@@ -25,7 +25,7 @@ export default function Chip({
 }: ChipProps) {
     return (
         <div className={cn(chipVariants({variant, color, size, disabled}))}>
-            {startIcon && <Icon {...startIcon} color={variant === 'outlined' ? 'onVariant' : 'primary'} size="xsmall" />}
+            {startIcon && <Icon {...startIcon} color='onVariant' size="xsmall" />}
             <span className={`overflow-hidden text-ellipsis ${startIcon ? 'pl-2' : ''} ${deleteIcon ? 'pr-2' : ''}`}>{label}</span>
             {deleteIcon && (
                 <Button 
@@ -34,7 +34,7 @@ export default function Chip({
                     onClick={onDelete}
                     content={{ 
                         svg: <XMarkIcon />, 
-                        color: variant === 'outlined' ? 'onVariant' : 'onSurface', 
+                        color: 'text', 
                         size: 'xsmall', 
                         mode: 'stroke' 
                     }}
@@ -44,11 +44,11 @@ export default function Chip({
     );
 }
 
-const chipVariants = cva('inline-flex items-center justify-center rounded-md text-xs font-medium whitespace-nowrap p-2', {
+const chipVariants = cva('inline-flex items-center justify-center rounded-md text-xs font-medium whitespace-nowrap p-2 text-onVariant/90 hover:text-onSurface focus-within:ring-1 focus-within:ring-primary', {
     variants: {
         variant: {
-            outlined: 'border border-outline-variant text-onVariant bg-containerLow hover:bg-container',
-            filled: 'bg-containerHighest text-onSurface hover:bg-containerHigh',
+            outlined: 'border border-outline-variant bg-containerLow hover:bg-container',
+            filled: 'bg-containerHighest/90 hover:bg-containerHighest',
         },
         color: {
             default: 'bg-surface text-onSurface',
