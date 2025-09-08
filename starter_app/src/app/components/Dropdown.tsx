@@ -28,6 +28,7 @@ interface Option {
 export interface DropdownProps extends VariantProps<typeof dropdownVariants> {
   options: Option[];
   multi?: boolean;
+  radio?: boolean;
   label: string;
   startIcon?: IconProps;
   endIcon?: IconProps;
@@ -37,6 +38,7 @@ export interface DropdownProps extends VariantProps<typeof dropdownVariants> {
 export default function Dropdown({
   options,
   multi = false,
+  radio = false,
   label,
   startIcon,
   endIcon,
@@ -113,10 +115,10 @@ export default function Dropdown({
       selectionText = `${selected.length} selected`;
     }
   } else {
-    selectionText = selected[0] ? selectedOptionLabel : label;
+    selectionText = selected[0] ? selectedOptionLabel : '';
   }
 
-  const buttonLabel = selectionText
+  const buttonLabel = selectionText.length
     ? `${label}: ${selectionText}`
     : label;
     
@@ -140,10 +142,11 @@ export default function Dropdown({
           style={floatingStyles}
           {...getFloatingProps()}
           className="absolute mt-1 w-fit border border-none rounded-md shadow-lg z-10 bg-jaguar-black text-white">
+          
           <div className="max-h-60 overflow-y-auto p-2 flex flex-col gap-2">
             <ul className="pl-[10px] pr-[30px]">
             {options.map((opt, idx) =>
-                <li key={idx} className="py-1">
+                <li key={idx} className="py-1 cursor-pointer" onClick={() => !multi && !radio ? handleSelect(opt.value) : null}>
                     {multi ? (
                         <Checkbox
                         label={opt.label}
@@ -151,8 +154,13 @@ export default function Dropdown({
                         onChange={() => handleSelect(opt.value)}
                         />
                     ) : ( 
-                        // <Radio />
-                        <></>
+                      radio ? (
+                        <>
+                          {/* <Radio /> */}
+                        </>
+                      ) : (<>
+                        <span>{opt.label}</span>
+                      </>)
                     )}
                 </li>
             )}
