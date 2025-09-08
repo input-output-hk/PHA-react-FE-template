@@ -30,19 +30,20 @@ export default function Home() {
         </div>
         <div className='flex flex-col gap-4 items-start ml-10'>
           <RadioGroup
+            name="smallGroupExample"
             radioButtons={[
-              { name: "example", value: "1", label: "Option 1", defaultChecked: true },
-              { name: "example", value: "2", label: "Option 2" },
-              { name: "example", value: "3", label: "Option 3" },
+              { value: "1", label: "Option 1", defaultChecked: true },
+              { value: "2", label: "Option 2" },
+              { value: "3", label: "Option 3" },
             ]}
           />
           <RadioGroup
+            name="mediumGroupExample"
             direction="row"
-            size="medium"
             radioButtons={[
-              { name: "example", value: "1", label: "Option 1", defaultChecked: true },
-              { name: "example", value: "2", label: "Option 2" },
-              { name: "example", value: "3", label: "Option 3" },
+              { value: "1", label: "Option 1", size: "medium", defaultChecked: true },
+              { value: "2", label: "Option 2", size: "medium" },
+              { value: "3", label: "Option 3", size: "medium" },
             ]}
           />
           <ControlledTextField
