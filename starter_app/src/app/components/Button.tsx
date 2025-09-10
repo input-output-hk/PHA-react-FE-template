@@ -38,8 +38,7 @@ const buttonVariants = cva('inline-flex items-center justify-center gap-2 whites
             text: 'bg-transparent text-primary',
             icon: 'p-2 text-sm bg-primary/10',
             embedded: 'text-sm',
-            black: 'bg-jaguar-black text-white',
-            none: ''
+            inherit: ''
         },
         shape: {
             pill: 'rounded-full',
@@ -86,12 +85,7 @@ const buttonVariants = cva('inline-flex items-center justify-center gap-2 whites
             className: 'hover:bg-primary/15 active:bg-primary/20',
         },
         {
-            variant: 'black',
-            disabled: false,
-            className: 'bg-black text-white hover:bg-granite-gray active:bg-granite-gray',
-        },
-        {
-            variant: 'none',
+            variant: 'inherit',
             disabled: false,
             className: ''
         }

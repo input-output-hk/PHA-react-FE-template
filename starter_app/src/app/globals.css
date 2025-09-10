@@ -52,10 +52,7 @@ input[type=number]::-webkit-inner-spin-button:hover {
   --h4-height: 36px;
   --h5-height: 32px;
   --h6-height: 28px;
-  /* custom colors */
-  --jaguar-black: #252526;
-  --eerie-black: #1e1e1e;
-  --granite-gray: #606060;
+  
 }
 
 @theme inline {

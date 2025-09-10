@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import cn from '../utils/styleUtil';
 import Button from './Button';
 import Checkbox from './Checkbox';
-// import Radio from './Radio';
+import {RadioButton} from './RadioGroup';
 import {IconProps} from './Icon';
 
 const dropdownVariants = cva('relative inline-block text-left w-full', {
@@ -23,6 +23,9 @@ const dropdownVariants = cva('relative inline-block text-left w-full', {
 interface Option {
   label: string;
   value: string;
+  disabled?: boolean;
+  defaultChecked?: boolean;
+  suffixText?: string;
 }
 
 export interface DropdownProps extends VariantProps<typeof dropdownVariants> {
@@ -64,7 +67,8 @@ export default function Dropdown({
   const dismiss = useDismiss(context);
   const { getFloatingProps } = useInteractions([dismiss]);
 
-  const handleSelect = (value: string) => {
+  const handleSelect = (opt: Option) => {
+    const value = opt.value
     if (multi) {
       const newSelected = selected.includes(value)
         ? selected.filter((v) => v !== value)
@@ -126,7 +130,7 @@ export default function Dropdown({
     <div className={cn(dropdownVariants({ size }))}>
       <span ref={refs.setReference}>
         <Button
-          variant="black"
+          variant="primary"
           size={size}
           onClick={toggleOpen}
           content={buttonLabel}
@@ -141,22 +145,34 @@ export default function Dropdown({
           ref={refs.setFloating}
           style={floatingStyles}
           {...getFloatingProps()}
-          className="absolute mt-1 w-fit border border-none rounded-md shadow-lg z-10 bg-jaguar-black text-white">
+          className="absolute mt-1 w-fit border border-none bg-container text-onSurface rounded-md shadow-lg z-10">
           
-          <div className="max-h-60 overflow-y-auto p-2 flex flex-col gap-2">
-            <ul className="pl-[10px] pr-[30px]">
+          <div className="max-h-60 overflow-y-auto p-2">
+            <ul className="pl-[10px] pr-[30px] flex flex-col gap-2">
             {options.map((opt, idx) =>
-                <li key={idx} className="py-1 cursor-pointer" onClick={() => !multi && !radio ? handleSelect(opt.value) : null}>
+                <li key={idx} className="py-1 w-full cursor-pointer" onClick={() => !multi && !radio ? handleSelect(opt) : null}>
                     {multi ? (
                         <Checkbox
-                        label={opt.label}
-                        checked={selected.includes(opt.value)}
-                        onChange={() => handleSelect(opt.value)}
-                        />
+                          label={opt.label}
+                          value={opt.value}
+                          disabled={opt.disabled}
+                          checked={selected.includes(opt.value)}
+                          defaultChecked={opt.defaultChecked}
+                          onChange={() => handleSelect(opt)}
+                          suffixText={opt.suffixText}
+                          />
                     ) : ( 
                       radio ? (
                         <>
-                          {/* <Radio /> */}
+                          <RadioButton
+                            label={opt.label}
+                            value={opt.value}
+                            disabled={opt.disabled}
+                            checked={selected.includes(opt.value)}
+                            defaultChecked={opt.defaultChecked}
+                            onChange={() => handleSelect(opt)}
+                            suffixText={opt.suffixText}
+                            />
                         </>
                       ) : (<>
                         <span>{opt.label}</span>
@@ -168,9 +184,8 @@ export default function Dropdown({
 
             {(multi && (selected.length !== 0)) && (
               <>
-                {/* <div className="border-t border-outline my-2" /> */}
-                <hr />
-                <Button variant="none" content="Clear All" onClick={handleClearAll} fullWidth />
+                <hr className="border-outline mt-[10px] mx-0 mb-[5px]" />
+                <Button variant="inherit" content="Clear All" onClick={handleClearAll} fullWidth />
               </>
             )}
           </div>
