@@ -29,7 +29,7 @@ export default function Tabs({ direction = 'horizontal', variant = 'underline', 
                     ${(variant === 'filled' && index !== activeTab) && 'hover:bg-containerHigh hover:text-onSurface-variant'} 
                     ${(variant === 'underline' && index !== activeTab) && 'hover:border-b-2 hover:border-outline'} 
                     ${(variant === 'underline' && index === activeTab) && 'border-b-2 border-primary text-primary'} 
-                    ${(variant === 'filled' && index === activeTab) && 'bg-primary text-onPrimary'}`,)}
+                    ${(variant === 'filled' && index === activeTab) && 'bg-primary text-surface'}`,)}
                 onClick={() => {
                     setActiveTab(index); 
                     if (tab.onClick) tab.onClick(); 

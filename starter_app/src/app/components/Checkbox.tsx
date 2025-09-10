@@ -55,7 +55,7 @@ export default function Checkbox({
                     <Icon
                         svg={<CheckIcon />}
                         size={size === 'small' ? 'xsmall' : 'small'}
-                        color="text"
+                        color="surface"
                         mode="both"
                         strokeWidth={1.5}
                     />
