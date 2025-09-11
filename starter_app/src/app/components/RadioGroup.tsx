@@ -11,7 +11,6 @@ interface RadioButtonProps {
     defaultChecked?: boolean;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     size?: 'small' | 'medium';
-    suffixText?: string;
 }
 
 interface RadioGroupProps {
@@ -29,41 +28,37 @@ export function RadioButton({
     defaultChecked,
     onChange,
     size = 'small',
-    suffixText
 }: RadioButtonProps) {
     const radioSize = size === 'small' ? 'w-[15px] h-[15px]' : 'w-[18px] h-[18px]';
 
     return (
         <label className="flex items-center gap-2 justify-between">
-            <span className="flex items-center gap-2">
-                <input
-                    type="radio"
-                    name={name}
-                    value={value}
-                    className="peer absolute opacity-0"
-                    checked={checked}
-                    defaultChecked={defaultChecked}
-                    onChange={onChange}
-                    disabled={disabled}
-                />
-                <span
-                    className={cn(
-                        'relative flex items-center justify-center border-[1.75px] border-outline rounded-full peer-checked:border-primary peer-disabled:opacity-50 peer-disabled:pointer-events-none',
-                        radioSize
-                    )}
-                >
-                    {(checked || defaultChecked) && (
-                        <span className="w-[60%] h-[60%] bg-primary rounded-full" />
-                    )}
-                </span>
-                {label && <span className={`text-onSurface mr-4 peer-disabled:opacity-50`}>{label}</span>}
+            <input
+                type="radio"
+                name={name}
+                value={value}
+                className="peer absolute opacity-0"
+                checked={checked}
+                defaultChecked={defaultChecked}
+                onChange={onChange}
+                disabled={disabled}
+            />
+            <span
+                className={cn(
+                    'relative flex items-center justify-center border-[1.75px] border-outline rounded-full peer-checked:border-primary peer-disabled:opacity-50 peer-disabled:pointer-events-none',
+                    radioSize
+                )}
+            >
+                {(checked || defaultChecked) && (
+                    <span className="w-[60%] h-[60%] bg-primary rounded-full" />
+                )}
             </span>
-            {suffixText && <span className="text-outlineVariant">{suffixText}</span>}
+            {label && <span className={`text-onSurface mr-4 peer-disabled:opacity-50`}>{label}</span>}
         </label>
     );
 }
 
-export function RadioGroup({
+export default function RadioGroup({
     name,
     direction = 'column',
     radioButtons

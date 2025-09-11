@@ -29,7 +29,7 @@ export default function Button({
     return <button className={cn(buttonVariants({ variant, shape, size, fullWidth, disabled }))} type={type} onClick={onClick} onMouseDown={onMouseDown}>{startIcon && <Icon size='xsmall' color='text' {...startIcon} />}{typeof content === 'string' ? content : <Icon size='xsmall' color="primary" {...content} />}{endIcon && <Icon size='xsmall' color='text' {...endIcon} />}</button>;
 }
 
-const buttonVariants = cva('inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors delay-100 duration-200 ease-in-out cursor-pointer', {
+const buttonVariants = cva('inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors delay-100 duration-200 ease-in-out', {
     variants: {
         variant: {
             primary: 'bg-primary text-surface inset-shadow-sm',

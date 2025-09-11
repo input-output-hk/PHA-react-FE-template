@@ -150,16 +150,15 @@ export default function Dropdown({
           <div className="max-h-60 overflow-y-auto p-2">
             <ul className="pl-[10px] pr-[30px] flex flex-col gap-2">
             {options.map((opt, idx) =>
-                <li key={idx} className="py-1 w-full cursor-pointer" onClick={() => !multi && !radio ? handleSelect(opt) : null}>
+                <li key={idx} className="py-1 w-full flex justify-between" onClick={() => !multi && !radio ? handleSelect(opt) : null}>
+                  <span className="flex items-center gap-2 mr-4">
                     {multi ? (
                         <Checkbox
                           label={opt.label}
-                          value={opt.value}
                           disabled={opt.disabled}
                           checked={selected.includes(opt.value)}
                           defaultChecked={opt.defaultChecked}
                           onChange={() => handleSelect(opt)}
-                          suffixText={opt.suffixText}
                           />
                     ) : ( 
                       radio ? (
@@ -171,13 +170,14 @@ export default function Dropdown({
                             checked={selected.includes(opt.value)}
                             defaultChecked={opt.defaultChecked}
                             onChange={() => handleSelect(opt)}
-                            suffixText={opt.suffixText}
                             />
                         </>
                       ) : (<>
                         <span>{opt.label}</span>
                       </>)
                     )}
+                  </span>
+                  {opt.suffixText && <span className="text-outlineVariant">{opt.suffixText}</span>}
                 </li>
             )}
             </ul>

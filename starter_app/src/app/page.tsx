@@ -3,7 +3,7 @@
 import Icon from './components/Icon';
 import Button from './components/Button';
 import Checkbox from './components/Checkbox';
-import {RadioGroup} from './components/RadioGroup';
+import RadioGroup from './components/RadioGroup';
 import ControlledTextField from './components/ControlledTextfield';
 import UncontrolledTextField from './components/UncontrolledTextfield';
 import Chip from './components/Chip';
@@ -38,9 +38,9 @@ export default function Home() {
           <Button variant="outlined" content="Click Me" fullWidth/>
           <Button variant="primary" shape="pill" content="Click Me" disabled endIcon={{ svg: <Bolt /> }} />
           <Button variant="icon" content={{ svg: <Bolt /> }} />
-          <Checkbox label='Checkbox Label Small' value="smallCheckbox" size='small'/>
-          <Checkbox label='Checkbox Label Medium' value="mediumCheckbox" size='medium'/>
-          <Checkbox label='Checkbox Label Disabled' value="disabledCheckbox" disabled />
+          <Checkbox label='Checkbox Label Small' size='small'/>
+          <Checkbox label='Checkbox Label Medium' size='medium'/>
+          <Checkbox label='Checkbox Label Disabled' disabled />
 
           <Dropdown label="Filter" startIcon={{ svg: <Bolt /> }} options={dropdownOptions} multi={true} onChange={(changes) => onDropdownChange(changes)}/>
           <Dropdown label="Choice" startIcon={{ svg: <Bolt /> }} options={dropdownOptions} multi={false} radio={true} onChange={(changes) => onDropdownChange(changes)}/>
