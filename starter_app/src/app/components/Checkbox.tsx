@@ -6,29 +6,27 @@ import { CheckIcon } from '@heroicons/react/24/solid';
 
 interface CheckboxProps {
     label?: string;
-    checked?: boolean;
     defaultChecked?: boolean;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     disabled?: boolean;
     size?: 'small' | 'medium';
+    value?: string;
+    name?: string;
 }
 
 export default function Checkbox({
     label,
-    checked,
     defaultChecked = false,
     onChange,
     disabled,
-    size
+    size,
+    value,
+    name,
 }: CheckboxProps) {
-    const isControlled = checked !== undefined;
-    const [internalChecked, setInternalChecked] = React.useState(defaultChecked);
-    const isChecked = isControlled ? checked : internalChecked;
+    const [checked, setInternalChecked] = React.useState(defaultChecked);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (!isControlled) {
-            setInternalChecked(event.target.checked);
-        }
+        setInternalChecked(event.target.checked);
         onChange?.(event);
     };
 
@@ -36,18 +34,20 @@ export default function Checkbox({
 
     return (
         <label className="flex items-center gap-2">
-            <input 
-                type="checkbox" 
-                className="peer absolute opacity-0 " 
-                {...(isControlled ? { checked: isChecked } : { defaultChecked })} 
-                onChange={handleChange} 
-                disabled={disabled} 
+            <input
+                type="checkbox"
+                className="peer absolute opacity-0 "
+                checked={checked}
+                onChange={handleChange}
+                disabled={disabled}
+                value={value}
+                name={name}
             />
             <span className={cn(
                     'relative flex items-center justify-center border-[1.75px] border-outline rounded-xs peer-checked:bg-primary peer-checked:border-none peer-disabled:opacity-50 peer-disabled:pointer-events-none',
                     checkboxSize
                 )}>
-                {isChecked && (
+                {checked && (
                     <Icon
                         svg={<CheckIcon />}
                         size={size === 'small' ? 'xsmall' : 'small'}
