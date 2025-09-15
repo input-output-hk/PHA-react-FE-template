@@ -11,6 +11,8 @@ interface CheckboxProps {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     disabled?: boolean;
     size?: 'small' | 'medium';
+    value?: string;
+    name?: string;
 }
 
 export default function Checkbox({
@@ -19,7 +21,9 @@ export default function Checkbox({
     defaultChecked = false,
     onChange,
     disabled,
-    size
+    size,
+    value,
+    name
 }: CheckboxProps) {
     const isControlled = checked !== undefined;
     const [internalChecked, setInternalChecked] = React.useState(defaultChecked);
@@ -38,6 +42,8 @@ export default function Checkbox({
         <label className="flex items-center gap-2">
             <input 
                 type="checkbox" 
+                value={value}
+                name={name}
                 className="peer absolute opacity-0 " 
                 {...(isControlled ? { checked: isChecked } : { defaultChecked })} 
                 onChange={handleChange} 
