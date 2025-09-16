@@ -38,7 +38,7 @@ export default function Home() {
           <Button variant="outlined" content="Click Me" fullWidth/>
           <Button variant="primary" shape="pill" content="Click Me" disabled endIcon={{ svg: <Bolt /> }} />
           <Button variant="icon" content={{ svg: <Bolt /> }} />
-          <Checkbox label='Checkbox Label Small' size='small'/>
+          <Checkbox label='Checkbox Label Small' size='small'defaultChecked={true} />
           <Checkbox label='Checkbox Label Medium' size='medium'/>
           <Checkbox label='Checkbox Label Disabled' disabled />
 
@@ -50,17 +50,19 @@ export default function Home() {
         <div className='flex flex-col gap-4 items-start ml-10'>
           <RadioGroup
             name="smallGroupExample"
+            defaultChecked="1"
             radioButtons={[
-              { value: "1", label: "Option 1", defaultChecked: true },
-              { value: "2", label: "Option 2", disabled: true },
-              { value: "3", label: "Option 3" },
+              { value: "1", label: "Option 1" },
+              { value: "2", label: "Option 2" },
+              { value: "3", label: "Option 3", disabled: true },
             ]}
           />
           <RadioGroup
             name="mediumGroupExample"
+            defaultChecked='3'
             direction="row"
             radioButtons={[
-              { value: "1", label: "Option 1", size: "medium", defaultChecked: true },
+              { value: "1", label: "Option 1", size: "medium" },
               { value: "2", label: "Option 2", size: "medium" },
               { value: "3", label: "Option 3", size: "medium" },
             ]}
