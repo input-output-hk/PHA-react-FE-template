@@ -43,7 +43,7 @@ export default function Home() {
           <Checkbox label='Checkbox Label Disabled' disabled />
 
           <Dropdown label="Filter" startIcon={{ svg: <Bolt /> }} options={dropdownOptions} multi={true} onChange={(changes) => onDropdownChange(changes)}/>
-          <Dropdown label="Choice" startIcon={{ svg: <Bolt /> }} options={dropdownOptions} multi={false} radio={true} onChange={(changes) => onDropdownChange(changes)}/>
+          <Dropdown label="Sort" startIcon={{ svg: <Bolt /> }} options={dropdownOptions} multi={false} radio={true} onChange={(changes) => onDropdownChange(changes)}/>
 
 
         </div>

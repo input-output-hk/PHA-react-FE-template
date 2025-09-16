@@ -38,7 +38,7 @@ const buttonVariants = cva('inline-flex items-center justify-center gap-2 whites
             text: 'bg-transparent text-primary',
             icon: 'p-2 text-sm bg-primary/10',
             embedded: 'text-sm',
-            inherit: ''
+            inherit: 'bg-inherit text-inherit'
         },
         shape: {
             pill: 'rounded-full',
@@ -83,11 +83,6 @@ const buttonVariants = cva('inline-flex items-center justify-center gap-2 whites
             variant: 'icon',
             disabled: false,
             className: 'hover:bg-primary/15 active:bg-primary/20',
-        },
-        {
-            variant: 'inherit',
-            disabled: false,
-            className: ''
         }
     ]
 });

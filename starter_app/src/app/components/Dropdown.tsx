@@ -1,24 +1,11 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
 import { useFloating, offset, flip, shift, autoUpdate, useDismiss, useInteractions } from "@floating-ui/react";
-import { cva, type VariantProps } from 'class-variance-authority';
-import cn from '../utils/styleUtil';
 import Button from './Button';
 import Checkbox from './Checkbox';
 import {RadioButton} from './RadioGroup';
 import {IconProps} from './Icon';
 
-const dropdownVariants = cva('relative inline-block text-left w-full', {
-  variants: {
-    size: {
-      small: 'text-sm',
-      medium: 'text-base',
-    },
-  },
-  defaultVariants: {
-    size: 'small',
-  },
-});
 
 interface Option {
   label: string;
@@ -28,7 +15,7 @@ interface Option {
   suffixText?: string;
 }
 
-export interface DropdownProps extends VariantProps<typeof dropdownVariants> {
+export interface DropdownProps {
   options: Option[];
   multi?: boolean;
   radio?: boolean;
@@ -47,7 +34,6 @@ export default function Dropdown({
   endIcon,
   onChange
 }: DropdownProps) {
-  const size = "medium";
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<string[]>([]);
 
@@ -78,7 +64,6 @@ export default function Dropdown({
     } else {
       setSelected([value]);
       onChange?.(value);
-      setOpen(false);
     }
   };
 
@@ -91,11 +76,11 @@ export default function Dropdown({
       }
       setOpen(false)
     };
-    document.addEventListener("click", listener, true);
+    document.addEventListener("mousedown", listener, true);
     return () => {
-      document.removeEventListener("click", listener, true);
+      document.removeEventListener("mousedown", listener, true);
     };
-  });
+  }, []);
 
   const handleClearAll = () => {
     setSelected([]);
@@ -127,17 +112,16 @@ export default function Dropdown({
     : label;
     
   return (
-    <div className={cn(dropdownVariants({ size }))}>
+    <div className="relative" ref={dropdownRef}>
       <span ref={refs.setReference}>
         <Button
           variant="primary"
-          size={size}
+          size="medium"
           onClick={toggleOpen}
           content={buttonLabel}
           startIcon={startIcon}
           endIcon={endIcon}
-        >
-        </Button>
+        />
       </span>
 
       {open && (
@@ -145,13 +129,13 @@ export default function Dropdown({
           ref={refs.setFloating}
           style={floatingStyles}
           {...getFloatingProps()}
-          className="absolute mt-1 w-fit border border-none bg-container text-onSurface rounded-md shadow-lg z-10">
+          className="absolute mt-1 w-max bg-container text-onSurface rounded-md shadow-lg z-10">
           
           <div className="max-h-60 overflow-y-auto p-2">
-            <ul className="pl-[10px] pr-[30px] flex flex-col gap-2">
-            {options.map((opt, idx) =>
-                <li key={idx} className="py-1 w-full flex justify-between" onClick={() => !multi && !radio ? handleSelect(opt) : null}>
-                  <span className="flex items-center gap-2 mr-4">
+            <ul className="pl-[10px] pr-[10px] flex flex-col gap-2">
+            {options.map((opt) =>
+                <li key={opt.value} className="py-1 flex justify-between" onClick={() => !multi && !radio ? handleSelect(opt) : null}>
+                  <span className="mr-4">
                     {multi ? (
                         <Checkbox
                           label={opt.label}
@@ -173,7 +157,7 @@ export default function Dropdown({
                             />
                         </>
                       ) : (<>
-                        <span>{opt.label}</span>
+                        {opt.label}
                       </>)
                     )}
                   </span>
@@ -184,7 +168,7 @@ export default function Dropdown({
 
             {(multi && (selected.length !== 0)) && (
               <>
-                <hr className="border-outline mt-[10px] mx-0 mb-[5px]" />
+                <hr className="border-outline mt-[15px] mx-0 mb-[5px]" />
                 <Button variant="inherit" content="Clear All" onClick={handleClearAll} fullWidth />
               </>
             )}

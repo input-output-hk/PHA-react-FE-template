@@ -32,7 +32,7 @@ export function RadioButton({
     const radioSize = size === 'small' ? 'w-[15px] h-[15px]' : 'w-[18px] h-[18px]';
 
     return (
-        <label className="flex items-center gap-2 justify-between">
+        <label className="flex items-center gap-2">
             <input
                 type="radio"
                 name={name}
