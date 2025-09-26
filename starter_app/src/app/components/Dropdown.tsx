@@ -17,9 +17,8 @@ interface Option {
 
 export interface DropdownProps {
   options: Option[];
-  multi?: boolean;
-  radio?: boolean;
-  label: string;
+  type?: "checkbox" | "radio" | "menuItem";
+  btnLabel: string;
   startIcon?: IconProps;
   endIcon?: IconProps;
   onChange?: (selected: string[] | string | null) => void;
@@ -27,14 +26,15 @@ export interface DropdownProps {
 
 export default function Dropdown({
   options,
-  multi = false,
-  radio = false,
-  label,
+  type = "menuItem",
+  btnLabel,
   startIcon,
   endIcon,
   onChange
 }: DropdownProps) {
   const [open, setOpen] = useState(false);
+  const openRef = useRef<boolean>(false);
+  const [isCheckbox, setIsCheckbox] = useState(false);
   const [selected, setSelected] = useState<string[]>([]);
 
   // Floating UI
@@ -47,15 +47,13 @@ export default function Dropdown({
     strategy: "fixed"
   });
 
-  const toggleOpen = () => setOpen((prev) => !prev);
-
   // Attach dismiss (outside click + escape)
   const dismiss = useDismiss(context);
   const { getFloatingProps } = useInteractions([dismiss]);
 
   const handleSelect = (opt: Option) => {
-    const value = opt.value
-    if (multi) {
+    const value = opt.value;
+    if (isCheckbox) {
       const newSelected = selected.includes(value)
         ? selected.filter((v) => v !== value)
         : [...selected, value];
@@ -69,31 +67,44 @@ export default function Dropdown({
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // keep ref in sync with state
+  useEffect(() => {
+    openRef.current = open;
+  }, [open]);
+
   useEffect(() => {
     const listener = (event: MouseEvent) => {
-      if (!dropdownRef.current || dropdownRef.current.contains(event.target as Node)) {
+      // !openRef.current - act if dropdown is currently open
+      // ignore clicks inside the dropdown
+      if (!openRef.current || dropdownRef.current?.contains(event.target as Node)) {
         return;
       }
+
+      // clicked outside and dropdown open -> close it
       setOpen(false)
     };
     document.addEventListener("mousedown", listener, true);
     return () => {
       document.removeEventListener("mousedown", listener, true);
     };
-  }, []);
+  }, []); // attach exactly once
+
+  useEffect(() => {
+    setIsCheckbox(type === "checkbox")
+  }, [type]);
 
   const handleClearAll = () => {
     setSelected([]);
     onChange?.([]);
   };
 
-  const allSelected = multi && selected.length === options.length;
+  const allSelected = isCheckbox && selected.length === options.length;
   const noneSelected = selected.length === 0;
 
   // --- Button Label Logic ---
-  const selectedOptionLabel = options.find((o) => o.value === selected[0])?.label ?? label
+  const selectedOptionLabel = options.find((o) => o.value === selected[0])?.label ?? btnLabel
   let selectionText: string;
-  if (multi) {
+  if (isCheckbox) {
     if (allSelected) {
       selectionText = 'All';
     } else if (noneSelected) {
@@ -108,16 +119,15 @@ export default function Dropdown({
   }
 
   const buttonLabel = selectionText.length
-    ? `${label}: ${selectionText}`
-    : label;
+    ? `${btnLabel}: ${selectionText}`
+    : btnLabel;
     
   return (
     <div className="relative" ref={dropdownRef}>
       <span ref={refs.setReference}>
         <Button
           variant="primary"
-          size="medium"
-          onClick={toggleOpen}
+          onClick={(prev) => setOpen(!prev)}
           content={buttonLabel}
           startIcon={startIcon}
           endIcon={endIcon}
@@ -129,33 +139,29 @@ export default function Dropdown({
           ref={refs.setFloating}
           style={floatingStyles}
           {...getFloatingProps()}
-          className="absolute mt-1 w-max bg-container text-onSurface rounded-md shadow-lg z-10">
+          className="absolute mt-1 w-max bg-container text-onSurface rounded-md shadow-lg z-1">
           
           <div className="max-h-60 overflow-y-auto p-2">
             <ul className="pl-[10px] pr-[10px] flex flex-col gap-2">
             {options.map((opt) =>
-                <li key={opt.value} className="py-1 flex justify-between" onClick={() => !multi && !radio ? handleSelect(opt) : null}>
+                <li key={opt.value} className="py-1 flex justify-between" onClick={() => (type === "menuItem") ? handleSelect(opt) : null}>
                   <span className="mr-4">
-                    {multi ? (
+                    {isCheckbox ? (
                         <Checkbox
                           label={opt.label}
                           disabled={opt.disabled}
-                          checked={selected.includes(opt.value)}
                           defaultChecked={opt.defaultChecked}
                           onChange={() => handleSelect(opt)}
                           />
                     ) : ( 
-                      radio ? (
-                        <>
-                          <RadioButton
-                            label={opt.label}
-                            value={opt.value}
-                            disabled={opt.disabled}
-                            checked={selected.includes(opt.value)}
-                            defaultChecked={opt.defaultChecked}
-                            onChange={() => handleSelect(opt)}
-                            />
-                        </>
+                      type === "radio" ? (
+                        <RadioButton
+                          label={opt.label}
+                          value={opt.value}
+                          disabled={opt.disabled}
+                          checked={selected.includes(opt.value)}
+                          onChange={() => handleSelect(opt)}
+                          />
                       ) : (<>
                         {opt.label}
                       </>)
@@ -166,7 +172,7 @@ export default function Dropdown({
             )}
             </ul>
 
-            {(multi && (selected.length !== 0)) && (
+            {(isCheckbox && (selected.length !== 0)) && (
               <>
                 <hr className="border-outline mt-[15px] mx-0 mb-[5px]" />
                 <Button variant="inherit" content="Clear All" onClick={handleClearAll} fullWidth />
