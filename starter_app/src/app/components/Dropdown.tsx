@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-import { useFloating, offset, flip, shift, autoUpdate, useDismiss, useInteractions } from "@floating-ui/react";
 import Button from './Button';
 import Checkbox from './Checkbox';
 import {RadioButton} from './RadioGroup';
@@ -22,6 +21,7 @@ export interface DropdownProps {
   startIcon?: IconProps;
   endIcon?: IconProps;
   onChange?: (selected: string[] | string | null) => void;
+  position?: 'left' | 'right';
 }
 
 export default function Dropdown({
@@ -30,26 +30,13 @@ export default function Dropdown({
   btnLabel,
   startIcon,
   endIcon,
+  position = 'left',
   onChange
 }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const openRef = useRef<boolean>(false);
   const [isCheckbox, setIsCheckbox] = useState(false);
   const [selected, setSelected] = useState<string[]>([]);
-
-  // Floating UI
-  const { refs, floatingStyles, context } = useFloating({
-    placement: "bottom-start",
-    middleware: [offset(6), flip(), shift()],
-    open,
-    onOpenChange: setOpen,   // Floating UI will control open state
-    whileElementsMounted: autoUpdate, // auto reposition on resize/scroll
-    strategy: "fixed"
-  });
-
-  // Attach dismiss (outside click + escape)
-  const dismiss = useDismiss(context);
-  const { getFloatingProps } = useInteractions([dismiss]);
 
   const handleSelect = (opt: Option) => {
     const value = opt.value;
@@ -124,22 +111,17 @@ export default function Dropdown({
     
   return (
     <div className="relative" ref={dropdownRef}>
-      <span ref={refs.setReference}>
-        <Button
-          variant="primary"
-          onClick={(prev) => setOpen(!prev)}
-          content={buttonLabel}
-          startIcon={startIcon}
-          endIcon={endIcon}
-        />
-      </span>
+      <Button
+        variant="primary"
+        onClick={() => setOpen((prev) =>  !prev)}
+        content={buttonLabel}
+        startIcon={startIcon}
+        endIcon={endIcon}
+      />
 
       {open && (
         <div 
-          ref={refs.setFloating}
-          style={floatingStyles}
-          {...getFloatingProps()}
-          className="absolute mt-1 w-max bg-container text-onSurface rounded-md shadow-lg z-1">
+          className={`absolute mt-1 w-max bg-container text-onSurface rounded-md shadow-lg z-1 ${position === 'right' && 'right-0'}`}>
           
           <div className="max-h-60 overflow-y-auto p-2">
             <ul className="pl-[10px] pr-[10px] flex flex-col gap-2">
@@ -149,6 +131,8 @@ export default function Dropdown({
                     {isCheckbox ? (
                         <Checkbox
                           label={opt.label}
+                          value={opt.value}
+                          // checked={selected.includes(opt.value)}
                           disabled={opt.disabled}
                           defaultChecked={opt.defaultChecked}
                           onChange={() => handleSelect(opt)}
