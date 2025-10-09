@@ -1,15 +1,12 @@
 'use client';
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import cn from '../utils/styleUtil';
 import {cva, type VariantProps} from 'class-variance-authority';
 import Icon, {IconProps} from './Icon';
-interface ButtonProps extends VariantProps<typeof buttonVariants> {
+interface ButtonProps extends Omit<ComponentProps<'button'>, 'content'>, VariantProps<typeof buttonVariants> {
     content: string | IconProps;
     startIcon?: IconProps;
     endIcon?: IconProps;
-    type?: 'button' | 'submit' | 'reset';
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
-    onMouseDown?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function Button({
@@ -20,24 +17,22 @@ export default function Button({
     shape = 'rounded',
     size = 'medium',
     fullWidth = false,
-    disabled = false,
-    type = 'button',
-    onClick,
-    onMouseDown
+    ...ButtonProps
 }: ButtonProps) {
 
-    return <button className={cn(buttonVariants({ variant, shape, size, fullWidth, disabled }))} type={type} onClick={onClick} onMouseDown={onMouseDown}>{startIcon && <Icon size='xsmall' color='text' {...startIcon} />}{typeof content === 'string' ? content : <Icon size='xsmall' color="primary" {...content} />}{endIcon && <Icon size='xsmall' color='text' {...endIcon} />}</button>;
+    return <button className={cn(buttonVariants({ variant, shape, size, fullWidth }))} {...ButtonProps}>{startIcon && <Icon size='xsmall' color='text' {...startIcon} />}{typeof content === 'string' ? content : <Icon size='xsmall' color="primary" {...content} />}{endIcon && <Icon size='xsmall' color='text' {...endIcon} />}</button>;
 }
 
-const buttonVariants = cva('inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors delay-100 duration-200 ease-in-out', {
+const buttonVariants = cva('inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors delay-100 duration-200 ease-in-out disabled:opacity-50 disabled:pointer-events-none', {
     variants: {
         variant: {
-            primary: 'bg-primary text-surface inset-shadow-sm',
-            secondary: 'bg-secondary text-surface',
-            outlined: 'bg-transparent border border-primary text-primary',
-            text: 'bg-transparent text-primary',
-            icon: 'p-2 text-sm bg-primary/10',
+            primary: 'bg-primary text-surface inset-shadow-sm hover:shadow-contained-btn hover:bg-primary/80 active:bg-primary/70',
+            secondary: 'bg-secondary text-surface hover:bg-secondary/80 active:bg-secondary/70',
+            outlined: 'bg-transparent border border-primary text-primary hover:bg-primary/10 active:bg-primary/15',
+            text: 'bg-transparent text-primary hover:bg-primary/10 active:bg-primary/15',
+            icon: 'text-sm bg-primary/10 hover:bg-primary/15 active:bg-primary/20',
             embedded: 'text-sm',
+            inherit: 'bg-inherit text-inherit',
         },
         shape: {
             pill: 'rounded-full',
@@ -53,35 +48,5 @@ const buttonVariants = cva('inline-flex items-center justify-center gap-2 whites
         fullWidth: {
             true: 'w-full',
         },
-        disabled: {
-            true: ['opacity-50', 'pointer-events-none'],
-        },
     },
-    compoundVariants: [
-        {
-            variant: 'primary',
-            disabled: false,
-            className: 'hover:shadow-contained-btn hover:bg-primary/80 active:bg-primary/70',
-        },
-        {
-            variant: 'secondary',
-            disabled: false,
-            className: 'hover:bg-secondary/80 active:bg-secondary/70',
-        },
-        {
-            variant: 'outlined',
-            disabled: false,
-            className: 'hover:bg-primary/10 active:bg-primary/15',
-        },
-        {
-            variant: 'text',
-            disabled: false,
-            className: 'hover:bg-primary/10 active:bg-primary/15',
-        },
-        {
-            variant: 'icon',
-            disabled: false,
-            className: 'hover:bg-primary/15 active:bg-primary/20',
-        }
-    ]
 });

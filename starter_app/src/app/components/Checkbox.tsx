@@ -1,32 +1,38 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect, ComponentProps, ChangeEvent } from 'react';
 import Icon from './Icon';
 import cn from '../utils/styleUtil';
 import { CheckIcon } from '@heroicons/react/24/solid';
 
-interface CheckboxProps {
+interface CheckboxProps extends Omit<ComponentProps<'input'>, 'size'> {
     label?: string;
+    checked?: boolean;
     defaultChecked?: boolean;
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    disabled?: boolean;
+    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
     size?: 'small' | 'medium';
-    value?: string;
-    name?: string;
 }
 
 export default function Checkbox({
     label,
+    checked,
     defaultChecked = false,
     onChange,
-    disabled,
     size,
-    value,
-    name,
+    ...props
 }: CheckboxProps) {
-    const [checked, setInternalChecked] = React.useState(defaultChecked);
+    const isControlledByParent = checked !== undefined;
+    const [internalChecked, setInternalChecked] = useState(defaultChecked);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInternalChecked(event.target.checked);
+    useEffect(() => {
+        if (isControlledByParent) {
+            setInternalChecked(checked);
+        }
+    }, [checked, isControlledByParent]);
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!isControlledByParent) {
+            setInternalChecked(event.target.checked);
+        }
         onChange?.(event);
     };
 
@@ -37,17 +43,15 @@ export default function Checkbox({
             <input
                 type="checkbox"
                 className="peer absolute opacity-0 "
-                checked={checked}
+                checked={internalChecked}
                 onChange={handleChange}
-                disabled={disabled}
-                value={value}
-                name={name}
+                {...props}
             />
             <span className={cn(
                     'relative flex items-center justify-center border-[1.75px] border-outline rounded-xs peer-checked:bg-primary peer-checked:border-none peer-disabled:opacity-50 peer-disabled:pointer-events-none',
                     checkboxSize
                 )}>
-                {checked && (
+                {internalChecked && (
                     <Icon
                         svg={<CheckIcon />}
                         size={size === 'small' ? 'xsmall' : 'small'}

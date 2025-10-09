@@ -1,3 +1,5 @@
+'use client';
+import { useState } from 'react';
 import Icon from './components/Icon';
 import Button from './components/Button';
 import Checkbox from './components/Checkbox';
@@ -7,10 +9,22 @@ import UncontrolledTextField from './components/UncontrolledTextfield';
 import Chip from './components/Chip';
 import SearchBar from './components/SearchBox';
 import Tabs from './components/Tabs';
+import Dropdown from './components/DropdownMenu';
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
 import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
+import { FunnelIcon as Filter } from '@heroicons/react/24/solid';
+import { ArrowsUpDownIcon as Sort } from '@heroicons/react/24/solid';
+
+const dropdownOptions = [
+    { itemLabel: 'Option 1', value: 'option1', suffixText: '34' },
+    { itemLabel: 'Option 2', value: 'option2', suffixText: '34' },
+    { itemLabel: 'Option 3', value: 'option3', suffixText: '34' },
+  ]
 
 export default function Home() {
+  const [sortValue, setSortValue] = useState('option1');
+  const [filterValues, setFilterValues] = useState<string[]>(['option2']); 
+
   return (
     <div className="font-[family-name:var(--font-geist-sans)] bg-surface flex h-dvh">
       <main className="grow flex p-8">
@@ -24,7 +38,7 @@ export default function Home() {
           <Button variant="outlined" content="Click Me" fullWidth/>
           <Button variant="primary" shape="pill" content="Click Me" disabled endIcon={{ svg: <Bolt /> }} />
           <Button variant="icon" content={{ svg: <Bolt /> }} />
-          <Checkbox label='Checkbox Label Small' size='small'defaultChecked={true} />
+          <Checkbox label='Checkbox Label Small' size='small' defaultChecked={true} />
           <Checkbox label='Checkbox Label Medium' size='medium'/>
           <Checkbox label='Checkbox Label Disabled' disabled />
         </div>
@@ -35,7 +49,7 @@ export default function Home() {
             radioButtons={[
               { value: "1", label: "Option 1" },
               { value: "2", label: "Option 2" },
-              { value: "3", label: "Option 3", disabled: true },
+              { value: "3", label: "Option 3", disabled: true},
             ]}
           />
           <RadioGroup
@@ -86,7 +100,9 @@ export default function Home() {
         <div className='flex flex-col gap-4 items-start ml-10'>
           <Chip label="Outline Chip" variant="outlined" deleteIcon startIcon={{svg: <Bolt />}} />
           <Chip label="Filled Chip" variant="filled" deleteIcon startIcon={{svg: <Bolt />}} />
-          <SearchBar />
+          <SearchBar 
+            handleClear={() => ''}
+          />
           <Tabs
             tabs={[
               { label: 'Tab 1' },
@@ -95,7 +111,6 @@ export default function Home() {
               { label: 'Tab 4' },
             ]}
           />
-
           <Tabs
             variant="filled"
             tabs={[
@@ -105,6 +120,21 @@ export default function Home() {
               { label: 'Tab 4', icon: <Bolt /> },
             ]}
           />
+          <Dropdown 
+            btnLabel="Filter" 
+            btnIcon={{ svg: <Filter /> }} 
+            listItems={dropdownOptions} 
+            type='checkbox' 
+            selected={filterValues}
+            onChange={(val) => setFilterValues(val as string[])} 
+        />
+        <Dropdown 
+            btnLabel="Sort" 
+            btnIcon={{ svg: <Sort /> }} listItems={dropdownOptions} 
+            type='radio' 
+            selected={sortValue}
+            onChange={(val) => setSortValue(val as string)}
+        />
         </div>
       </main>
       </div>

@@ -1,9 +1,9 @@
 'use client';
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import cn from '../utils/styleUtil';
 import { cva, type VariantProps } from 'class-variance-authority';
 
-export interface IconProps extends VariantProps<typeof iconVariants> {
+export interface IconProps extends Omit<ComponentProps<'svg'>, 'color'>, VariantProps<typeof iconVariants> {
   svg: React.ReactElement<React.SVGProps<SVGSVGElement>>;
   mode?: 'fill' | 'stroke' | 'both';
   strokeWidth?: number;
