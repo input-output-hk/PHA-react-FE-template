@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Button from './Button';
 import Checkbox from './Checkbox';
 import {RadioButton} from './RadioGroup';
-import {IconProps} from './Icon';
+import type {IconProps} from './Icon';
 
 interface ListItem {
   itemLabel: string;

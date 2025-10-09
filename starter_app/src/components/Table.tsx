@@ -1,5 +1,6 @@
 'use client';
-import React, {ComponentProps} from 'react';
+import React from 'react';
+import type {ComponentProps} from 'react';
 import cn from '../utils/styleUtil';
 
 export function TableContainer({ ...props}: ComponentProps<'div'>) {

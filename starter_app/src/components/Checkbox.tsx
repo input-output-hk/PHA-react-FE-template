@@ -1,5 +1,6 @@
 'use client';
-import React, { useState, useEffect, ComponentProps, ChangeEvent } from 'react';
+import React, { useState, useEffect } from 'react';
+import type { ComponentProps, ChangeEvent } from 'react';
 import Icon from './Icon';
 import cn from '../utils/styleUtil';
 import { CheckIcon } from '@heroicons/react/24/solid';

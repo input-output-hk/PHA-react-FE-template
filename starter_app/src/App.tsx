@@ -21,7 +21,7 @@ const dropdownOptions = [
     { itemLabel: 'Option 3', value: 'option3', suffixText: '34' },
   ]
 
-export default function Home() {
+export default function App() {
   const [sortValue, setSortValue] = useState('option1');
   const [filterValues, setFilterValues] = useState<string[]>(['option2']); 
 

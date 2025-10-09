@@ -1,8 +1,11 @@
 'use client';
-import React, { ComponentProps } from 'react';
+import React from 'react';
+import type { ComponentProps } from 'react';
 import cn from '../utils/styleUtil';
 import {cva, type VariantProps} from 'class-variance-authority';
-import Icon, {IconProps} from './Icon';
+import Icon from './Icon';
+import type {IconProps} from './Icon';
+
 interface ButtonProps extends Omit<ComponentProps<'button'>, 'content'>, VariantProps<typeof buttonVariants> {
     content: string | IconProps;
     startIcon?: IconProps;

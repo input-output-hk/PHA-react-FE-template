@@ -1,5 +1,6 @@
 'use client';
-import React, { useState, ComponentProps } from 'react';
+import React, { useState } from 'react';
+import type { ComponentProps } from 'react';
 import cn from '../utils/styleUtil';
 
 interface RadioButtonProps extends Omit<ComponentProps<'input'>, 'size'> {

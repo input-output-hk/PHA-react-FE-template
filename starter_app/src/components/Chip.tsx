@@ -3,7 +3,8 @@ import React from 'react';
 import cn from '../utils/styleUtil';
 import { cva, type VariantProps } from 'class-variance-authority';
 import Button from './Button';
-import Icon, { IconProps } from './Icon';
+import Icon from './Icon';
+import type { IconProps } from './Icon';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 
 interface ChipProps extends VariantProps<typeof chipVariants> {
