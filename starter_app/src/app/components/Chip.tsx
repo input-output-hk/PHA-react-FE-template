@@ -44,7 +44,7 @@ export default function Chip({
     );
 }
 
-const chipVariants = cva('inline-flex items-center justify-center rounded-md text-xs font-medium whitespace-nowrap p-2 text-onVariant/90 hover:text-onSurface focus-within:ring-1 focus-within:ring-primary', {
+const chipVariants = cva('inline-flex items-center justify-center rounded-md text-xs font-medium whitespace-nowrap p-2 text-onVariant/90 hover:text-onSurface focus-within:ring-1 focus-within:ring-primary ml-1', {
     variants: {
         variant: {
             outlined: 'border border-outline-variant bg-containerLow hover:bg-container',

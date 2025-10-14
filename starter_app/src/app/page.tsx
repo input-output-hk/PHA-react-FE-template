@@ -10,6 +10,8 @@ import Chip from './components/Chip';
 import SearchBar from './components/SearchBox';
 import Tabs from './components/Tabs';
 import Dropdown from './components/DropdownMenu';
+import SelectBox from './components/SelectBox';
+
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
 import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
 import { FunnelIcon as Filter } from '@heroicons/react/24/solid';
@@ -21,9 +23,46 @@ const dropdownOptions = [
     { itemLabel: 'Option 3', value: 'option3', suffixText: '34' },
   ]
 
+
+const selectBoxGroupedOptions = [
+  { label: 'File 1.hs', type: 'group', children: []},
+  {
+    label: 'File 2.hs',
+    type: 'group',
+    children: [
+      { label: 'Property 1', value: 'f2prop1', status: 'passed' },
+      { label: 'Property 2', value: 'f2prop2', status: 'pending' },
+      { label: 'Property 3', value: 'f2prop3', status: 'pending' }
+    ]
+  },
+  { label: 'File 3.hs',
+    type: 'group',
+    children: [
+      { label: 'Property 1', value: 'f3prop1', status: 'failed' },
+      { label: 'Property 2', value: 'f3prop2', status: 'pending' },
+      { label: 'Property 3', value: 'f3prop3', status: 'passed' }
+    ]
+  },
+  { label: 'File 4.hs', type: 'group', children: []}
+]
+
+const flatSelectBoxOptions = [
+  { label: 'Double Satisfaction', value: 'doubleSatisfaction'},
+  { label: 'Unit Tests', value: 'unitTests'},
+  { label: 'Crash Tolerance', value: 'crashTolerance'},
+  { label: 'Large Datum Attack', value: 'largeDatumAttack'},
+]
+
 export default function Home() {
   const [sortValue, setSortValue] = useState('option1');
   const [filterValues, setFilterValues] = useState<string[]>(['option2']); 
+
+  // State for the Grouped/Multi-select demo
+  const [, setGroupedSelectBoxSelection] = useState<string[]>([]);
+  // State for the Flat/Single-select demo
+  const [, setFlatSelectBoxSelection] = useState<string[]>([]);
+  // State for the Flat/multi-select demo
+  const [, setMultipleFlatSelectBoxSelection] = useState<string[]>([]);
 
   return (
     <div className="font-[family-name:var(--font-geist-sans)] bg-surface flex h-dvh">
@@ -135,6 +174,26 @@ export default function Home() {
             selected={sortValue}
             onChange={(val) => setSortValue(val as string)}
         />
+        <SelectBox
+                options={selectBoxGroupedOptions}
+                placeholder="Select Properties"
+                search={true}
+                multiSelect={false}
+                onChange={setGroupedSelectBoxSelection}
+            />
+        <SelectBox
+              placeholder="Select Properties"
+              options={flatSelectBoxOptions}
+              multiSelect={false}
+              onChange={setFlatSelectBoxSelection}
+          />
+        <SelectBox
+              options={flatSelectBoxOptions}
+              placeholder="Select Properties"
+              multiSelect={true}
+              showAllSelected={false}
+              onChange={setMultipleFlatSelectBoxSelection}
+          />
         </div>
       </main>
       </div>
