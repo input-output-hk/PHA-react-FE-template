@@ -1,5 +1,5 @@
-"use client";
-
+'use client';
+import { useCallback, useState } from 'react';
 import Icon from './components/Icon';
 import Button from './components/Button';
 import Checkbox from './components/Checkbox';
@@ -13,17 +13,38 @@ import Dropdown from './components/Dropdown';
 
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
 import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
+import { FunnelIcon as Filter } from '@heroicons/react/24/solid';
+import { ArrowsUpDownIcon as Sort } from '@heroicons/react/24/solid';
+
+const sortDropdownOptions = [
+  { label: 'Option 1', value: 'option1', suffixText: '34', defaultChecked: true },
+  { label: 'Option 2', value: 'option2', suffixText: '34' },
+  { label: 'Option 3', value: 'option3', suffixText: '34' },
+]
+
+const filterDropdownOptions = [
+  { label: 'Option 1', value: 'option1', suffixText: '34', defaultChecked: true },
+  { label: 'Option 2', value: 'option2', suffixText: '34' },
+  { label: 'Option 3', value: 'option3', suffixText: '34', defaultChecked: true },
+]
+
+const menuDropdownOptions = [
+  { label: 'Option 1', value: 'option1'},
+  { label: 'Option 2', value: 'option2'},
+  { label: 'Option 3', value: 'option3'},
+  { label: 'Option 4', value: 'option4'}
+]
 
 export default function Home() {
-  const dropdownOptions = [
-    { label: 'Option 1asda', value: 'option1', suffixText: '34' },
-    { label: 'Option 2', value: 'option2', suffixText: '34', disabled: true },
-    { label: 'Option 3asdad asd', value: 'option3', suffixText: '34' },
-  ]
+
+  const [sortValue, setSortValue] = useState<string | null>(null);
+  const [filterValues, setFilterValues] = useState<string[]>([]); 
+  const [settingsMenuValue, setSettingsMenuValue] = useState<string | null>(null);
+
   
-  const onDropdownChange = (selected: string[] | string | null) => {
-    console.log('Selected:', selected);
-  }
+  const handleFilterChange = useCallback((val: string | string[] | null) => setFilterValues(val as string[]), [])
+  const handleSortChange = useCallback((val: string | string[] | null) => setSortValue(val as string), [])
+  const handleSettingsMenuChange = useCallback((val: string | string[] | null) => setSettingsMenuValue(val as string), [])
 
   return (
     <div className="font-[family-name:var(--font-geist-sans)] bg-surface flex h-dvh">
@@ -38,13 +59,35 @@ export default function Home() {
           <Button variant="outlined" content="Click Me" fullWidth/>
           <Button variant="primary" shape="pill" content="Click Me" disabled endIcon={{ svg: <Bolt /> }} />
           <Button variant="icon" content={{ svg: <Bolt /> }} />
-          <Checkbox label='Checkbox Label Small' size='small'defaultChecked={true} />
+          <Checkbox label='Checkbox Label Small' size='small' defaultChecked={true} />
           <Checkbox label='Checkbox Label Medium' size='medium'/>
           <Checkbox label='Checkbox Label Disabled' disabled />
 
-          <Dropdown btnLabel="Filter" startIcon={{ svg: <Bolt /> }} options={dropdownOptions} type="checkbox" onChange={(changes) => onDropdownChange(changes)}/>
-          <Dropdown btnLabel="Sort" startIcon={{ svg: <Bolt /> }} options={dropdownOptions} type="radio" onChange={(changes) => onDropdownChange(changes)}/>
+          <Dropdown 
+            btnLabel="Filter" 
+            startIcon={{ svg: <Filter /> }} 
+            options={filterDropdownOptions} 
+            type="checkbox" 
+            selected={filterValues}
+            onChange={handleFilterChange} 
+          />
+          <Dropdown 
+            btnLabel="Sort" 
+            startIcon={{ svg: <Sort /> }} 
+            options={sortDropdownOptions} 
+            type="radio" 
+            selected={sortValue}
+            onChange={handleSortChange}
+          />
 
+          <Dropdown 
+            btnLabel="Settings Menu" 
+            endIcon={{ svg: <Bolt /> }} 
+            options={menuDropdownOptions} 
+            type="menuItem" 
+            selected={settingsMenuValue}
+            onChange={handleSettingsMenuChange}
+          />
 
         </div>
         <div className='flex flex-col gap-4 items-start ml-10'>
@@ -54,7 +97,7 @@ export default function Home() {
             radioButtons={[
               { value: "1", label: "Option 1" },
               { value: "2", label: "Option 2" },
-              { value: "3", label: "Option 3", disabled: true },
+              { value: "3", label: "Option 3", disabled: true},
             ]}
           />
           <RadioGroup
@@ -105,7 +148,9 @@ export default function Home() {
         <div className='flex flex-col gap-4 items-start ml-10'>
           <Chip label="Outline Chip" variant="outlined" deleteIcon startIcon={{svg: <Bolt />}} />
           <Chip label="Filled Chip" variant="filled" deleteIcon startIcon={{svg: <Bolt />}} />
-          <SearchBar />
+          <SearchBar 
+            handleClear={() => ''}
+          />
           <Tabs
             tabs={[
               { label: 'Tab 1' },
@@ -114,7 +159,6 @@ export default function Home() {
               { label: 'Tab 4' },
             ]}
           />
-
           <Tabs
             variant="filled"
             tabs={[

@@ -95,7 +95,7 @@ export default function UncontrolledTextField({
             placeholder={placeholder}
             required={required}
             disabled={disabled}
-            className='w-full border-0 bg-transparent block outline-none text-sm text-onSurface pr-0 pl-[14px] pb-[8.5px] pt-[8.5px] placeholder:text-onSurface/50 dark:scheme-dark'
+            className='w-full border-0 bg-transparent block outline-none text-sm text-onSurface pr-0 pl-[14px] pb-[8.5px] pt-[8.5px] placeholder:text-onSurface/50'
           />
 
           <div className="flex align-middle">

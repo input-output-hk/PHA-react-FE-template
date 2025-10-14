@@ -1,15 +1,11 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, ComponentProps } from 'react';
 import cn from '../utils/styleUtil';
 
-interface RadioButtonProps {
-    name?: string;
+interface RadioButtonProps extends Omit<ComponentProps<'input'>, 'size'> {
     value: string;
     label?: string;
-    checked?: boolean;
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     size?: 'small' | 'medium';
-    disabled?: boolean;
 }
 
 interface RadioGroupProps {
@@ -21,13 +17,11 @@ interface RadioGroupProps {
 
 // When using this individual Radio Button Component you will need to manage the checked state and onChange handler in the parent component.
 export function RadioButton({
-    name,
     value,
     label,
     checked,
-    disabled = false,
-    onChange,
     size = 'small',
+    ...RadioButtonProps
 }: RadioButtonProps) {
     const radioSize = size === 'small' ? 'w-[15px] h-[15px]' : 'w-[18px] h-[18px]';
 
@@ -35,12 +29,10 @@ export function RadioButton({
         <label className="flex items-center gap-2">
         <input
             type="radio"
-            name={name}
             value={value}
             className="peer absolute opacity-0"
             checked={checked}
-            onChange={onChange}
-            disabled={disabled}
+            {...RadioButtonProps}
         />
         <span
             className={cn(
@@ -58,7 +50,6 @@ export function RadioButton({
 }
 
 export default function RadioGroup({
-    name,
     direction = 'column',
     radioButtons,
     defaultChecked,
@@ -75,13 +66,10 @@ export default function RadioGroup({
                 {radioButtons.map((button) => (
                     <RadioButton
                         key={button.value}
-                        name={name}
                         value={button.value}
                         label={button.label}
                         checked={selectedValue === button.value}
                         onChange={handleChange}
-                        size={button.size}
-                        disabled={button.disabled}
                     />
                 ))}
             </div>
