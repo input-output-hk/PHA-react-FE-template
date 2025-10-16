@@ -1,5 +1,5 @@
 'use client';
-import type { ComponentProps, ChangeEvent } from 'react';
+import type { ComponentProps } from 'react';
 import Icon from './Icon';
 import cn from '../utils/styleUtil';
 import { CheckIcon } from '@heroicons/react/24/solid';
@@ -7,7 +7,6 @@ import { CheckIcon } from '@heroicons/react/24/solid';
 interface CheckboxProps extends Omit<ComponentProps<'input'>, 'size'> {
     label?: string;
     checked?: boolean;
-    onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
     size?: 'small' | 'medium';
 }
 
