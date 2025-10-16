@@ -23,6 +23,7 @@ const dropdownOptions = [
 
 export default function Home() {
   const [checkValues, setCheckValues] = useState({smallCheck: true, mediumCheck: false, disabledCheck: false});
+  const [radioValue, setRadioValue] = useState({smallRadio: '1', mediumRadio: '3'});
   const [sortValue, setSortValue] = useState('option1');
   const [filterValues, setFilterValues] = useState<string[]>(['option2']); 
 
@@ -46,7 +47,8 @@ export default function Home() {
         <div className='flex flex-col gap-4 items-start ml-10'>
           <RadioGroup
             name="smallGroupExample"
-            defaultChecked="1"
+            selectedValue={radioValue.smallRadio}
+            onChange={(e) => setRadioValue({...radioValue, smallRadio: e.target.value})}
             radioButtons={[
               { value: "1", label: "Option 1" },
               { value: "2", label: "Option 2" },
@@ -55,8 +57,9 @@ export default function Home() {
           />
           <RadioGroup
             name="mediumGroupExample"
-            defaultChecked='3'
             direction="row"
+            selectedValue={radioValue.mediumRadio}
+            onChange={(e) => setRadioValue({...radioValue, mediumRadio: e.target.value})}
             radioButtons={[
               { value: "1", label: "Option 1", size: "medium" },
               { value: "2", label: "Option 2", size: "medium" },
