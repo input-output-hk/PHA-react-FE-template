@@ -23,7 +23,8 @@ const dropdownOptions = [
 
 export default function App() {
   const [checkValues, setCheckValues] = useState({smallCheck: true, mediumCheck: false, disabledCheck: false});
-  const [radioValue, setRadioValue] = useState({smallRadio: '1', mediumRadio: '3'});
+  const [radioValues, setRadioValue] = useState({smallRadio: '1', mediumRadio: '3'});
+  const [tabValues, setTabValues] = useState({defaultTab: 'Tab 1', iconTab: 'Tab 2'});
   const [sortValue, setSortValue] = useState('option1');
   const [filterValues, setFilterValues] = useState<string[]>(['option2']); 
 
@@ -47,8 +48,8 @@ export default function App() {
         <div className='flex flex-col gap-4 items-start ml-10'>
           <RadioGroup
             name="smallGroupExample"
-            selectedValue={radioValue.smallRadio}
-            onChange={(e) => setRadioValue({...radioValue, smallRadio: e.target.value})}
+            selectedValue={radioValues.smallRadio}
+            onChange={(e) => setRadioValue({...radioValues, smallRadio: e.target.value})}
             radioButtons={[
               { value: "1", label: "Option 1" },
               { value: "2", label: "Option 2" },
@@ -58,8 +59,8 @@ export default function App() {
           <RadioGroup
             name="mediumGroupExample"
             direction="row"
-            selectedValue={radioValue.mediumRadio}
-            onChange={(e) => setRadioValue({...radioValue, mediumRadio: e.target.value})}
+            selectedValue={radioValues.mediumRadio}
+            onChange={(e) => setRadioValue({...radioValues, mediumRadio: e.target.value})}
             radioButtons={[
               { value: "1", label: "Option 1", size: "medium" },
               { value: "2", label: "Option 2", size: "medium" },
@@ -108,6 +109,8 @@ export default function App() {
             handleClear={() => ''}
           />
           <Tabs
+            activeTab={tabValues.defaultTab}
+            onChange={(e) => setTabValues({...tabValues, defaultTab: e.target.id})}
             tabs={[
               { label: 'Tab 1' },
               { label: 'Tab 2' },
@@ -116,6 +119,9 @@ export default function App() {
             ]}
           />
           <Tabs
+            activeTab={tabValues.iconTab}
+            onChange={(e) => setTabValues({...tabValues, iconTab: e.target.id})}
+            iconVariant="stroke"
             variant="filled"
             tabs={[
               { label: 'Tab 1', icon: <Bolt /> },
