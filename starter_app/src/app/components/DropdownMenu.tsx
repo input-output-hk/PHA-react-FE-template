@@ -42,7 +42,6 @@ export default function Dropdown({
   }, [open]);
 
   useEffect(() => {
-    console.log(selected, type);
     const listener = (event: MouseEvent) => {
         if (!openRef.current || dropdownRef.current?.contains(event.target as Node)) {
         return;
