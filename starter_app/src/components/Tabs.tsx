@@ -1,11 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import type { ReactElement, SVGProps } from 'react';
 import cn from '../utils/styleUtil';
 import Icon from './Icon';
 
 interface TabProps {
     label: string;
-    icon?: React.ReactElement<React.SVGProps<SVGSVGElement>>;
+    icon?: ReactElement<SVGProps<SVGSVGElement>>;
     disabled?: boolean;
     onClick?: () => void;
 }

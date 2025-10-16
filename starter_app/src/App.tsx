@@ -22,6 +22,7 @@ const dropdownOptions = [
   ]
 
 export default function App() {
+  const [checkValues, setCheckValues] = useState({smallCheck: true, mediumCheck: false, disabledCheck: false});
   const [sortValue, setSortValue] = useState('option1');
   const [filterValues, setFilterValues] = useState<string[]>(['option2']); 
 
@@ -38,9 +39,9 @@ export default function App() {
           <Button variant="outlined" content="Click Me" fullWidth/>
           <Button variant="primary" shape="pill" content="Click Me" disabled endIcon={{ svg: <Bolt /> }} />
           <Button variant="icon" content={{ svg: <Bolt /> }} />
-          <Checkbox label='Checkbox Label Small' size='small' defaultChecked={true} />
-          <Checkbox label='Checkbox Label Medium' size='medium'/>
-          <Checkbox label='Checkbox Label Disabled' disabled />
+          <Checkbox label='Checkbox Label Small' size='small' checked={checkValues.smallCheck} onChange={(e) => setCheckValues({ ...checkValues, smallCheck: e.target.checked })} />
+          <Checkbox label='Checkbox Label Medium' size='medium' checked={checkValues.mediumCheck} onChange={(e) => setCheckValues({ ...checkValues, mediumCheck: e.target.checked })} />
+          <Checkbox label='Checkbox Label Disabled' disabled checked={checkValues.disabledCheck} onChange={(e) => setCheckValues({ ...checkValues, disabledCheck: e.target.checked })} />
         </div>
         <div className='flex flex-col gap-4 items-start ml-10'>
           <RadioGroup

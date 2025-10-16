@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import type { ChangeEvent } from 'react';
 import type { ComponentProps } from 'react';
 import cn from '../utils/styleUtil';
 
@@ -57,7 +58,7 @@ export default function RadioGroup({
 }: RadioGroupProps) {
     const [selectedValue, setSelectedValue] = useState(defaultChecked);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setSelectedValue(event.target.value);
     };
 

@@ -1,5 +1,4 @@
 'use client';
-import React, { useState, useEffect } from 'react';
 import type { ComponentProps, ChangeEvent } from 'react';
 import Icon from './Icon';
 import cn from '../utils/styleUtil';
@@ -8,7 +7,6 @@ import { CheckIcon } from '@heroicons/react/24/solid';
 interface CheckboxProps extends Omit<ComponentProps<'input'>, 'size'> {
     label?: string;
     checked?: boolean;
-    defaultChecked?: boolean;
     onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
     size?: 'small' | 'medium';
 }
@@ -16,26 +14,10 @@ interface CheckboxProps extends Omit<ComponentProps<'input'>, 'size'> {
 export default function Checkbox({
     label,
     checked,
-    defaultChecked = false,
     onChange,
     size,
     ...props
 }: CheckboxProps) {
-    const isControlledByParent = checked !== undefined;
-    const [internalChecked, setInternalChecked] = useState(defaultChecked);
-
-    useEffect(() => {
-        if (isControlledByParent) {
-            setInternalChecked(checked);
-        }
-    }, [checked, isControlledByParent]);
-
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (!isControlledByParent) {
-            setInternalChecked(event.target.checked);
-        }
-        onChange?.(event);
-    };
 
     const checkboxSize = size === 'small' ? 'w-[15px] h-[15px]' : 'w-[18px] h-[18px]';
 
@@ -44,18 +26,18 @@ export default function Checkbox({
             <input
                 type="checkbox"
                 className="peer absolute opacity-0 "
-                checked={internalChecked}
-                onChange={handleChange}
+                checked={checked}
+                onChange={onChange}
                 {...props}
             />
             <span className={cn(
                     'relative flex items-center justify-center border-[1.75px] border-outline rounded-xs peer-checked:bg-primary peer-checked:border-none peer-disabled:opacity-50 peer-disabled:pointer-events-none',
                     checkboxSize
                 )}>
-                {internalChecked && (
+                {checked && (
                     <Icon
                         svg={<CheckIcon />}
-                        size={size === 'small' ? 'xsmall' : 'small'}
+                        size='xsmall'
                         color="surface"
                         mode="both"
                         strokeWidth={1.5}

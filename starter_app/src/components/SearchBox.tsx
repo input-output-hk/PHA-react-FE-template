@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import type {ComponentProps } from 'react';
 import { MagnifyingGlassIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import Icon from './Icon';
