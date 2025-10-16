@@ -1,5 +1,5 @@
 'use client';
-import React, { ComponentProps } from 'react';
+import { ComponentProps } from 'react';
 import cn from '../utils/styleUtil';
 import {cva, type VariantProps} from 'class-variance-authority';
 import Icon, {IconProps} from './Icon';
