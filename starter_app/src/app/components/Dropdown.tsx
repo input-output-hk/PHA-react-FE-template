@@ -20,7 +20,6 @@ export interface DropdownProps {
   btnLabel: string;
   startIcon?: IconProps;
   endIcon?: IconProps;
-  selected: string[] | string | null;
   onChange?: (selected: string[] | string | null) => void;
   position?: 'left' | 'right';
 }
@@ -32,7 +31,6 @@ export default function Dropdown({
   startIcon,
   endIcon,
   position = 'left',
-  selected,
   onChange
 }: DropdownProps) {
   const [selectedValues, setSelectedValues] = useState<string[] | string | null>(() => {
@@ -51,13 +49,6 @@ export default function Dropdown({
   const [open, setOpen] = useState(false);
   const openRef = useRef<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // Sync internal state with the `selected` prop when it changes
-  useEffect(() => {
-    if (Array.isArray(selected) ? selected.length !== 0 : selected !== null) {
-      setSelectedValues(selected);
-    }
-  }, [selected]);
 
   // keep ref in sync with state
   useEffect(() => {
