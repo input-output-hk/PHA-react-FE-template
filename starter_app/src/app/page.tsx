@@ -61,30 +61,6 @@ export default function Home() {
           <Button variant="primary" shape="pill" content="Click Me" disabled endIcon={{ svg: <Bolt /> }} />
           <Button variant="icon" content={{ svg: <Bolt /> }} />
 
-          <Dropdown 
-            btnLabel="Filter" 
-            startIcon={{ svg: <Filter /> }} 
-            options={filterDropdownOptions} 
-            type="checkbox" 
-            onChange={handleFilterChange} 
-          />
-          <Dropdown 
-            btnLabel="Sort" 
-            startIcon={{ svg: <Sort /> }} 
-            options={sortDropdownOptions} 
-            type="radio" 
-            onChange={handleSortChange}
-          />
-
-          <Dropdown 
-            btnLabel="Settings Menu" 
-            endIcon={{ svg: <Bolt /> }} 
-            options={menuDropdownOptions} 
-            type="menuItem" 
-            onChange={handleSettingsMenuChange}
-          />
-
-
           <Checkbox label='Checkbox Label Small' size='small' checked={checkValues.smallCheck} onChange={(e) => setCheckValues({...checkValues, smallCheck: e.target.checked})} />
           <Checkbox label='Checkbox Label Medium' size='medium' checked={checkValues.mediumCheck} onChange={(e) => setCheckValues({...checkValues, mediumCheck: e.target.checked})} />
           <Checkbox label='Checkbox Label Disabled' disabled checked={checkValues.disabledCheck} onChange={(e) => setCheckValues({...checkValues, disabledCheck: e.target.checked})} />
@@ -174,6 +150,29 @@ export default function Home() {
               { label: 'Tab 3', icon: <Bolt /> },
               { label: 'Tab 4', icon: <Bolt /> },
             ]}
+          />
+
+          <Dropdown 
+            btnLabel="Filter" 
+            startIcon={{ svg: <Filter /> }} 
+            options={filterDropdownOptions} 
+            type="checkbox" 
+            onChange={handleFilterChange} 
+          />
+          <Dropdown 
+            btnLabel="Sort" 
+            startIcon={{ svg: <Sort /> }} 
+            options={sortDropdownOptions} 
+            type="radio" 
+            onChange={handleSortChange}
+          />
+
+          <Dropdown 
+            btnLabel="Settings Menu" 
+            endIcon={{ svg: <Bolt /> }} 
+            options={menuDropdownOptions} 
+            type="menuItem" 
+            onChange={handleSettingsMenuChange}
           />
         </div>
       </main>

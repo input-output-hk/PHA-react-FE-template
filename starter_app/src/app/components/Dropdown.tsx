@@ -22,6 +22,7 @@ export interface DropdownProps {
   endIcon?: IconProps;
   onChange?: (selected: string[] | string | null) => void;
   position?: 'left' | 'right';
+  size?: 'small' | 'medium';
 }
 
 export default function Dropdown({
@@ -31,6 +32,7 @@ export default function Dropdown({
   startIcon,
   endIcon,
   position = 'left',
+  size = 'small',
   onChange
 }: DropdownProps) {
   const [selectedValues, setSelectedValues] = useState<string[] | string | null>(() => {
@@ -128,6 +130,7 @@ export default function Dropdown({
     <div className="relative" ref={dropdownRef}>
       <Button
         variant="primary"
+        size={size}
         onClick={() => setOpen((prev) =>  !prev)}
         content={buttonLabel}
         startIcon={startIcon}
