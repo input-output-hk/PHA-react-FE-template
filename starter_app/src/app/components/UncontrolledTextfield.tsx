@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useRef } from 'react';
+import { useState, useRef, RefObject } from 'react';
 import cn from '../utils/styleUtil';
 import Button from './Button';
 import { XCircleIcon, ExclamationCircleIcon } from '@heroicons/react/24/outline';
@@ -15,7 +15,7 @@ interface UncontrolledTextFieldProps {
   type: 'text' | 'email' | 'number' | 'password' | 'date';
   pattern?: string;
   title?: string;
-  inputRef?: React.RefObject<HTMLInputElement>;
+  inputRef?: RefObject<HTMLInputElement>;
   parentErrorMessage?: string;
   onParentBlur?: (value: string) => void;
 }

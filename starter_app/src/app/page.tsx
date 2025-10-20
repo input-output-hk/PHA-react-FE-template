@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import Icon from './components/Icon';
 import Button from './components/Button';
 import Checkbox from './components/Checkbox';
@@ -37,15 +37,16 @@ const menuDropdownOptions = [
 
 export default function Home() {
 
-  const [sortValue, setSortValue] = useState<string | null>(null);
-  const [filterValues, setFilterValues] = useState<string[]>([]); 
-  const [settingsMenuValue, setSettingsMenuValue] = useState<string | null>(null);
+  
+  const handleFilterChange = (val: string | string[] | null) => { console.log('selected Filter values: ', val); }
+  const handleSortChange = (val: string | string[] | null) => { console.log('selected Sort value: ', val); }
+  const handleSettingsMenuChange = (val: string | string[] | null) => { console.log('selected Menu value: ', val); }
+
+  const [checkValues, setCheckValues] = useState({smallCheck: true, mediumCheck: false, disabledCheck: false});
+  const [radioValues, setRadioValue] = useState({smallRadio: '1', mediumRadio: '3'});
+  const [tabValues, setTabValues] = useState({defaultTab: 'Tab 1', iconTab: 'Tab 2'});
 
   
-  const handleFilterChange = useCallback((val: string | string[] | null) => setFilterValues(val as string[]), [])
-  const handleSortChange = useCallback((val: string | string[] | null) => setSortValue(val as string), [])
-  const handleSettingsMenuChange = useCallback((val: string | string[] | null) => setSettingsMenuValue(val as string), [])
-
   return (
     <div className="font-[family-name:var(--font-geist-sans)] bg-surface flex h-dvh">
       <main className="grow flex p-8">
@@ -59,16 +60,12 @@ export default function Home() {
           <Button variant="outlined" content="Click Me" fullWidth/>
           <Button variant="primary" shape="pill" content="Click Me" disabled endIcon={{ svg: <Bolt /> }} />
           <Button variant="icon" content={{ svg: <Bolt /> }} />
-          <Checkbox label='Checkbox Label Small' size='small' defaultChecked={true} />
-          <Checkbox label='Checkbox Label Medium' size='medium'/>
-          <Checkbox label='Checkbox Label Disabled' disabled />
 
           <Dropdown 
             btnLabel="Filter" 
             startIcon={{ svg: <Filter /> }} 
             options={filterDropdownOptions} 
             type="checkbox" 
-            selected={filterValues}
             onChange={handleFilterChange} 
           />
           <Dropdown 
@@ -76,7 +73,6 @@ export default function Home() {
             startIcon={{ svg: <Sort /> }} 
             options={sortDropdownOptions} 
             type="radio" 
-            selected={sortValue}
             onChange={handleSortChange}
           />
 
@@ -85,15 +81,20 @@ export default function Home() {
             endIcon={{ svg: <Bolt /> }} 
             options={menuDropdownOptions} 
             type="menuItem" 
-            selected={settingsMenuValue}
             onChange={handleSettingsMenuChange}
           />
+
+
+          <Checkbox label='Checkbox Label Small' size='small' checked={checkValues.smallCheck} onChange={(e) => setCheckValues({...checkValues, smallCheck: e.target.checked})} />
+          <Checkbox label='Checkbox Label Medium' size='medium' checked={checkValues.mediumCheck} onChange={(e) => setCheckValues({...checkValues, mediumCheck: e.target.checked})} />
+          <Checkbox label='Checkbox Label Disabled' disabled checked={checkValues.disabledCheck} onChange={(e) => setCheckValues({...checkValues, disabledCheck: e.target.checked})} />
 
         </div>
         <div className='flex flex-col gap-4 items-start ml-10'>
           <RadioGroup
             name="smallGroupExample"
-            defaultChecked="1"
+            selectedValue={radioValues.smallRadio}
+            onChange={(e) => setRadioValue({...radioValues, smallRadio: e.target.value})}
             radioButtons={[
               { value: "1", label: "Option 1" },
               { value: "2", label: "Option 2" },
@@ -102,8 +103,9 @@ export default function Home() {
           />
           <RadioGroup
             name="mediumGroupExample"
-            defaultChecked='3'
             direction="row"
+            selectedValue={radioValues.mediumRadio}
+            onChange={(e) => setRadioValue({...radioValues, mediumRadio: e.target.value})}
             radioButtons={[
               { value: "1", label: "Option 1", size: "medium" },
               { value: "2", label: "Option 2", size: "medium" },
@@ -152,6 +154,8 @@ export default function Home() {
             handleClear={() => ''}
           />
           <Tabs
+            activeTab={tabValues.defaultTab}
+            onChange={(e) => setTabValues({...tabValues, defaultTab: e.target.id})}
             tabs={[
               { label: 'Tab 1' },
               { label: 'Tab 2' },
@@ -160,6 +164,9 @@ export default function Home() {
             ]}
           />
           <Tabs
+            activeTab={tabValues.iconTab}
+            onChange={(e) => setTabValues({...tabValues, iconTab: e.target.id})}
+            iconVariant="stroke"
             variant="filled"
             tabs={[
               { label: 'Tab 1', icon: <Bolt /> },
