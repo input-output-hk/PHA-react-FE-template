@@ -20,12 +20,13 @@ export interface DropdownProps {
   btnLabel: string;
   startIcon?: IconProps;
   endIcon?: IconProps;
-  onChange?: (selected: string[] | string | null) => void;
   position?: 'left' | 'right';
   size?: 'small' | 'medium';
+  selected?: string[] | string | null;
+  onChange?: (selected: string[] | string | null) => void;
 }
 
-export default function Dropdown({
+const Dropdown = ({
   options,
   type = "menuItem",
   btnLabel,
@@ -33,21 +34,9 @@ export default function Dropdown({
   endIcon,
   position = 'left',
   size = 'small',
+  selected = null,
   onChange
-}: DropdownProps) {
-  const [selectedValues, setSelectedValues] = useState<string[] | string | null>(() => {
-      // Initialize selectedValues based on defaultChecked
-    if (type === "checkbox") {
-      // collect all values with defaultChecked: true
-      return options.filter((option) => option.defaultChecked).map((option) => option.value);
-    } else if (type === "radio") {
-      // first option with defaultChecked: true
-      const defaultOption = options.find((option) => option.defaultChecked);
-      return defaultOption ? defaultOption.value : null;
-    }
-    return null;
-  });
-
+}: DropdownProps) => {
   const [open, setOpen] = useState(false);
   const openRef = useRef<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -61,16 +50,14 @@ export default function Dropdown({
     const value = option.value;
     if (type === "checkbox") {
       // For checkbox, toggle the value in the array
-      const newValues = Array.isArray(selectedValues)
-        ? selectedValues.includes(value)
-          ? selectedValues.filter((v) => v !== value)
-          : [...selectedValues, value]
+      const newValues = Array.isArray(selected)
+        ? selected.includes(value)
+          ? selected.filter((v) => v !== value)
+          : [...selected, value]
         : [value];
-      setSelectedValues(newValues);
       onChange?.(newValues);
     } else {
       // For radio and menuItem, set the single selected value
-      setSelectedValues(value);
       onChange?.(value);
     }
   };
@@ -93,18 +80,17 @@ export default function Dropdown({
   }, []); // attach exactly once
 
   const handleClearAll = () => {
-    setSelectedValues([])
     onChange?.([]);
   };
 
-  const allSelected = type === "checkbox" && Array.isArray(selectedValues) && selectedValues.length === options.length;
-  const noneSelected = !selectedValues || (Array.isArray(selectedValues) && selectedValues.length === 0);
+  const allSelected = type === "checkbox" && Array.isArray(selected) && selected.length === options.length;
+  const noneSelected = !selected || (Array.isArray(selected) && selected.length === 0);
 
   // --- Button Label Logic ---
   const selectedOptionLabel = options.find((o) =>
-    Array.isArray(selectedValues)
-      ? o.value === selectedValues[0]
-      : o.value === selectedValues
+    Array.isArray(selected)
+      ? o.value === selected[0]
+      : o.value === selected
   )?.label ?? btnLabel;
   
   let selectionText: string;
@@ -113,13 +99,13 @@ export default function Dropdown({
       selectionText = 'All';
     } else if (noneSelected) {
       selectionText = '';
-    } else if (selectedValues.length == 1) {
+    } else if (selected.length == 1) {
         selectionText = selectedOptionLabel;
     } else {
-      selectionText = `${selectedValues.length} selected`;
+      selectionText = `${selected.length} selected`;
     }
   } else {
-    selectionText = ((Array.isArray(selectedValues) && selectedValues[0]) || selectedValues) ? selectedOptionLabel : '';
+    selectionText = ((Array.isArray(selected) && selected[0]) || selected) ? selectedOptionLabel : '';
   }
 
   const buttonLabel = selectionText.length
@@ -150,7 +136,7 @@ export default function Dropdown({
                         <Checkbox
                           label={option.label}
                           value={option.value}
-                          checked={selectedValues?.includes(option.value)}
+                          checked={selected?.includes(option.value)}
                           disabled={option.disabled}
                           onChange={() => handleSelect(option)}
                           />
@@ -160,7 +146,7 @@ export default function Dropdown({
                           label={option.label}
                           value={option.value}
                           disabled={option.disabled}
-                          checked={selectedValues === option.value}
+                          checked={selected === option.value}
                           onChange={() => handleSelect(option)}
                           />
                       ) : option.label
@@ -171,7 +157,7 @@ export default function Dropdown({
             )}
             </ul>
 
-            {((type === "checkbox") && (Array.isArray(selectedValues) && selectedValues.length !== 0)) && (
+            {((type === "checkbox") && (Array.isArray(selected) && selected.length !== 0)) && (
               <>
                 <hr className="border-outline mt-[15px] mx-0 mb-[5px]" />
                 <Button variant="inherit" content="Clear All" onClick={handleClearAll} fullWidth />
@@ -183,3 +169,5 @@ export default function Dropdown({
     </div>
   );
 }
+
+export default Dropdown;

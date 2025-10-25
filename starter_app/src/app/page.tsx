@@ -37,10 +37,13 @@ const menuDropdownOptions = [
 
 export default function Home() {
 
-  
-  const handleFilterChange = (val: string | string[] | null) => { console.log('selected Filter values: ', val); }
-  const handleSortChange = (val: string | string[] | null) => { console.log('selected Sort value: ', val); }
-  const handleSettingsMenuChange = (val: string | string[] | null) => { console.log('selected Menu value: ', val); }
+  const [sortValue, setSortValue] = useState<string | null>(sortDropdownOptions.filter(opt => opt.defaultChecked).map(opt => opt.value)[0]);
+  const [filterValues, setFilterValues] = useState<string[]>(filterDropdownOptions.filter(opt => opt.defaultChecked).map(opt => opt.value)); 
+  const [settingsMenuValue, setSettingsMenuValue] = useState<string | null>(null);
+
+  const handleFilterChange = (val: string[] | string | null) => { console.log('1'); setFilterValues(val as string[]) }
+  const handleSortChange = (val: string[] | string | null) => { console.log('2'); setSortValue(val as string | null) }
+  const handleSettingsMenuChange = (val: string[] | string | null) => { console.log('3'); setSettingsMenuValue(val as string | null) }
 
   const [checkValues, setCheckValues] = useState({smallCheck: true, mediumCheck: false, disabledCheck: false});
   const [radioValues, setRadioValue] = useState({smallRadio: '1', mediumRadio: '3'});
@@ -157,13 +160,16 @@ export default function Home() {
             startIcon={{ svg: <Filter /> }} 
             options={filterDropdownOptions} 
             type="checkbox" 
+            selected={filterValues}
             onChange={handleFilterChange} 
           />
+
           <Dropdown 
             btnLabel="Sort" 
             startIcon={{ svg: <Sort /> }} 
             options={sortDropdownOptions} 
             type="radio" 
+            selected={sortValue}
             onChange={handleSortChange}
           />
 
@@ -172,6 +178,7 @@ export default function Home() {
             endIcon={{ svg: <Bolt /> }} 
             options={menuDropdownOptions} 
             type="menuItem" 
+            selected={settingsMenuValue}
             onChange={handleSettingsMenuChange}
           />
         </div>
