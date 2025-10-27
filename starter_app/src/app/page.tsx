@@ -41,9 +41,9 @@ export default function Home() {
   const [filterValues, setFilterValues] = useState<string[]>(filterDropdownOptions.filter(opt => opt.defaultChecked).map(opt => opt.value)); 
   const [settingsMenuValue, setSettingsMenuValue] = useState<string | null>(null);
 
-  const handleFilterChange = (val: string[] | string | null) => { console.log('1'); setFilterValues(val as string[]) }
-  const handleSortChange = (val: string[] | string | null) => { console.log('2'); setSortValue(val as string | null) }
-  const handleSettingsMenuChange = (val: string[] | string | null) => { console.log('3'); setSettingsMenuValue(val as string | null) }
+  const handleFilterChange = (val: string[] | string | null) => { setFilterValues(val as string[]) }
+  const handleSortChange = (val: string[] | string | null) => { setSortValue(val as string | null) }
+  const handleSettingsMenuChange = (val: string[] | string | null) => { setSettingsMenuValue(val as string | null) }
 
   const [checkValues, setCheckValues] = useState({smallCheck: true, mediumCheck: false, disabledCheck: false});
   const [radioValues, setRadioValue] = useState({smallRadio: '1', mediumRadio: '3'});
