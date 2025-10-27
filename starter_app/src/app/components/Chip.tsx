@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import { MouseEventHandler } from 'react';
 import cn from '../utils/styleUtil';
 import { cva, type VariantProps } from 'class-variance-authority';
 import Button from './Button';
@@ -9,7 +9,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 interface ChipProps extends VariantProps<typeof chipVariants> {
     label: string;
     startIcon?: IconProps;
-    onDelete?: React.MouseEventHandler<HTMLButtonElement>;
+    onDelete?: MouseEventHandler<HTMLButtonElement>;
     deleteIcon?: boolean;
 }
 

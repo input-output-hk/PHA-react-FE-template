@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from './Button';
 import Checkbox from './Checkbox';
 import {RadioButton} from './RadioGroup';
@@ -42,7 +42,6 @@ export default function Dropdown({
   }, [open]);
 
   useEffect(() => {
-    console.log(selected, type);
     const listener = (event: MouseEvent) => {
         if (!openRef.current || dropdownRef.current?.contains(event.target as Node)) {
         return;

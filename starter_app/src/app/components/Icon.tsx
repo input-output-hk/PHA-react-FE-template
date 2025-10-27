@@ -1,10 +1,10 @@
 'use client';
-import React, { ComponentProps } from 'react';
+import { cloneElement, ComponentProps, ReactElement, SVGProps } from 'react';
 import cn from '../utils/styleUtil';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 export interface IconProps extends Omit<ComponentProps<'svg'>, 'color'>, VariantProps<typeof iconVariants> {
-  svg: React.ReactElement<React.SVGProps<SVGSVGElement>>;
+  svg: ReactElement<SVGProps<SVGSVGElement>>;
   mode?: 'fill' | 'stroke' | 'both';
   strokeWidth?: number;
 }
@@ -21,7 +21,7 @@ export default function Icon({
   const fill = mode === 'fill' || mode === 'both' ? 'currentColor' : 'none';
   const stroke = mode === 'stroke' || mode === 'both' ? 'currentColor' : 'none';
 
-  return React.cloneElement(svg, {
+  return cloneElement(svg, {
     className: classes,
     fill: fill,
     stroke: stroke,

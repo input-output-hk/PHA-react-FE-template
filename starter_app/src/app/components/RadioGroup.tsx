@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, ComponentProps } from 'react';
+import { ComponentProps, ChangeEvent } from 'react';
 import cn from '../utils/styleUtil';
 
 interface RadioButtonProps extends Omit<ComponentProps<'input'>, 'size'> {
@@ -12,7 +12,8 @@ interface RadioGroupProps {
     direction?: 'row' | 'column';
     name: string;
     radioButtons: RadioButtonProps[];
-    defaultChecked?: string;
+    selectedValue: string;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 // When using this individual Radio Button Component you will need to manage the checked state and onChange handler in the parent component.
@@ -20,6 +21,7 @@ export function RadioButton({
     value,
     label,
     checked,
+    onChange,
     size = 'small',
     ...RadioButtonProps
 }: RadioButtonProps) {
@@ -32,6 +34,7 @@ export function RadioButton({
             value={value}
             className="peer absolute opacity-0"
             checked={checked}
+            onChange={onChange}
             {...RadioButtonProps}
         />
         <span
@@ -52,13 +55,9 @@ export function RadioButton({
 export default function RadioGroup({
     direction = 'column',
     radioButtons,
-    defaultChecked,
+    selectedValue,
+    onChange,
 }: RadioGroupProps) {
-    const [selectedValue, setSelectedValue] = useState(defaultChecked);
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedValue(event.target.value);
-    };
 
     return (
         <fieldset>
@@ -69,7 +68,7 @@ export default function RadioGroup({
                         value={button.value}
                         label={button.label}
                         checked={selectedValue === button.value}
-                        onChange={handleChange}
+                        onChange={onChange}
                     />
                 ))}
             </div>
