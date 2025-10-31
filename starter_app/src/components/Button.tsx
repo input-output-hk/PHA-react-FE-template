@@ -19,10 +19,11 @@ export default function Button({
     shape = 'rounded',
     size = 'medium',
     fullWidth = false,
+    className,
     ...ButtonProps
 }: ButtonProps) {
 
-    return <button className={cn(buttonVariants({ variant, shape, size, fullWidth }))} {...ButtonProps}>{startIcon && <Icon size='xsmall' color='text' {...startIcon} />}{typeof content === 'string' ? content : <Icon size='xsmall' color="primary" {...content} />}{endIcon && <Icon size='xsmall' color='text' {...endIcon} />}</button>;
+    return <button className={cn(buttonVariants({ variant, shape, size, fullWidth }), className)} {...ButtonProps}>{startIcon && <Icon size='xsmall' color='text' {...startIcon} />}{typeof content === 'string' ? content : <Icon size='xsmall' color="primary" {...content} />}{endIcon && <Icon size='xsmall' color='text' {...endIcon} />}</button>;
 }
 
 const buttonVariants = cva('inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-colors delay-100 duration-200 ease-in-out disabled:opacity-50 disabled:pointer-events-none', {

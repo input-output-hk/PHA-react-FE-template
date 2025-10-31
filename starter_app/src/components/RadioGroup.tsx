@@ -18,7 +18,7 @@ interface RadioGroupProps {
 }
 
 // When using this individual Radio Button Component you will need to manage the checked state and onChange handler in the parent component.
-export function RadioButton({
+function RadioButton({
     value,
     label,
     checked,
@@ -76,3 +76,5 @@ export default function RadioGroup({
         </fieldset>
     );
 }
+
+RadioGroup.Button = RadioButton;

@@ -43,7 +43,7 @@ export default function Checkbox({
                     />
                 )}
             </span>
-            {label && <span className='text-onSurface peer-disabled:opacity-50'>{label}</span>}
+            {label && <span className='text-onSurface mr-4 peer-disabled:opacity-50'>{label}</span>}
         </label>
     );
 }

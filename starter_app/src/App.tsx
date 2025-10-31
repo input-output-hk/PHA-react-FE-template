@@ -10,23 +10,29 @@ import Chip from './components/Chip';
 import SearchBar from './components/SearchBox';
 import Tabs from './components/Tabs';
 import Dropdown from './components/DropdownMenu';
+import Menu from './components/Menu';
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
 import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
 import { FunnelIcon as Filter } from '@heroicons/react/24/solid';
 import { ArrowsUpDownIcon as Sort } from '@heroicons/react/24/solid';
 
-const dropdownOptions = [
-    { itemLabel: 'Option 1', value: 'option1', suffixText: '34' },
-    { itemLabel: 'Option 2', value: 'option2', suffixText: '34' },
-    { itemLabel: 'Option 3', value: 'option3', suffixText: '34' },
-  ]
+const dropdownOptions = [ 'Option 1', 'Option 2', 'Option 3'];
 
 export default function App() {
   const [checkValues, setCheckValues] = useState({smallCheck: true, mediumCheck: false, disabledCheck: false});
   const [radioValues, setRadioValue] = useState({smallRadio: '1', mediumRadio: '3'});
   const [tabValues, setTabValues] = useState({defaultTab: 'Tab 1', iconTab: 'Tab 2'});
-  const [sortValue, setSortValue] = useState('option1');
-  const [filterValues, setFilterValues] = useState<string[]>(['option2']); 
+  const [sortValue, setSortValue] = useState(dropdownOptions[0]);
+  const [filterValues, setFilterValues] = useState<string[]>([dropdownOptions[1]]); 
+
+  const handleFilterSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const val = event.target.value;
+      if (filterValues.includes(val)) {
+          setFilterValues(filterValues.filter((v) => v !== val))
+      } else {
+          setFilterValues([...filterValues, val])
+      }
+  }
 
   return (
     <div className="font-[family-name:var(--font-geist-sans)] bg-surface flex h-dvh">
@@ -131,20 +137,39 @@ export default function App() {
             ]}
           />
           <Dropdown 
-            btnLabel="Filter" 
-            btnIcon={{ svg: <Filter /> }} 
-            listItems={dropdownOptions} 
-            type='checkbox' 
-            selected={filterValues}
-            onChange={(val) => setFilterValues(val as string[])} 
-        />
-        <Dropdown 
-            btnLabel="Sort" 
-            btnIcon={{ svg: <Sort /> }} listItems={dropdownOptions} 
-            type='radio' 
-            selected={sortValue}
-            onChange={(val) => setSortValue(val as string)}
-        />
+            btnLabel={filterValues.length === 0 ? "Filter" :  filterValues.length === 1 ? "Filter: " + filterValues[0] : "Filter: " + filterValues.length }
+            btnIcon={{ svg: <Filter /> }}>
+              <>
+                {dropdownOptions.map((i) => 
+                    <Menu.Item 
+                        key={i}
+                        className='flex justify-between'>
+                        <Checkbox 
+                            label={i}
+                            value={i}
+                            checked={filterValues.includes(i)}
+                            onChange={handleFilterSelect}  
+                        />
+                    </Menu.Item>
+                )}
+                <Menu.Divider />
+                <Button variant="inherit" content="Clear All" onClick={() => setFilterValues([])} fullWidth className='mb-[8px]'/>
+              </>
+          </Dropdown>
+          <Dropdown 
+              btnLabel={"Sort: " + sortValue} 
+              btnIcon={{ svg: <Sort /> }}>
+              {dropdownOptions.map((i) => 
+                <Menu.Item key={i} className='flex justify-between'>
+                    <RadioGroup.Button
+                        label={i}
+                        value={i}
+                        checked={i === sortValue}
+                        onChange={() => setSortValue(i)}
+                        />
+                </Menu.Item>
+              )}  
+          </Dropdown>
         </div>
       </main>
       </div>
