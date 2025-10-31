@@ -119,7 +119,7 @@ export default function TablePage(){
                     />
                     <div className="flex gap-2">
                         <Dropdown 
-                            btnLabel={filterValues.length === 0 ? "Filter" :  filterValues.length === 1 ? "Filter: " + filterValues[0] : "Filter: " + filterValues.length }
+                            btnLabel={filterValues.length === 0 ? "Filter" :  filterValues.length === 1 ? "Filter: " + filterValues[0] : "Filter: " + filterValues.length + " Options" }
                             btnIcon={{ svg: <Filter /> }} 
                             position='right'>
                             <>
