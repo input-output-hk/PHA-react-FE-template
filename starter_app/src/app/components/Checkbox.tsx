@@ -36,14 +36,14 @@ export default function Checkbox({
                 {checked && (
                     <Icon
                         svg={<CheckIcon />}
-                        size={size === 'small' ? 'xsmall' : 'small'}
+                        size='xsmall'
                         color="surface"
                         mode="both"
                         strokeWidth={1.5}
                     />
                 )}
             </span>
-            {label && <span className='text-onSurface peer-disabled:opacity-50'>{label}</span>}
+            {label && <span className='text-onSurface mr-4 peer-disabled:opacity-50'>{label}</span>}
         </label>
     );
 }

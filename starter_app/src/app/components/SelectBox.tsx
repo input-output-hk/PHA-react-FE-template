@@ -1,381 +1,474 @@
-import React, {
-    useState,
-    useRef,
-    useEffect,
-    useMemo,
-    useCallback,
-  } from "react";
-  import { ChevronDownIcon as ChevronDown } from '@heroicons/react/24/solid';
-import Chip from "./Chip";
+'use client';
 
+import React, { ReactNode, useEffect, useRef, useState, cloneElement, Children } from 'react';
+import cn from '../utils/styleUtil';
+import Chip from './Chip';
+import Menu, { MenuClearProps, MenuGroupProps, MenuItemProps } from './Menu';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
-  //flat options
-  interface Option {
-    label: string;
-    value: string;
-    type?: "standard";
-    status?: "passed" | "failed" | "pending";
-  }
-  
-  //Group of options
-  interface GroupOption {
-    label: string;
-    type: "group";
-    children: Option[];
-  }
-  
-  /** Union type for the options array input. so that we can support both flat and grouped options */
-  export type SelectOption = Option | GroupOption;
-  
-  interface SelectProps {
-    options: SelectOption[];
-    placeholder?: string;
-    search?: boolean;
-    multiSelect?: boolean;
-    showAllSelected?: boolean;
-    onChange: (values: string[]) => void;
-  }
-  
-  const Select: React.FC<SelectProps> = ({
-    options: initialOptions,
-    placeholder = "Select",
-    search = false,
-    multiSelect = false,
-    showAllSelected = false,
-    onChange = () => {},
-  }) => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [searchValue, setSearchValue] = useState<string>("");
-    const [selectedValues, setSelectedValues] = useState<string[]>([]); // values of slected options
-    const [visibleChipCount, setVisibleChipCount] = useState<number>(0); // For +N more logic in multi-select mode
-  
-    const componentRef = useRef<HTMLDivElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
-    const chipsContainerRef = useRef<HTMLDivElement>(null);
-  
-    const theme = {
-      textOnSurface: "text-gray-900 dark:text-gray-100",
-      bgContainer: "bg-white dark:bg-gray-700",
-      bgContainerHigh: "bg-gray-100 dark:bg-gray-800",
-      borderOutline: "border-gray-300 dark:border-gray-600",
-      inputStyle:
-        "flex items-center min-h-10 w-full rounded-md border px-4 py-2 cursor-pointer transition duration-150 ease-in-out focus-within:ring-2 focus-within:ring-blue-500",
-      dropdownStyle:
-        "absolute z-30 mt-1 w-full rounded-md shadow-xl max-h-60 overflow-y-auto",
-      listItemStyle:
-        "px-4 py-2 cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900 transition duration-100",
+interface SelectBoxProps {
+  label?: string;
+  placeholder?: string;
+  multiple?: boolean;
+  searchable?: boolean;
+  showAllSelected?: boolean;
+  className?: string;
+  onChange?: (values: string[]) => void;
+  children: ReactNode;
+}
+
+export default function SelectBox({
+  label,
+  placeholder = 'Select',
+  multiple = false,
+  searchable = false,
+  showAllSelected = false,
+  className,
+  onChange,
+  children,
+}: SelectBoxProps) {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [visibleChipCount, setVisibleChipCount] = useState(0);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [valueToLabelMap, setValueToLabelMap] = useState<Record<string, string>>({});
+
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const chipContainerRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
+
+  // Build value-to-label mapping from children
+  useEffect(() => {
+    const buildMap = (node: ReactNode): Record<string, string> => {
+      let map: Record<string, string> = {};
+      
+      Children.forEach(node, (element) => {
+        if (!React.isValidElement(element)) return;
+        
+        const child = element as React.ReactElement<MenuItemProps>;
+        
+        if (child.type === Menu.Item && child.props.value) {
+          const label = typeof child.props.children === 'string' 
+            ? child.props.children 
+            : child.props.value;
+          map[child.props.value] = label;
+        }
+        
+        if (child.type === Menu.Group && child.props.children) {
+          map = { ...map, ...buildMap(child.props.children) };
+        }
+      });
+      
+      return map;
     };
-  
-    // Effect for click outside logic
-    useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-        if (
-          componentRef.current &&
-          !componentRef.current.contains(event.target as Node)
-        ) {
-          setIsOpen(false);
-        }
-      };
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
-  
-    // parent component listener for selection changes
-    useEffect(() => {
-      onChange(selectedValues);
-    }, [selectedValues, onChange]);
-  
-    // --- Filtering Logic ---
-    const flattenedOptions = useMemo<Option[]>(() => {
-      // all options flattened into a single array for easy searching
-      return initialOptions.flatMap((item) =>
-        (item as GroupOption).type === "group" && (item as GroupOption).children
-          ? (item as GroupOption).children.map((child) => ({
-              ...child,
-              groupLabel: item.label,
-            }))
-          : item.type !== "group"
-          ? [item as Option]
-          : []
-      );
-    }, [initialOptions]);
-  
-    const filteredOptions = useMemo<SelectOption[]>(() => {
-      if (!searchValue) return initialOptions;
-  
-      const lowerSearch = searchValue.toLowerCase();
-  
-      // Recursive filtering function to handle group and flat options
-      const filterItem = (item: SelectOption): SelectOption | null => {
-        if (item.type === "group") {
-          // Group: filter children
-          const groupItem = item as GroupOption;
-          const filteredChildren = groupItem.children.filter((child) =>
-            child.label.toLowerCase().includes(lowerSearch)
-          );
-          // Only return the group if it has matching children
-          return filteredChildren.length > 0
-            ? { ...groupItem, children: filteredChildren }
-            : null;
-        }
-        // Standard flat option check
-        const standardItem = item as Option;
-        return standardItem.label.toLowerCase().includes(lowerSearch)
-          ? standardItem
-          : null;
-      };
-  
-      return initialOptions.map(filterItem).filter(Boolean) as SelectOption[];
-    }, [initialOptions, searchValue]);
-  
-    const handleToggle = useCallback(() => {
-      setIsOpen((prev) => !prev);
-      // Clear search value when closing
-      if (isOpen) setSearchValue("");
-  
-      // Focus input when opening and searchable
-      if (!isOpen && search && inputRef.current) {
-        setTimeout(() => inputRef.current?.focus(), 0);
+
+    setValueToLabelMap(buildMap(children));
+  }, [children]);
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) {
+        setOpen(false);
+        setSearchTerm('');
       }
-    }, [isOpen, search]);
-  
-    const handleSelect = useCallback(
-      (value: string) => {
-        // Hope you understand this logic
-        setSelectedValues((prev) => {
-          let newValues: string[];
-          if (multiSelect) {
-            newValues = prev.includes(value)
-              ? prev.filter((v) => v !== value) // Remove
-              : [...prev, value]; // Add
-          } else {
-            newValues = [value];
-            setIsOpen(false);
-          }
-          return newValues;
+    };
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, []);
+
+  // Dynamic chip calculation based on available width
+  useEffect(() => {
+    if (!multiple || !chipContainerRef.current || !triggerRef.current) {
+      setVisibleChipCount(selected.length);
+      return;
+    }
+
+    if (showAllSelected) {
+      setVisibleChipCount(selected.length);
+      return;
+    }
+
+    const calculateVisibleChips = () => {
+      const container = chipContainerRef.current;
+      const trigger = triggerRef.current;
+      if (!container || !trigger) return;
+    
+      // Account for: padding (24px) + chevron (20px) + gap (8px) + "+N more" (80px) + input (120px if searchable)
+      const paddingAndChevron = 24 + 20 + 16; // px-3 on both sides = 24px, chevron = 20px, safety margin = 16px
+      const moreButtonWidth = 80;
+      const inputWidth = searchable ? 120 : 0;
+      const reservedSpace = paddingAndChevron + moreButtonWidth + inputWidth;
+      
+      const availableWidth = trigger.offsetWidth - reservedSpace;
+      
+      let totalWidth = 0;
+      let count = 0;
+      
+      const chips = container.querySelectorAll('.chip-item');
+      for (let i = 0; i < chips.length; i++) {
+        const chipWidth = (chips[i] as HTMLElement).offsetWidth + 8; // Include gap
+        if (totalWidth + chipWidth < availableWidth) {
+          totalWidth += chipWidth;
+          count++;
+        } else {
+          break;
+        }
+      }
+    
+      setVisibleChipCount(Math.max(1, count));
+    };
+
+    // Calculate on mount and when selected changes
+    calculateVisibleChips();
+    
+    // Recalculate on window resize
+    window.addEventListener('resize', calculateVisibleChips);
+    return () => window.removeEventListener('resize', calculateVisibleChips);
+  }, [selected, multiple, showAllSelected, searchable]);
+
+  const visibleItems =
+    showAllSelected || visibleChipCount === selected.length
+      ? selected
+      : selected.slice(0, visibleChipCount);
+
+  const overflowCount = selected.length - visibleItems.length;
+
+  const toggleValue = (value: string) => {
+    let next: string[];
+    if (multiple) {
+      next = selected.includes(value) ? selected.filter((v) => v !== value) : [...selected, value];
+    } else {
+      next = [value];
+      setOpen(false);
+    }
+
+    setSelected(next);
+    onChange?.(next);
+    setSearchTerm('');
+    setHighlightedIndex(-1);
+  };
+
+  const clearAll = () => {
+    setSelected([]);
+    onChange?.([]);
+  };
+
+  // Filter children based on search
+  const filterChildren = (node: ReactNode, searchLower: string): { node: ReactNode; values: string[] } => {
+    let matchedValues: string[] = [];
+    
+    const filtered = Children.map(node, (element) => {
+      if (!React.isValidElement(element)) return element;
+
+      const child = element as React.ReactElement<MenuItemProps | MenuGroupProps>;
+
+      if (
+        child.type === Menu.Clear ||
+        child.type === Menu.Divider
+      ) {
+        return child;
+      }
+
+      if (child.type === Menu.Item) {
+        const itemProps = child.props as MenuItemProps;
+        const itemText = typeof itemProps.children === 'string' 
+          ? itemProps.children 
+          : itemProps.value || '';
+        
+        if (searchLower && !itemText.toLowerCase().includes(searchLower)) {
+          return null;
+        }
+        
+        if (itemProps.value) {
+          matchedValues.push(itemProps.value);
+        }
+        
+        return child;
+      }
+
+      if (child.type === Menu.Group) {
+        const groupProps = child.props as MenuGroupProps;
+        const { node: filteredChildren, values: childValues } = filterChildren(groupProps.children, searchLower);
+        
+        if (childValues.length === 0) return null;
+        
+        matchedValues = [...matchedValues, ...childValues];
+        
+        return cloneElement(child, {
+          children: filteredChildren,
         });
-        setSearchValue("");
-      },
-      [multiSelect]
-    );
-  
-    const handleRemoveChip = useCallback((value: string) => {
-      setSelectedValues((prev) => {
-        const newValues = prev.filter((v) => v !== value);
-        return newValues;
-      });
-    }, []);
-  
-    // Memoized array of selected option objects for rendering chips and input display
-    const allSelectedItems = useMemo<Option[]>(
-      () =>
-        selectedValues
-          .map((v) => flattenedOptions.find((o) => o.value === v))
-          .filter(Boolean) as Option[],
-      [selectedValues, flattenedOptions]
-    );
-  
-    // Effect to manage visible chip count based on container width and showAllSelected prop
-    useEffect(() => {
-      if (showAllSelected || !multiSelect || !chipsContainerRef.current) {
-        setVisibleChipCount(allSelectedItems.length);
-        return;
       }
-  
-      const checkOverflow = () => {
-        // In a dynamic container, we use a simple heuristic for responsive estimation.
-        // If we have more than 2 chips, we show 2 and the overflow counter.
-        if (allSelectedItems.length > 2) {
-          setVisibleChipCount(2);
-        } else {
-          setVisibleChipCount(allSelectedItems.length);
-        }
-      };
-  
-      // Use a delay for DOM layout stability
-      const timer = setTimeout(checkOverflow, 50);
-      window.addEventListener("resize", checkOverflow);
-      return () => {
-        clearTimeout(timer);
-        window.removeEventListener("resize", checkOverflow);
-      };
-    }, [allSelectedItems.length, multiSelect, showAllSelected]);
-  
-    const renderChip = (item: Option) => (
-        <span key={item.value}>
-            <Chip 
-                label={item.label}
-                variant="filled"
-                deleteIcon
-                onDelete={(e) => {
-                    e.stopPropagation();
-                    handleRemoveChip(item.value);
-                }} 
-            />
-        </span>
-    );
-  
-    const renderChipsAndInput = () => {
-      const selectedCount = allSelectedItems.length;
-      const placeholderVisible = selectedCount === 0 && !searchValue;
-  
-      if (!multiSelect) {
-        const selectedItem = allSelectedItems[0];
-        let inputDisplayValue = "";
-        if (isOpen && search) {
-          inputDisplayValue = searchValue; // Show search input when open and searchable
-        } else if (selectedItem) {
-          inputDisplayValue = selectedItem.label; // Show selected label when closed
-        }
-  
-        return (
-          <input
-            ref={inputRef}
-            type="text"
-            value={inputDisplayValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (!isOpen) setIsOpen(true);
-            }}
-            placeholder={placeholderVisible ? placeholder : ""}
-            readOnly={!search || (!isOpen && !!selectedItem)}
-            className={`flex-grow border-none focus:ring-0 focus:outline-none bg-transparent py-1  w-full min-w-[50px]
-                ${theme.textOnSurface} ${!inputDisplayValue && placeholderVisible ? "text-gray-500" : ""}
-                ${search ? "cursor-text" : "cursor-pointer"}
-            `}
-          />
-        );
+
+      return child;
+    });
+
+    return { node: filtered, values: matchedValues };
+  };
+
+  // Enhance children with props
+  const enhanceChildren = (node: ReactNode, filteredValues: string[]): ReactNode => {
+    let currentIndex = -1;
+    
+    return Children.map(node, (element) => {
+      if (!React.isValidElement(element)) return element;
+
+      const child = element as React.ReactElement<MenuClearProps | MenuItemProps | MenuGroupProps>;
+
+      if (child.type === Menu.Clear) {
+        return cloneElement(child, {
+          onClear: () => clearAll(),
+        });
       }
-  
-      const visibleItems =
-        showAllSelected || visibleChipCount === selectedCount
-          ? allSelectedItems
-          : allSelectedItems.slice(0, visibleChipCount);
-  
-      const overflowCount = selectedCount - visibleItems.length;
-  
-      return (
-        <div
-          ref={chipsContainerRef}
-          className={`flex flex-wrap items-center flex-grow overflow-hidden ${
-            showAllSelected ? "h-auto max-h-none" : "max-h-10"
-          }`}
-        >
-          {visibleItems.map(renderChip)}
-          {overflowCount > 0 && (
-            <Chip 
-                label={" +" + overflowCount + " more"}
-                variant="filled"
-              />
-          )}
-          {(search || placeholderVisible) && (
-            <input
-              ref={inputRef}
-              type="text"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              onClick={(e) => {
-                e.stopPropagation(); // Stop parent click from handling toggle
-                if (!isOpen) setIsOpen(true);
-              }}
-              placeholder={placeholderVisible ? placeholder : ""}
-              className={`flex-grow border-none focus:ring-0 focus:outline-none bg-transparent py-1 ${
-                theme.textOnSurface
-              } ${placeholderVisible ? "w-full" : "w-auto min-w-[50px]"}`}
-              // Added min-width for placeholder/search input to prevent collapse
-            />
-          )}
-        </div>
+
+      if (child.type === Menu.Item) {
+        const itemProps = child.props as MenuItemProps;
+        const value = itemProps.value;
+
+        if (typeof value === 'string') {
+          currentIndex++;
+          const isHighlighted = currentIndex === highlightedIndex;
+          
+          return cloneElement(child, {
+            selected: selected.includes(value),
+            highlighted: isHighlighted,
+            onClick: (e: React.MouseEvent<HTMLLIElement>) => {
+              itemProps.onClick?.(e);
+              toggleValue(value);
+            },
+          });
+        }
+
+        return child;
+      }
+
+      if (child.type === Menu.Group) {
+        const groupProps = child.props as MenuGroupProps;
+        return cloneElement(child, {
+          children: enhanceChildren(groupProps.children, filteredValues),
+        });
+      }
+
+      return child;
+    });
+  };
+
+  // Handle keyboard navigation
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!open && (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter')) {
+      e.preventDefault();
+      setOpen(true);
+      return;
+    }
+
+    if (!open) return;
+
+    const searchLower = searchTerm.toLowerCase();
+    const { values: filteredValues } = filterChildren(children, searchLower);
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setHighlightedIndex((prev) => 
+        prev < filteredValues.length - 1 ? prev + 1 : prev
       );
-    };
-  
-    const renderDropdownContent = () => {
-      if (filteredOptions.length === 0) {
-        return (
-          <div className={`px-4 py-3 text-sm italic ${theme.textOnSurface}`}>
-            No options found.
-          </div>
-        );
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : -1));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (highlightedIndex >= 0 && highlightedIndex < filteredValues.length) {
+        toggleValue(filteredValues[highlightedIndex]);
       }
-  
-      return filteredOptions.map((item) => {
-        // checking if item is a group
-        if (item.type === "group") {
-          const groupItem = item as GroupOption;
-          // Hierarchical Group Header (Not selectable, only displays text)
-          return (
-            <div key={groupItem.label} className="py-1">
-              <div
-                className={`px-4 py-2 text-sm font-semibold ${theme.bgContainerHigh} ${theme.textOnSurface}`}
-              >
-                {groupItem.label}
-              </div>
-              {/* Divider */}
-              <div className={`border-t ${theme.borderOutline}`}></div>
-              {/* Render subcategories (Selectable) */}
-              {groupItem.children.map((child: Option) => {
-                const isSelected = selectedValues.includes(child.value);
-                return (
-                  <div
-                    key={child.value}
-                    className={`${theme.listItemStyle} ${
-                      isSelected ? "bg-blue-100 dark:bg-blue-800 font-medium" : ""
-                    } ${theme.textOnSurface}`}
-                    onClick={() => handleSelect(child.value)}
-                  >
-                    {child.label}
-                  </div>
-                );
-              })}
-            </div>
-          );
-        } else {
-          // Standard selectable option (no 'type: group' property)
-          const standardItem = item as Option;
-          const isSelected = selectedValues.includes(standardItem.value);
-          return (
-            <div
-              key={standardItem.value}
-              className={`${theme.listItemStyle} ${
-                isSelected ? "bg-blue-100 dark:bg-blue-800 font-medium" : ""
-              } ${theme.textOnSurface}`}
-              onClick={() => handleSelect(standardItem.value)}
-            >
-              {standardItem.label}
-            </div>
-          );
-        }
-      });
-    };
-  
-    return (
-      <div ref={componentRef} className="relative w-full font-inter">
+    } else if (e.key === 'Escape') {
+      setOpen(false);
+      setSearchTerm('');
+      setHighlightedIndex(-1);
+    }
+  };
+
+  const searchLower = searchTerm.toLowerCase();
+  const { node: filteredChildren, values: filteredValues } = filterChildren(children, searchLower);
+  const enhancedChildren = enhanceChildren(filteredChildren, filteredValues);
+
+  // Reset highlight when search changes
+  useEffect(() => {
+    setHighlightedIndex(-1);
+  }, [searchTerm]);
+
+  // // Render label for display
+  // const renderLabel = () => {
+  //   if (multiple) {
+  //     if (selected.length === 0) return placeholder;
+  //     if (selected.length === 1) return valueToLabelMap[selected[0]] || selected[0];
+  //     return `${selected.length} selected`;
+  //   }
+  //   return valueToLabelMap[selected[0]] || selected[0] || placeholder;
+  // };
+
+  return (
+    <div className="flex flex-col gap-1 w-full" ref={rootRef}>
+      {label && <label className="text-sm font-medium text-onSurface">{label}</label>}
+
+      <div className="relative w-full">
         <div
-          className={`${theme.inputStyle} ${theme.borderOutline} ${
-            theme.textOnSurface
-          } ${isOpen ? "ring-2 ring-blue-500" : ""}`}
-          onClick={handleToggle}
+          ref={triggerRef}
+          className={cn(
+            'border border-outline rounded-xl px-3 py-2 bg-transparent min-h-[42px] overflow-x-hidden',
+            searchable ? 'cursor-text' : 'cursor-pointer',
+            className
+          )}
+          onClick={() => {
+            if (!searchable) {
+              setOpen((v) => !v);
+            }
+          }}
         >
-          {renderChipsAndInput()}
-  
-          <div
-            className={`ml-2 transform transition-transform ${
-              isOpen ? "rotate-180" : "rotate-0"
-            } ${theme.textOnSurface}`}
-          >
-            <ChevronDown />
+          <div className="flex items-center gap-2 w-full overflow-x-hidden">
+            {/* Hidden measurement container for chips */}
+            {multiple && !showAllSelected && (
+              <div ref={chipContainerRef} className="absolute opacity-0 pointer-events-none flex gap-2 flex-wrap">
+                {selected.map((val) => (
+                  <div key={val} className="chip-item">
+                    <Chip label={valueToLabelMap[val] || val} variant="outlined" deleteIcon />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className={cn(
+              "flex flex-1 items-center gap-2 min-w-0",
+              multiple && !showAllSelected ? "flex-nowrap" : "flex-wrap"
+            )}>
+              {/* Multiple + Searchable: Chips + input */}
+              {multiple && searchable ? (
+                <>
+                  {visibleItems.map((val) => (
+                    <Chip
+                      key={val}
+                      label={valueToLabelMap[val] || val}
+                      variant="outlined"
+                      deleteIcon
+                      onDelete={(e) => {
+                        e.stopPropagation();
+                        toggleValue(val);
+                      }}
+                    />
+                  ))}
+
+                  {overflowCount > 0 && (
+                    <button
+                      type="button"
+                      className="text-sm text-onSurface/80 shrink-0 whitespace-nowrap"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpen(true);
+                      }}
+                    >
+                      +{overflowCount} more
+                    </button>
+                  )}
+
+                  {/* Dynamic width based on if there are chips */}
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      if (!open) setOpen(true);
+                    }}
+                    onFocus={() => setOpen(true)}
+                    onKeyDown={handleKeyDown}
+                    placeholder={selected.length === 0 ? placeholder : ''}
+                    style={{ width: selected.length === 0 ? '100%' : '80px' }}
+                    className="shrink-0 min-w-0 outline-none bg-transparent text-onSurface/90"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                </>
+              ) : multiple && !searchable ? (
+                <>
+                  {visibleItems.length === 0 && (
+                    <span className="text-onSurface/60">{placeholder}</span>
+                  )}
+
+                  {visibleItems.map((val) => (
+                    <Chip
+                      key={val}
+                      label={valueToLabelMap[val] || val}
+                      variant="outlined"
+                      deleteIcon
+                      onDelete={(e) => {
+                        e.stopPropagation();
+                        toggleValue(val);
+                      }}
+                    />
+                  ))}
+
+                  {overflowCount > 0 && (
+                    <button
+                      type="button"
+                      className="text-sm text-onSurface/80 shrink-0 whitespace-nowrap"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpen(true);
+                      }}
+                    >
+                      +{overflowCount} more
+                    </button>
+                  )}
+                </>
+              ) : !multiple && searchable ? (
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={open ? searchTerm : (valueToLabelMap[selected[0]] || selected[0] || '')}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    if (!open) setOpen(true);
+                  }}
+                  onFocus={() => {
+                    setOpen(true);
+                    setSearchTerm('');
+                  }}
+                  onKeyDown={handleKeyDown}
+                  placeholder={placeholder}
+                  className="flex-1 outline-none bg-transparent text-onSurface/90 w-full"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              ) : (
+                /* Single select: Just display the selected value or placeholder */
+                <div className="flex-1 truncate text-onSurface/90">
+                  {selected[0] ? (valueToLabelMap[selected[0]] || selected[0]) : <span className="text-onSurface/40">{placeholder}</span>}
+                </div>
+              )}
+            </div>
+
+            <ChevronDownIcon className="w-5 h-5 text-onSurface shrink-0" />
           </div>
         </div>
-  
-        {isOpen && (
-          <div
-            className={`${theme.dropdownStyle} ${theme.bgContainer} ${theme.borderOutline} border`}
+
+        {/* Dropdown menu - positioned below trigger */}
+        {open && (
+          <Menu 
+            width={multiple ? 'fit-parent' : 'fit-content'} 
+            scrollbar 
+            className="mt-1 max-h-60"
           >
-            {renderDropdownContent()}
-          </div>
+            {enhancedChildren}
+
+            {multiple && selected.length > 0 && (
+              <>
+                <Menu.Divider />
+                <Menu.Item condensed className="text-center text-primary cursor-pointer" onClick={clearAll}>
+                  Clear All
+                </Menu.Item>
+              </>
+            )}
+          </Menu>
         )}
       </div>
-    );
-  };
-  export default Select;
+    </div>
+  );
+}

@@ -95,14 +95,14 @@ export default function UncontrolledTextField({
             placeholder={placeholder}
             required={required}
             disabled={disabled}
-            className='w-full border-0 bg-transparent block outline-none text-sm text-onSurface pr-0 pl-[14px] pb-[8.5px] pt-[8.5px] placeholder:text-onSurface/50'
+            className='w-full border-none bg-transparent block outline-none text-sm text-onSurface pr-0 pl-[14px] pb-[8.5px] pt-[8.5px] placeholder:text-onSurface/50'
           />
 
           <div className="flex align-middle">
             <Button
               variant="embedded"
               onMouseDown={handleClear}
-              content={hasError && !isFocused ? { svg: <ExclamationCircleIcon />, mode: 'stroke', size: 'small', strokeWidth: 1.5, color: 'error' } : {svg: <XCircleIcon />, mode: 'stroke', size: 'small', strokeWidth: 1.5, color: 'onVariant'}}/>
+              content={hasError && !isFocused ? { svg: <ExclamationCircleIcon />, mode: 'stroke', strokeWidth: 1.5, color: 'error' } : {svg: <XCircleIcon />, mode: 'stroke', strokeWidth: 1.5, color: 'onVariant'}}/>
           </div>
         </div>
         <p className={cn('text-xs mt-1', hasError ? 'text-error' : 'text-onSurface/60')}>

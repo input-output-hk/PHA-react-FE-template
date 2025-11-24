@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Icon from './components/Icon';
 import Button from './components/Button';
 import Checkbox from './components/Checkbox';
@@ -11,17 +11,14 @@ import SearchBar from './components/SearchBox';
 import Tabs from './components/Tabs';
 import Dropdown from './components/DropdownMenu';
 import SelectBox from './components/SelectBox';
+import Menu from './components/Menu';
 
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
 import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
 import { FunnelIcon as Filter } from '@heroicons/react/24/solid';
 import { ArrowsUpDownIcon as Sort } from '@heroicons/react/24/solid';
 
-const dropdownOptions = [
-    { itemLabel: 'Option 1', value: 'option1', suffixText: '34' },
-    { itemLabel: 'Option 2', value: 'option2', suffixText: '34' },
-    { itemLabel: 'Option 3', value: 'option3', suffixText: '34' },
-  ]
+const dropdownOptions = [ 'Option 1', 'Option 2', 'Option 3'];
 
 
 const selectBoxGroupedOptions = [
@@ -30,17 +27,17 @@ const selectBoxGroupedOptions = [
     label: 'File 2.hs',
     type: 'group',
     children: [
-      { label: 'Property 1', value: 'f2prop1', status: 'passed' },
-      { label: 'Property 2', value: 'f2prop2', status: 'pending' },
-      { label: 'Property 3', value: 'f2prop3', status: 'pending' }
+      { label: 'Property 1', value: 'f2prop1', status: 'valid' },
+      { label: 'Property 2', value: 'f2prop2', status: 'undetermined' },
+      { label: 'Property 3', value: 'f2prop3', status: 'undetermined' }
     ]
   },
   { label: 'File 3.hs',
     type: 'group',
     children: [
-      { label: 'Property 1', value: 'f3prop1', status: 'failed' },
-      { label: 'Property 2', value: 'f3prop2', status: 'pending' },
-      { label: 'Property 3', value: 'f3prop3', status: 'passed' }
+      { label: 'Property 1', value: 'f3prop1', status: 'falsified' },
+      { label: 'Property 2', value: 'f3prop2', status: 'undetermined' },
+      { label: 'Property 3', value: 'f3prop3', status: 'valid' }
     ]
   },
   { label: 'File 4.hs', type: 'group', children: []}
@@ -57,16 +54,43 @@ export default function Home() {
   const [checkValues, setCheckValues] = useState({smallCheck: true, mediumCheck: false, disabledCheck: false});
   const [radioValues, setRadioValue] = useState({smallRadio: '1', mediumRadio: '3'});
   const [tabValues, setTabValues] = useState({defaultTab: 'Tab 1', iconTab: 'Tab 2'});
-  const [sortValue, setSortValue] = useState('option1');
-  const [filterValues, setFilterValues] = useState<string[]>(['option2']); 
+    const [sortValue, setSortValue] = useState(dropdownOptions[0]);
+  const [filterValues, setFilterValues] = useState<string[]>([dropdownOptions[1]]); 
 
-  // State for the Grouped/Multi-select demo
-  const [, setGroupedSelectBoxSelection] = useState<string[]>([]);
-  // State for the Flat/Single-select demo
-  const [, setFlatSelectBoxSelection] = useState<string[]>([]);
-  // State for the Flat/multi-select demo
-  const [, setMultipleFlatSelectBoxSelection] = useState<string[]>([]);
+  const handleFilterSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const val = event.target.value;
+      if (filterValues.includes(val)) {
+          setFilterValues(filterValues.filter((v) => v !== val))
+      } else {
+          setFilterValues([...filterValues, val])
+      }
+  }
 
+  const [flatSingleSelection, setFlatSingleSelection] = useState<string[]>([]);
+  const [flatMultiSelection, setFlatMultiSelection] = useState<string[]>([]);
+  const [searchableSingleSelection, setSearchableSingleSelection] = useState<string[]>([]);
+  const [searchableMultiSelection, setSearchableMultiSelection] = useState<string[]>([]);
+  const [searchableMultiCollapsed, setSearchableMultiCollapsed] = useState<string[]>([]);
+  const [groupedSelection, setGroupedSelection] = useState<string[]>([]);
+
+  
+  useEffect(() => {
+    console.log('Selection Changes:', {
+      flatSingle: flatSingleSelection,
+      flatMulti: flatMultiSelection,
+      searchableSingle: searchableSingleSelection,
+      searchableMulti: searchableMultiSelection,
+      searchableMultiCollapsed: searchableMultiCollapsed,
+      grouped: groupedSelection,
+    });
+  }, [
+    flatSingleSelection,
+    flatMultiSelection,
+    searchableSingleSelection,
+    searchableMultiSelection,
+    searchableMultiCollapsed,
+    groupedSelection,
+  ]);
   return (
     <div className="font-[family-name:var(--font-geist-sans)] bg-surface flex h-dvh">
       <main className="grow flex p-8">
@@ -170,40 +194,140 @@ export default function Home() {
             ]}
           />
           <Dropdown 
-            btnLabel="Filter" 
-            btnIcon={{ svg: <Filter /> }} 
-            listItems={dropdownOptions} 
-            type='checkbox' 
-            selected={filterValues}
-            onChange={(val) => setFilterValues(val as string[])} 
-        />
-        <Dropdown 
-            btnLabel="Sort" 
-            btnIcon={{ svg: <Sort /> }} listItems={dropdownOptions} 
-            type='radio' 
-            selected={sortValue}
-            onChange={(val) => setSortValue(val as string)}
-        />
-        <SelectBox
-                options={selectBoxGroupedOptions}
-                placeholder="Select Properties"
-                search={true}
-                multiSelect={false}
-                onChange={setGroupedSelectBoxSelection}
-            />
-        <SelectBox
-              placeholder="Select Properties"
-              options={flatSelectBoxOptions}
-              multiSelect={false}
-              onChange={setFlatSelectBoxSelection}
-          />
-        <SelectBox
-              options={flatSelectBoxOptions}
-              placeholder="Select Properties"
-              multiSelect={true}
-              showAllSelected={false}
-              onChange={setMultipleFlatSelectBoxSelection}
-          />
+            btnLabel={filterValues.length === 0 ? "Filter" :  filterValues.length === 1 ? "Filter: " + filterValues[0] : "Filter: " + filterValues.length + " Options" }
+            btnIcon={{ svg: <Filter /> }}>
+            <>
+            {dropdownOptions.map((i) => 
+              <Menu.Item 
+                  key={i}
+                  className='flex justify-between'>
+                  <Checkbox 
+                      label={i}
+                      value={i}
+                      checked={filterValues.includes(i)}
+                      onChange={handleFilterSelect}  
+                  />
+              </Menu.Item>
+              )}
+              <Menu.Divider />
+              <Button variant="inherit" content="Clear All" onClick={() => setFilterValues([])} fullWidth className='mb-[8px]'/>
+            </>
+          </Dropdown>
+          <Dropdown 
+              btnLabel={"Sort: " + sortValue} 
+              btnIcon={{ svg: <Sort /> }}>
+              {dropdownOptions.map((i) => 
+                <Menu.Item key={i} className='flex justify-between'>
+                    <RadioGroup.Button
+                        label={i}
+                        value={i}
+                        checked={i === sortValue}
+                        onChange={() => setSortValue(i)}
+                        />
+                </Menu.Item>
+              )}
+          </Dropdown>
+
+          {/* Flat - Single Select (Non-searchable) */}
+          <SelectBox
+            label="Flat - Single Select (Non-searchable) "
+            placeholder="Select a property"
+            multiple={false}
+            onChange={setFlatSingleSelection}
+          >
+            {flatSelectBoxOptions.map((opt) => (
+              <Menu.Item key={opt.value} value={opt.value}>
+                {opt.label}
+              </Menu.Item>
+            ))}
+          </SelectBox>
+
+
+          {/* Flat - multi-select */}
+          <SelectBox
+            label="Flat - multi-select"
+            placeholder="Select properties"
+            multiple={true}
+            showAllSelected={false}
+            onChange={setFlatMultiSelection}
+          >
+            {flatSelectBoxOptions.map((opt) => (
+              <Menu.Item key={opt.value} value={opt.value}>
+                {opt.label}
+              </Menu.Item>
+            ))}
+          </SelectBox>
+
+
+          {/* Single Select - Searchable */}
+          <SelectBox
+            label="Single Select - Searchable"
+            placeholder="Search..."
+            multiple={false}
+            searchable={true}
+            onChange={setSearchableSingleSelection}
+          >
+            {flatSelectBoxOptions.map((opt) => (
+              <Menu.Item key={opt.value} value={opt.value}>
+                {opt.label}
+              </Menu.Item>
+            ))}
+          </SelectBox>
+
+          
+          {/* Multi Select - Searchable with all chips */}
+          <SelectBox
+            label="Multi Select - Searchable with all chips"
+            placeholder="Search..."
+            multiple={true}
+            searchable={true}
+            showAllSelected={true}
+            onChange={setSearchableMultiSelection}
+          >
+            {flatSelectBoxOptions.map((opt) => (
+              <Menu.Item key={opt.value} value={opt.value}>
+                {opt.label}
+              </Menu.Item>
+            ))}
+          </SelectBox>
+
+          {/* Multi Select - Searchable (showAllSelected false) */}
+          {/* TBD - Fix horizontal scroll when large labels */}
+          <SelectBox
+            label="Multi Select - Searchable (showAllSelected false)"
+            placeholder="Search..."
+            multiple={true}
+            searchable={true}
+            showAllSelected={false}
+            onChange={setSearchableMultiCollapsed}
+          >
+            {flatSelectBoxOptions.map((opt) => (
+              <Menu.Item key={opt.value} value={opt.value}>
+                {opt.label}
+              </Menu.Item>
+            ))}
+          </SelectBox>
+
+          {/* Grouped Single Select */}
+          <SelectBox
+            label="Grouped Single Select"
+            placeholder="Search..."
+            multiple={false}
+            searchable={true}
+            onChange={setGroupedSelection}
+            className="w-full"
+          >
+            {selectBoxGroupedOptions.map((group) => (
+              <Menu.Group label={group.label} key={group.label}>
+                {group.children.map((child) => (
+                  <Menu.Item key={child.value} value={child.value}>
+                    {child.label}
+                  </Menu.Item>
+                ))}
+              </Menu.Group>
+            ))}
+          </SelectBox>
+
         </div>
       </main>
       </div>

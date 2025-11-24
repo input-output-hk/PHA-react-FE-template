@@ -29,7 +29,7 @@ export default function Icon({
   });
 }
 
-const iconVariants = cva('inline-block', {
+const iconVariants = cva('inline-block overflow-visible', {
   variants: {
     color: {
       primary: 'text-primary',
