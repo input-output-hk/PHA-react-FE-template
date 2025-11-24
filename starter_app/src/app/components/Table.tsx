@@ -34,9 +34,9 @@ export function TableBody({ ...props }:ComponentProps<"tbody">) {
 
 export function TableFooter({ ...props }: ComponentProps<"tfoot">) {
   return (
-    <tfoot
-      {...props}
-    />
+    <tfoot{...props}>
+      {props.children}
+    </tfoot>
   );
 }
 
