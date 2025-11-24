@@ -15,7 +15,7 @@ import SelectBox from './components/SelectBox';
 import Menu from './components/Menu';
 
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
-import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
+import { CheckCircleIcon as OutlineCheck, CheckCircleIcon, QuestionMarkCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { FunnelIcon as Filter } from '@heroicons/react/24/solid';
 import { ArrowsUpDownIcon as Sort } from '@heroicons/react/24/solid';
 
@@ -93,6 +93,20 @@ export default function Home() {
     searchableMultiCollapsed,
     groupedSelection,
   ]);
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'valid':
+        return <CheckCircleIcon className="w-4 h-4 text-success" />;
+      case 'falsified':
+        return <XCircleIcon className="w-4 h-4 text-error" />;
+      case 'undetermined':
+        return <QuestionMarkCircleIcon className="w-4 h-4 text-primary" />;
+      default:
+        return null;
+    }
+  }
+
   return (
     <div className="font-[family-name:var(--font-geist-sans)] bg-surface flex h-dvh">
       <main className="grow flex p-8">
@@ -327,13 +341,15 @@ export default function Home() {
             multiple={false}
             searchable={true}
             onChange={setGroupedSelection}
-            className="w-full"
           >
             {selectBoxGroupedOptions.map((group) => (
               <Menu.Group label={group.label} key={group.label}>
                 {group.children.map((child) => (
-                  <Menu.Item key={child.value} value={child.value}>
-                    {child.label}
+                  <Menu.Item key={child.value} value={child.value} className="!p-0">
+                    <div className="flex items-center justify-between w-full px-4 py-3">
+                      <span>{child.label}</span>
+                      <span className="shrink-0 ml-2">{getStatusIcon(child.status)}</span>
+                    </div>
                   </Menu.Item>
                 ))}
               </Menu.Group>

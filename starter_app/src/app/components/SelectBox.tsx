@@ -41,26 +41,71 @@ export default function SelectBox({
 
   // Build value-to-label mapping from children
   useEffect(() => {
-    const buildMap = (node: ReactNode): Record<string, string> => {
-      let map: Record<string, string> = {};
+
+    // Helper: Extract text label from Menu.Item children
+    const extractLabel = (children: ReactNode): string => {
+
+      // Simple string
+      if (typeof children === 'string') {
+        return children;
+      }
+      
+      // React element with children (like <div><span>Label</span><icon/></div>)
+      if (React.isValidElement(children)) {
+        const props = children.props as { children?: ReactNode };
+      
+        if (props.children) {
+          const innerChildren = props.children;
+          
+          // If it's an array, find the first text element
+          if (Array.isArray(innerChildren)) {
+            for (const child of innerChildren) {
+              if (typeof child === 'string') return child;
+              if (React.isValidElement(child)) {
+                const childProps = child.props as { children?: ReactNode };
+                if (typeof childProps.children === 'string') {
+                  return childProps.children;
+                }
+              }
+            }
+          }
+          
+          // Single child
+          if (typeof innerChildren === 'string') {
+            return innerChildren;
+          }
+        }
+      }
+      
+      return '';
+    };
+
+    // Recursive function to build value-to-label map
+    const buildMap = (node: ReactNode, groupLabel?: string): Record<string, string> => {
+      const map: Record<string, string> = {};
       
       Children.forEach(node, (element) => {
         if (!React.isValidElement(element)) return;
         
-        const child = element as React.ReactElement<MenuItemProps>;
+        const child = element as React.ReactElement<MenuItemProps | MenuGroupProps>;
         
-        if (child.type === Menu.Item && child.props.value) {
-          const label = typeof child.props.children === 'string' 
-            ? child.props.children 
-            : child.props.value;
-          map[child.props.value] = label;
+        // Handle Menu.Item
+        if (child.type === Menu.Item) {
+          const { value, children } = child.props as MenuItemProps;
+          
+          if (value) {
+            const itemLabel = extractLabel(children) || value;
+            map[value] = groupLabel ? `${groupLabel} - ${itemLabel}` : itemLabel;
+          }
         }
         
-        if (child.type === Menu.Group && child.props.children) {
-          map = { ...map, ...buildMap(child.props.children) };
+        // Handle Menu.Group - recurse with group label
+        if (child.type === Menu.Group) {
+          const { label, children } = child.props as MenuGroupProps;
+          Object.assign(map, buildMap(children, label));
         }
       });
-      
+        
       return map;
     };
 
@@ -452,7 +497,7 @@ export default function SelectBox({
         {/* Dropdown menu - positioned below trigger */}
         {open && (
           <Menu 
-            width={multiple ? 'fit-parent' : 'fit-content'} 
+            width={'fit-parent'} 
             scrollbar 
             className="mt-1 max-h-60"
           >
