@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Drawer from './components/Drawer';
 import Icon from './components/Icon';
 import Button from './components/Button';
@@ -11,13 +11,45 @@ import Chip from './components/Chip';
 import SearchBar from './components/SearchBox';
 import Tabs from './components/Tabs';
 import Dropdown from './components/DropdownMenu';
+import SelectBox from './components/SelectBox';
 import Menu from './components/Menu';
+
 import { BoltIcon as Bolt } from '@heroicons/react/24/solid';
-import { CheckCircleIcon as OutlineCheck } from '@heroicons/react/24/outline';
+import { CheckCircleIcon as OutlineCheck, CheckCircleIcon, QuestionMarkCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { FunnelIcon as Filter } from '@heroicons/react/24/solid';
 import { ArrowsUpDownIcon as Sort } from '@heroicons/react/24/solid';
 
 const dropdownOptions = [ 'Option 1', 'Option 2', 'Option 3'];
+
+
+const selectBoxGroupedOptions = [
+  { label: 'File 1.hs', type: 'group', children: []},
+  {
+    label: 'File 2.hs',
+    type: 'group',
+    children: [
+      { label: 'Property 1', value: 'f2prop1', status: 'valid' },
+      { label: 'Property 2', value: 'f2prop2', status: 'undetermined' },
+      { label: 'Property 3', value: 'f2prop3', status: 'undetermined' }
+    ]
+  },
+  { label: 'File 3.hs',
+    type: 'group',
+    children: [
+      { label: 'Property 1', value: 'f3prop1', status: 'falsified' },
+      { label: 'Property 2', value: 'f3prop2', status: 'undetermined' },
+      { label: 'Property 3', value: 'f3prop3', status: 'valid' }
+    ]
+  },
+  { label: 'File 4.hs', type: 'group', children: []}
+]
+
+const flatSelectBoxOptions = [
+  { label: 'Double Satisfaction', value: 'doubleSatisfaction'},
+  { label: 'Unit Tests', value: 'unitTests'},
+  { label: 'Crash Tolerance', value: 'crashTolerance'},
+  { label: 'Large Datum Attack', value: 'largeDatumAttack'},
+]
 
 export default function Home() {
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -34,6 +66,45 @@ export default function Home() {
       } else {
           setFilterValues([...filterValues, val])
       }
+  }
+
+  const [flatSingleSelection, setFlatSingleSelection] = useState<string[]>([]);
+  const [flatMultiSelection, setFlatMultiSelection] = useState<string[]>([]);
+  const [searchableSingleSelection, setSearchableSingleSelection] = useState<string[]>([]);
+  const [searchableMultiSelection, setSearchableMultiSelection] = useState<string[]>([]);
+  const [searchableMultiCollapsed, setSearchableMultiCollapsed] = useState<string[]>([]);
+  const [groupedSelection, setGroupedSelection] = useState<string[]>([]);
+
+  
+  useEffect(() => {
+    console.log('Selection Changes:', {
+      flatSingle: flatSingleSelection,
+      flatMulti: flatMultiSelection,
+      searchableSingle: searchableSingleSelection,
+      searchableMulti: searchableMultiSelection,
+      searchableMultiCollapsed: searchableMultiCollapsed,
+      grouped: groupedSelection,
+    });
+  }, [
+    flatSingleSelection,
+    flatMultiSelection,
+    searchableSingleSelection,
+    searchableMultiSelection,
+    searchableMultiCollapsed,
+    groupedSelection,
+  ]);
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'valid':
+        return <CheckCircleIcon className="w-4 h-4 text-success" />;
+      case 'falsified':
+        return <XCircleIcon className="w-4 h-4 text-error" />;
+      case 'undetermined':
+        return <QuestionMarkCircleIcon className="w-4 h-4 text-primary" />;
+      default:
+        return null;
+    }
   }
 
   return (
@@ -120,7 +191,7 @@ export default function Home() {
             type="date"
           />
         </div>
-        <div className='flex flex-col gap-4 items-start ml-10'>
+        <div className='flex flex-col gap-4 items-start w-[500px]'>
           <Chip label="Outline Chip" variant="outlined" deleteIcon startIcon={{svg: <Bolt />}} />
           <Chip label="Filled Chip" variant="filled" deleteIcon startIcon={{svg: <Bolt />}} />
           <SearchBar 
@@ -182,6 +253,109 @@ export default function Home() {
                 </Menu.Item>
               )}
           </Dropdown>
+
+          {/* Flat - Single Select (Non-searchable) */}
+          <SelectBox
+            label="Flat - Single Select (Non-searchable) "
+            placeholder="Select a property"
+            multiple={false}
+            onChange={setFlatSingleSelection}
+          >
+            {flatSelectBoxOptions.map((opt) => (
+              <Menu.Item key={opt.value} value={opt.value}>
+                {opt.label}
+              </Menu.Item>
+            ))}
+          </SelectBox>
+
+
+          {/* Flat - multi-select */}
+          <SelectBox
+            label="Flat - multi-select"
+            placeholder="Select properties"
+            multiple={true}
+            showAllSelected={false}
+            onChange={setFlatMultiSelection}
+          >
+            {flatSelectBoxOptions.map((opt) => (
+              <Menu.Item key={opt.value} value={opt.value}>
+                {opt.label}
+              </Menu.Item>
+            ))}
+          </SelectBox>
+
+
+          {/* Single Select - Searchable */}
+          <SelectBox
+            label="Single Select - Searchable"
+            placeholder="Search..."
+            multiple={false}
+            searchable={true}
+            onChange={setSearchableSingleSelection}
+          >
+            {flatSelectBoxOptions.map((opt) => (
+              <Menu.Item key={opt.value} value={opt.value}>
+                {opt.label}
+              </Menu.Item>
+            ))}
+          </SelectBox>
+
+          
+          {/* Multi Select - Searchable with all chips */}
+          <SelectBox
+            label="Multi Select - Searchable with all chips"
+            placeholder="Search..."
+            multiple={true}
+            searchable={true}
+            showAllSelected={true}
+            onChange={setSearchableMultiSelection}
+          >
+            {flatSelectBoxOptions.map((opt) => (
+              <Menu.Item key={opt.value} value={opt.value}>
+                {opt.label}
+              </Menu.Item>
+            ))}
+          </SelectBox>
+
+          {/* Multi Select - Searchable (showAllSelected false) */}
+          {/* TBD - Fix horizontal scroll when large labels */}
+          <SelectBox
+            label="Multi Select - Searchable (showAllSelected false)"
+            placeholder="Search..."
+            multiple={true}
+            searchable={true}
+            showAllSelected={false}
+            onChange={setSearchableMultiCollapsed}
+          >
+            {flatSelectBoxOptions.map((opt) => (
+              <Menu.Item key={opt.value} value={opt.value}>
+                {opt.label}
+              </Menu.Item>
+            ))}
+          </SelectBox>
+
+          {/* Grouped Single Select */}
+          <SelectBox
+            label="Grouped Single Select"
+            placeholder="Search..."
+            multiple={false}
+            searchable={true}
+            onChange={setGroupedSelection}
+          >
+            {selectBoxGroupedOptions.map((group) => (
+              <Menu.Group label={group.label} key={group.label}>
+                {group.children.map((child) => (
+                  <Menu.Item key={child.value} value={child.value} className="!p-0">
+                    <div className="flex items-center justify-between w-full px-4 py-3">
+                      <span>{child.label}</span>
+                      <span className="shrink-0 ml-2">{getStatusIcon(child.status)}</span>
+                    </div>
+                  </Menu.Item>
+                ))}
+              </Menu.Group>
+            ))}
+          </SelectBox>
+
         </div>
       </main>
       </div>
