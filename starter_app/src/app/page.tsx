@@ -191,7 +191,7 @@ export default function Home() {
             type="date"
           />
         </div>
-        <div className='flex flex-col gap-4 items-start ml-10'>
+        <div className='flex flex-col gap-4 items-start w-[500px]'>
           <Chip label="Outline Chip" variant="outlined" deleteIcon startIcon={{svg: <Bolt />}} />
           <Chip label="Filled Chip" variant="filled" deleteIcon startIcon={{svg: <Bolt />}} />
           <SearchBar 
