@@ -7,6 +7,9 @@ export interface IconProps extends Omit<ComponentProps<'svg'>, 'color'>, Variant
   svg: ReactElement<SVGProps<SVGSVGElement>>;
   mode?: 'fill' | 'stroke' | 'both';
   strokeWidth?: number;
+  label?: string; // a11y label
+  decorative?: boolean; // When true, icon is hidden from screen readers
+  title?: string; // Optional title for tooltip
 }
 
 export default function Icon({
@@ -15,17 +18,49 @@ export default function Icon({
   mode = 'fill',
   color = 'onSurface',
   strokeWidth = 2,
+  label,
+  decorative = false,
+  title,
+  ...props
 }: IconProps) {
   const classes = cn(iconVariants({ color, size }));
 
   const fill = mode === 'fill' || mode === 'both' ? 'currentColor' : 'none';
   const stroke = mode === 'stroke' || mode === 'both' ? 'currentColor' : 'none';
 
+  // Build accessibility props
+  const a11yProps: SVGProps<SVGSVGElement> = {};
+
+  if (decorative) {
+    // Hide from screen readers when decorative
+    a11yProps['aria-hidden'] = 'true';
+    a11yProps['focusable'] = 'false';
+  } else {
+    // Meaningful icon - needs accessible name
+    a11yProps['role'] = 'img';
+    
+    if (label) {
+      a11yProps['aria-label'] = label;
+    }
+    
+    // Allow keyboard focus if interactive (will inherit from parent)
+    a11yProps['focusable'] = 'false'; // Icon itself shouldn't be focusable
+  }
+
   return cloneElement(svg, {
     className: classes,
     fill: fill,
     stroke: stroke,
     strokeWidth: strokeWidth,
+    ...a11yProps,
+    ...props,
+    // If title is provided, add it as a child
+    children: title ? (
+      <>
+        <title>{title}</title>
+        {svg.props.children}
+      </>
+    ) : svg.props.children,
   });
 }
 
